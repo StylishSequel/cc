@@ -35,7 +35,7 @@ public class SuiteRoom extends Room{
     }
 
     public double calculatePrice(){
-        return this.getNumOfDay()*this.getPrice();
+        return this.getNumOfDay()*(this.getPrice() + (this.getNumOfBed()-1)*50) + this.numOfUnit*100;
     }
     
 
