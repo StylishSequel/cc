@@ -60,23 +60,30 @@ public class Manager extends Employee {
             System.out.println("Employee list is empty");
             return;
         }
-        e.remove(ID);
+        for(Employee employee : e) {
+            if(employee.getID() == ID) {
+                e.remove(ID);
 
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            ConnectDatabase connector = new ConnectDatabase();
-            connection = connector.ConnectDatabase();
-            statement = connection.prepareStatement("DELETE FROM employee_information WHERE ID = ?");
-            statement.setInt(1, ID);
-            statement.executeUpdate();
-            System.out.println("Employee removed successfully!");
-        } finally {
-            if (statement != null) {
-                statement.close();
+                Connection connection = null;
+                PreparedStatement statement = null;
+                try {
+                    ConnectDatabase connector = new ConnectDatabase();
+                    connection = connector.ConnectDatabase();
+                    statement = connection.prepareStatement("DELETE FROM employee_information WHERE ID = ?");
+                    statement.setInt(1, ID);
+                    statement.executeUpdate();
+                    System.out.println("Employee removed successfully!");
+                } finally {
+                    if (statement != null) {
+                        statement.close();
+                    }
+                    if (connection != null) {
+                        connection.close();
+                    }
+                }
             }
-            if (connection != null) {
-                connection.close();
+            else {
+                System.out.println("Employee not found");
             }
         }
 
@@ -112,18 +119,18 @@ public class Manager extends Employee {
             if(s.getId() == ID) {
                 System.out.println("Service removed successfully!");
                 e.remove(ID);
+                ConnectDatabase db = new ConnectDatabase();
+                Connection connection = db.ConnectDatabase();
+                String sql = "DELETE FROM service WHERE ID = ?";
+                PreparedStatement statement = connection.prepareStatement(sql);
+                statement.setInt(1,ID);
+                statement.executeUpdate();
+                System.out.println("Service removed successfully!");
             }
             else {
                 System.out.println("Service not found!");
                 return;
             }
         }
-        ConnectDatabase db = new ConnectDatabase();
-        Connection connection = db.ConnectDatabase();
-        String sql = "DELETE FROM service WHERE ID = ?";
-        PreparedStatement statement = connection.prepareStatement(sql);
-        statement.setInt(1,ID);
-        statement.executeUpdate();
-        System.out.println("Service removed successfully!");
     }
 }
