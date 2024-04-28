@@ -77,11 +77,12 @@ public class Main {
                         int choice2 = in2.nextInt();
                         switch (choice2) {
                             case 1: {
+
                                 c.bookRoom(h);
                                 break;
                             }
                             case 2: {
-                                c.bookService(h);
+//                                c.bookService(h);
                                 break;
                             }
                             case 3: {

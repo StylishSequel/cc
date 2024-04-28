@@ -11,18 +11,14 @@ import Service.Service;
 
 public class Customer extends Person {
     private List<Room> bookedRoom;
-    private List<Service> Services;
+
 
     public Customer(int ID, String name, boolean gender, String phone){
         super(ID, name, gender, phone);
         bookedRoom = new ArrayList<>();
-        Services =  new ArrayList<>();
     }
     public List<Room> getBookedRoom(){
         return bookedRoom;
-    }
-    public List<Service> getServices(){
-        return Services;
     }
 
     public void bookRoom(Hotel hotel){
@@ -41,21 +37,22 @@ public class Customer extends Person {
             }
         }
     }
-    public void bookService(Hotel h){
-        System.out.println("Enter service id: ");
-        Scanner sc = new Scanner(System.in);
-        int id = sc.nextInt();
-        List<Service> services = h.getServices();
-        for(Service service : services){
-            if(service.getId() == id){
-                Services.add(service);
-                System.out.println("Service booked successfully");
-            }
-            else {
-                System.out.println("Service is not found");
-            }
-        }
-    }
+
+//    public void bookService(Hotel h){
+//        System.out.println("Enter service id: ");
+//        Scanner sc = new Scanner(System.in);
+//        int id = sc.nextInt();
+//        List<Service> services = h.getServices();
+//        for(Service service : services){
+//            if(service.getId() == id){
+//                Services.add(service);
+//                System.out.println("Service booked successfully");
+//            }
+//            else {
+//                System.out.println("Service is not found");
+//            }
+//        }
+//    }
 
     public void printBookedRoom(){
         for(Room room : bookedRoom){
@@ -64,8 +61,11 @@ public class Customer extends Person {
     }
 
     public void printServices(){
-        for(Service service : Services){
-            System.out.println(service.toString());
+        for(Room room : bookedRoom){
+            List<Service> s = room.getBookedService();
+            for(Service service : s){
+                System.out.println(service.toString());
+            }
         }
     }
 
@@ -73,9 +73,10 @@ public class Customer extends Person {
         double total = 0;
         for (Room room : bookedRoom) {
             total += room.getPrice();
-        }
-        for(Service service : Services){
-            total += service.getPrice();
+            List<Service> s = room.getBookedService();
+            for(Service service : s){
+                total += service.getPrice();
+            }
         }
         System.out.print("Total: " + total);
         return total;
