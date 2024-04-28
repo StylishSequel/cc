@@ -9,10 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-//import Room.DeluxeRoom;
-//import Room.Room;
-//import Room.StandardRoom;
-//import Room.SuiteRoom;
+import Room.DeluxeRoom;
+import Room.Room;
+import Room.StandardRoom;
+import Room.SuiteRoom;
 import Service.Service;
 import Person.Customer;
 import Person.Employee;
@@ -123,7 +123,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 employees.add(new Employee(rs.getInt("employee_id"), rs.getString("name"), rs.getBoolean("gender"),
-                        rs.getString("phone"), rs.getBoolean("status"), rs.getInt("unit_task"), rs.getDouble("salary"),
+                        rs.getString("phone"), rs.getBoolean("status"), rs.getDouble("salary"),
                         rs.getString("job")));
             }
         } catch (SQLException e) {
