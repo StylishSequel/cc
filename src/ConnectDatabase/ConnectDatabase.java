@@ -49,7 +49,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 standardRooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("room_type"), rs.getBoolean("having_shower")));
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -68,7 +68,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("room_type"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"),  rs.getString("furniture")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -87,7 +87,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("room_type"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"),  rs.getString("furniture")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -133,6 +133,20 @@ public class ConnectDatabase {
             throw new RuntimeException(e);
         }
         return services;
+    }
+
+    // Trả về dịch vụ có id = id
+    public Service executeQueryService(int id) {
+        String query = "SELECT * FROM services WHERE id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return new Service(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Service> executeQueryTypeService(String type) {

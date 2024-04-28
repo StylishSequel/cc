@@ -13,6 +13,7 @@ public class Main {
         Customer c = new Customer(1, "thanh", true, "092345234");
         Boolean flag = true;
         while (flag) {
+            
             System.out.println("Choose your option.");
             System.out.println("1. For Manager");
             System.out.println("2. For Customer");

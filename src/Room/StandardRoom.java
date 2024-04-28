@@ -16,6 +16,11 @@ public class StandardRoom extends Room {
         this.havingShower = havingShower;
     }
 
+    public StandardRoom(int int1, double double1, int int2, boolean boolean1) {
+        super(int1, double1, int2);
+        this.havingShower = boolean1;
+    }
+
     public boolean isHavingShower() {
         return havingShower;
     }
