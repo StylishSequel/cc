@@ -1,15 +1,16 @@
 package Room;
 import Service.Service;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.sql.*;
+
 import ConnectDatabase.ConnectDatabase;
+import java.util.Scanner ;
 
 public abstract class Room {
     private int room_id;
     private double price;
     private String check_in_date;
-
+    
     private String check_out_date;
     private int numOfDay ;
     private int numOfBed ;
@@ -17,7 +18,7 @@ public abstract class Room {
     private boolean isAvailable;
     private String type;
     private List<Service> bookedService;
-
+    
     public Room() {
         this.room_id = 0;
         this.price = 0;
@@ -43,7 +44,11 @@ public abstract class Room {
         this.bookedService = bookedService;
     }
 
-
+    public Room(int room_id2, double price2, int numOfDay2) {
+        this.room_id = room_id2;
+        this.price = price2;
+        this.numOfDay = numOfDay2;
+    }
     public int getId() {
         return room_id;
     }
@@ -62,32 +67,9 @@ public abstract class Room {
     public void setCheck_in_date(String check_in_date) {
         this.check_in_date = check_in_date;
     }
-//    public String getCheck_out_date() {
-//        Connection connection = null;
-//        try {
-//            ConnectDatabase db = new ConnectDatabase();
-//            connection = db.ConnectDatabase();
-//            String query = "SELECT check_out_date FROM booking_rooms WHERE room_id = ?;";
-//            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//                preparedStatement.setInt(1, this.getId());
-//                ResultSet resultSet = preparedStatement.executeQuery();
-//                if (resultSet.next()) {
-//                    this.check_out_date = resultSet.getString("check_out_date");
-//                }
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        return check_out_date;
-//        } finally {
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//    }
+    public String getCheck_out_date() {
+        return check_out_date;
+    }
     public void setCheck_out_date(String check_out_date) {
         this.check_out_date = check_out_date;
     }
@@ -121,40 +103,17 @@ public abstract class Room {
     public void setBookedService(List<Service> bookedService) {
         this.bookedService = bookedService;
     }
-//    public void bookService(Service service){
-//        if (this.bookedService == null) {
-//        this.bookedService = new ArrayList<>();
-//    }
-//        this.bookedService.add(service);
-//        Connection connection = null;
-//        //import to database
-//        try {
-//            ConnectDatabase db = new ConnectDatabase();
-//            connection = db.ConnectDatabase();
-//            String query = "INSERT INTO booking_services (booking_room_id,services, price) VALUES( ?, ?, ?);";
-//            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-//                preparedStatement.setInt(1, this.getId());
-//                preparedStatement.setString(2, service.getName());
-//
-//
-//                preparedStatement.setDouble(3, service.getPrice());
-//                preparedStatement.executeUpdate();
-//            } catch (SQLException e) {
-//                throw new RuntimeException(e);
-//            }
-//        } finally {
-//
-//            if (connection != null) {
-//                try {
-//                    connection.close();
-//                } catch (SQLException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        System.out.println("Booked service successfully");
-//
-//    }
-    abstract double calculatePrice();
+    public void bookService(){
+        System.out.println("Enter service id: ");
+        try (Scanner sc = new Scanner(System.in)) {
+            int id = sc.nextInt();
+            ConnectDatabase connect = new ConnectDatabase();
+            connect.insertBookingService(this.getId(), id);
+            this.bookedService.add(connect.executeQueryService(id));
+        }
+        System.out.println("Service booked successfully");
 
+    }
+    abstract double calculatePrice();
+    
 }

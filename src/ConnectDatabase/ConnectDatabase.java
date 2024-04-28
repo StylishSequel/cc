@@ -38,70 +38,82 @@ public class ConnectDatabase {
         return con;
     }
 
-//    public List<StandardRoom> executeQueryStandardRooms() {
-//        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower " +
-//                "FROM rooms r " +
-//                "JOIN standard_rooms s ON s.room_id = r.room_id " +
-//                "WHERE r.is_available = true";
-//        List<StandardRoom> standardRooms = new ArrayList<>();
-//        try (Connection con = connect();
-//                Statement stmt = con.createStatement();
-//                ResultSet rs = stmt.executeQuery(query)) {
-//            while (rs.next()) {
-//                standardRooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
-//                        rs.getInt("num_of_beds"), rs.getString("room_type"), rs.getBoolean("having_shower")));
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return standardRooms;
-//    }
-//
-//    public List<DeluxeRoom> executeQueryDeluxeRooms() {
-//        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
-//                "FROM rooms r " +
-//                "JOIN standard_rooms s ON s.room_id = r.room_id " +
-//                "WHERE r.is_available = true";
-//        List<DeluxeRoom> deluxeRooms = new ArrayList<>();
-//        try (Connection con = connect();
-//                Statement stmt = con.createStatement();
-//                ResultSet rs = stmt.executeQuery(query)) {
-//            while (rs.next()) {
-//                deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-//                        rs.getInt("num_of_beds"), rs.getString("room_type"), rs.getString("furniture")));
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return deluxeRooms;
-//    }
-//
-//    public List<SuiteRoom> executeQuerySuiteRooms() {
-//        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
-//                "FROM rooms r " +
-//                "JOIN standard_rooms s ON s.room_id = r.room_id " +
-//                "WHERE r.is_available = true";
-//        List<SuiteRoom> suiteRooms = new ArrayList<>();
-//        try (Connection con = connect();
-//                Statement stmt = con.createStatement();
-//                ResultSet rs = stmt.executeQuery(query)) {
-//            while (rs.next()) {
-//                suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-//                        rs.getInt("num_of_beds"), rs.getString("room_type"), rs.getString("furniture")));
-//            }
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//        return suiteRooms;
-//    }
+    public void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Đã đóng kết nối đến cơ sở dữ liệu.");
+            } catch (SQLException e) {
+                System.out.println("Đóng kết nối đến cơ sở dữ liệu thất bại.");
+                e.printStackTrace();
+            }
+        }
+    }
 
-//    public List<Room> executeQueryRooms() {
-//        List<Room> rooms = new ArrayList<>();
-//        rooms.addAll(executeQueryStandardRooms());
-//        rooms.addAll(executeQueryDeluxeRooms());
-//        rooms.addAll(executeQuerySuiteRooms());
-//        return rooms;
-//    }
+    public List<StandardRoom> executeQueryStandardRooms() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower " +
+                "FROM rooms r " +
+                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        List<StandardRoom> standardRooms = new ArrayList<>();
+        try (Connection con = connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                standardRooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return standardRooms;
+    }
+
+    public List<DeluxeRoom> executeQueryDeluxeRooms() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
+                "FROM rooms r " +
+                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        List<DeluxeRoom> deluxeRooms = new ArrayList<>();
+        try (Connection con = connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"),  rs.getString("furniture")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return deluxeRooms;
+    }
+
+    public List<SuiteRoom> executeQuerySuiteRooms() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
+                "FROM rooms r " +
+                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        List<SuiteRoom> suiteRooms = new ArrayList<>();
+        try (Connection con = connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"),  rs.getString("furniture")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return suiteRooms;
+    }
+
+    public List<Room> executeQueryRooms() {
+        List<Room> rooms = new ArrayList<>();
+        rooms.addAll(executeQueryStandardRooms());
+        rooms.addAll(executeQueryDeluxeRooms());
+        rooms.addAll(executeQuerySuiteRooms());
+        return rooms;
+    }
 
     public List<Employee> executeQueryEmployees() {
         String query = "SELECT * FROM employees";
@@ -111,7 +123,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 employees.add(new Employee(rs.getInt("employee_id"), rs.getString("name"), rs.getBoolean("gender"),
-                        rs.getString("phone"), rs.getBoolean("status"), rs.getDouble("salary"),
+                        rs.getString("phone"), rs.getBoolean("status"), rs.getInt("unit_task"), rs.getDouble("salary"),
                         rs.getString("job")));
             }
         } catch (SQLException e) {
@@ -133,6 +145,20 @@ public class ConnectDatabase {
             throw new RuntimeException(e);
         }
         return services;
+    }
+
+    // Trả về dịch vụ có id = id
+    public Service executeQueryService(int id) {
+        String query = "SELECT * FROM services WHERE id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            return new Service(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public List<Service> executeQueryTypeService(String type) {
