@@ -38,6 +38,18 @@ public class ConnectDatabase {
         return con;
     }
 
+    public void closeConnection(Connection connection) {
+        if (connection != null) {
+            try {
+                connection.close();
+                System.out.println("Đã đóng kết nối đến cơ sở dữ liệu.");
+            } catch (SQLException e) {
+                System.out.println("Đóng kết nối đến cơ sở dữ liệu thất bại.");
+                e.printStackTrace();
+            }
+        }
+    }
+    
     public List<StandardRoom> executeQueryStandardRooms() {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower " +
                 "FROM rooms r " +
