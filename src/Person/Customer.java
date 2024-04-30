@@ -28,14 +28,20 @@ public class Customer extends Person {
         List<Room> rooms = hotel.getAvailableRoom();
         for(Room room : rooms){
             if(room.getId() == id){
+                System.out.println("Enter num of day: ");
+                int numOfDay = sc.nextInt();
                 bookedRoom.add(room);
+                hotel.getAvailableRoom().remove(room);
                 room.setAvailable(false);
+                ConnectDatabase connector = new ConnectDatabase();
+                connector.insertBookingRoom(this.getID(), id, numOfDay);
                 System.out.println("Room booked successfully");
             }
             else {
                 System.out.println("Room is not found");
             }
         }
+        sc.close();
     }
 
 //    public void bookService(Hotel h){

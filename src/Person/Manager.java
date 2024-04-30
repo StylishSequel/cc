@@ -4,7 +4,7 @@ import Service.Service;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.ArrayList;
+// import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import Hotel.*;
@@ -34,6 +34,7 @@ public class Manager extends Employee {
         List<Employee> e = hotel.getEmployees();
         e.add(newemployee);
         System.out.println("Employee added successfully!");
+        scanner.close();
     }
 
     public void removeEmployee(Hotel hotel) throws SQLException {
@@ -43,6 +44,7 @@ public class Manager extends Employee {
         List<Employee> e = hotel.getEmployees();
         if(e.isEmpty()) {
             System.out.println("Employee list is empty");
+            scanner.close();
             return;
         }
         for(Employee employee : e) {
@@ -71,6 +73,7 @@ public class Manager extends Employee {
                 System.out.println("Employee not found");
             }
         }
+        scanner.close();
 
     }
 
@@ -86,6 +89,7 @@ public class Manager extends Employee {
         List<Service> e = hotel.getServices();
         e.add(s);
         System.out.println("Service added successfully!");
+        scanner.close();
     }
 
     public void removeService(Hotel hotel) throws SQLException {
@@ -107,8 +111,10 @@ public class Manager extends Employee {
             }
             else {
                 System.out.println("Service not found!");
+                scanner.close();
                 return;
             }
         }
+        scanner.close();
     }
 }
