@@ -17,7 +17,6 @@ import Service.Service;
 import Person.Customer;
 import Person.Employee;
 
-
 public class ConnectDatabase {
     private String hostName = "localhost:5432";
     private String databaseName = "postgres";
@@ -25,11 +24,12 @@ public class ConnectDatabase {
     private String password = "noname";
 
     private String connectionURL = "jdbc:postgresql://" + hostName + "/" + databaseName;
+
     public Connection connect() {
         Connection con = null;
 
-        try{
-            con = DriverManager.getConnection(connectionURL,username,password);
+        try {
+            con = DriverManager.getConnection(connectionURL, username, password);
             System.out.println("Connected to database");
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,7 +80,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"),  rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -99,7 +99,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"),  rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -207,13 +207,12 @@ public class ConnectDatabase {
         }
     }
 
-
     public int insertEmployee(String name, boolean gender, String phone, boolean is_active, double salary,
-                              String job) {
+            String job) {
         String query = "INSERT INTO employees(name, gender, phone, is_active, salary, job)" +
                 "VALUES(?, ?, ?, ?, ?, ?) RETURNING employee_id";
         try (Connection con = connect();
-             PreparedStatement pstmt = con.prepareStatement(query)) {
+                PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
             pstmt.setBoolean(2, gender);
             pstmt.setString(3, phone);
@@ -229,7 +228,8 @@ public class ConnectDatabase {
     }
 
     public void insertBookingRoom(int customerID, int roomID, int num_of_day) {
-        String query = "INSERT INTO bookings(customer_id, room_id, num_of_day, check_in_date)" + "VALUES(?, ?, ?, CURRENT_DATE)";
+        String query = "INSERT INTO bookings(customer_id, room_id, num_of_day, check_in_date)"
+                + "VALUES(?, ?, ?, CURRENT_DATE)";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, customerID);
@@ -255,7 +255,7 @@ public class ConnectDatabase {
     public int insertService(String name, double price) {
         String query = "INSERT INTO services(name, price)" + "VALUES(?, ?) RETURNING service_id";
         try (Connection con = connect();
-             PreparedStatement pstmt = con.prepareStatement(query)) {
+                PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
             pstmt.setDouble(2, price);
             ResultSet rs = pstmt.executeQuery();
@@ -278,5 +278,26 @@ public class ConnectDatabase {
         }
     }
 
-    
+    public void removeEmployee(int employee_id) {
+        String query = "DELETE FROM employees WHERE employee_id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, employee_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeService(int service_id) {
+        String query = "DELETE FROM services WHERE service_id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, service_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
