@@ -50,7 +50,7 @@ public class ConnectDatabase {
         }
     }
 
-    public List<StandardRoom> executeQueryStandardRooms() {
+    public List<StandardRoom> queryStandardRooms() {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower " +
                 "FROM rooms r " +
                 "JOIN standard_rooms s ON s.room_id = r.room_id " +
@@ -69,7 +69,7 @@ public class ConnectDatabase {
         return standardRooms;
     }
 
-    public List<DeluxeRoom> executeQueryDeluxeRooms() {
+    public List<DeluxeRoom> queryDeluxeRooms() {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
                 "FROM rooms r " +
                 "JOIN standard_rooms s ON s.room_id = r.room_id " +
@@ -88,7 +88,7 @@ public class ConnectDatabase {
         return deluxeRooms;
     }
 
-    public List<SuiteRoom> executeQuerySuiteRooms() {
+    public List<SuiteRoom> querySuiteRooms() {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
                 "FROM rooms r " +
                 "JOIN standard_rooms s ON s.room_id = r.room_id " +
@@ -107,15 +107,15 @@ public class ConnectDatabase {
         return suiteRooms;
     }
 
-    public List<Room> executeQueryRooms() {
+    public List<Room> queryRooms() {
         List<Room> rooms = new ArrayList<>();
-        rooms.addAll(executeQueryStandardRooms());
-        rooms.addAll(executeQueryDeluxeRooms());
-        rooms.addAll(executeQuerySuiteRooms());
+        rooms.addAll(queryStandardRooms());
+        rooms.addAll(queryDeluxeRooms());
+        rooms.addAll(querySuiteRooms());
         return rooms;
     }
 
-    public List<Employee> executeQueryEmployees() {
+    public List<Employee> queryEmployees() {
         String query = "SELECT * FROM employees";
         List<Employee> employees = new ArrayList<>();
         try (Connection con = connect();
@@ -132,7 +132,7 @@ public class ConnectDatabase {
         return employees;
     }
 
-    public List<Service> executeQueryAllServices() {
+    public List<Service> queryAllServices() {
         String query = "SELECT * FROM services";
         List<Service> services = new ArrayList<>();
         try (Connection con = connect();
@@ -148,7 +148,7 @@ public class ConnectDatabase {
     }
 
     // Trả về dịch vụ có id = id
-    public Service executeQueryService(int id) {
+    public Service queryService(int id) {
         String query = "SELECT * FROM services WHERE id = ?";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -161,22 +161,7 @@ public class ConnectDatabase {
         }
     }
 
-    public List<Service> executeQueryTypeService(String type) {
-        String query = "SELECT s.service_id AS id FROM services JOIN" + type + "_services s ON id = s.service_id";
-        List<Service> services = new ArrayList<>();
-        try (Connection con = connect();
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
-            while (rs.next()) {
-                services.add(new Service(rs.getInt("id"), "name", 1.0));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return services;
-    }
-
-    public List<Customer> executeQueryCustomers() {
+    public List<Customer> queryCustomers() {
         String query = "SELECT * FROM customers WHERE is_active = true";
         List<Customer> customers = new ArrayList<>();
         try (Connection con = connect();
@@ -227,7 +212,7 @@ public class ConnectDatabase {
         }
     }
 
-    public void insertBookingRoom(int customerID, int roomID, int num_of_day) {
+    public void insertCustomerRoom(int customerID, int roomID, int num_of_day) {
         String query = "INSERT INTO bookings(customer_id, room_id, num_of_day, check_in_date)"
                 + "VALUES(?, ?, ?, CURRENT_DATE)";
         try (Connection con = connect();
@@ -239,14 +224,6 @@ public class ConnectDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        query = "UPDATE rooms SET is_available = false WHERE room_id = ?";
-        try (Connection con = connect();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setInt(1, roomID);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }   
     }
 
     public void updateCheckOutDate(int room_id) {
@@ -274,7 +251,7 @@ public class ConnectDatabase {
         }
     }
 
-    public void insertBookingService(int room_id, int service_id) {
+    public void insertRoomService(int room_id, int service_id) {
         String query = "INSERT INTO booking_services(room_id, service_id, date)" + "VALUES(?, ?, CURRENT_DATE)";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -306,6 +283,109 @@ public class ConnectDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public List<Room> queryCurStandardCustomerRoom(int id) {
+        List<Room> rooms = new ArrayList<>();
+        String query = "SELECT r.room_id, price, num_of_beds, room_type, having_shower " +
+                "FROM customers c " +
+                "JOIN customer_rooms cs ON c.id = cs.customer_id " +
+                "JOIN rooms r ON cs.room_id = r.room_id " +
+                "JOIN standard_rooms sr ON sr.room_id = r.room_id " +
+                "WHERE c.id = ? AND check_out_date IS NULL AND e_check_out_date > CURRENT_DATE;";
+
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                rooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return rooms;
+    }
+
+    public List<Room> queryCurDeluxeCustomerRoom(int id) {
+        List<Room> rooms = new ArrayList<>();
+        String query = "SELECT r.room_id, price, num_of_beds, room_type, furniture " +
+                "FROM customers c " +
+                "JOIN customer_rooms cs ON c.id = cs.customer_id " +
+                "JOIN rooms r ON cs.room_id = r.room_id " +
+                "JOIN deluxe_rooms dr ON dr.room_id = r.room_id " +
+                "WHERE c.id = ? AND check_out_date IS NULL AND e_check_out_date > CURRENT_DATE;";
+
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                rooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return rooms;
+    }
+
+    public List<Room> queryCurSuiteCustomerRoom(int id) {
+        List<Room> rooms = new ArrayList<>();
+        String query = "SELECT r.room_id, price, num_of_beds, room_type, furniture " +
+                "FROM customers c " +
+                "JOIN customer_rooms cs ON c.id = cs.customer_id " +
+                "JOIN rooms r ON cs.room_id = r.room_id " +
+                "JOIN suite_rooms sr ON sr.room_id = r.room_id " +
+                "WHERE c.id = ? AND check_out_date IS NULL AND e_check_out_date > CURRENT_DATE;";
+
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                rooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return rooms;
+    }
+
+    public List<Service> queryCurRoomService(int id) {
+        String query = "SELECT r.room_id, name, s.price, check_in_date, e_check_out_date, date FROM rooms r" +
+        "JOIN room_services rs ON r.room_id = rs.room_id" +
+        "JOIN customer_rooms cr ON r.room_id = cr.room_id" +
+        "JOIN services s ON rs.service_id = s.service_id" +
+        "WHERE check_out_date IS NULL AND r.room_id = ?;";
+        List<Service> services = new ArrayList<>();
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                services.add(new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return services;
+    }
+
+    public List<Room> queryCurCustomerRoom(int id) {
+        List<Room> rooms = new ArrayList<>();
+        rooms.addAll(queryCurStandardCustomerRoom(id));
+        rooms.addAll(queryCurDeluxeCustomerRoom(id));
+        rooms.addAll(queryCurSuiteCustomerRoom(id));
+        rooms.stream().forEach(r -> {
+            r.setBookedService(queryCurRoomService(r.getId()));
+        });
+        return rooms;
     }
 
 }
