@@ -163,6 +163,11 @@ import GUI.*;
     public class Main {
         public static void main(String[] args) {
         Login login = new Login();
+<<<<<<< HEAD
         //    MyFrame m = new MyFrame();
+=======
+//            MyFrame m = new MyFrame();
+//            HomePage main = new HomePage();
+>>>>>>> a022a099c839604112f1663ac62695780efca04a
         }
     }

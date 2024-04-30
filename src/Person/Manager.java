@@ -13,7 +13,11 @@ public class Manager extends Employee {
     public Manager(int ID, String name, boolean gender, String phone, boolean is_active, int unitTask, double salary, String job){
         super(ID, name, gender, phone, is_active, salary, job);
     }
+
+    //ADD EMPLOYEE TO HOTEL AND DATABASE
     public void addEmployee(Hotel hotel) throws SQLException {
+
+        //TYPING EMPLOYEE INFORMATION
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter name");
         String name = scanner.next();
@@ -28,8 +32,11 @@ public class Manager extends Employee {
         System.out.println("Enter job");
         String job = scanner.next();
 
+        //ADD TO DATABASE
         ConnectDatabase connector = new ConnectDatabase();
         int idNewEmployee = connector.insertEmployee(name,gender,phone,is_active,salary,job);
+
+        //ADD TO HOTEL LIST
         Employee newemployee = new Employee(idNewEmployee, name, gender, phone, is_active, salary, job);
         List<Employee> e = hotel.getEmployees();
         e.add(newemployee);
@@ -37,6 +44,7 @@ public class Manager extends Employee {
         scanner.close();
     }
 
+    //REMOVE EMPLOYEE IN HOTEL AND DATABASE BY ID
     public void removeEmployee(Hotel hotel) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter ID");
@@ -77,14 +85,21 @@ public class Manager extends Employee {
 
     }
 
+    //ADD SERVICE INTO HOTEL AND DATABASE
     public void addService(Hotel hotel) throws SQLException {
+
+        //TYPING SERVICE INFOR
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter Name Service");
         String name = scanner.next();
         System.out.println("Enter Price Service");
         double price = scanner.nextDouble();
+
+        //ADD INTO DATABSE
         ConnectDatabase db = new ConnectDatabase();
-       int idNewService = db.insertService(name,price);
+        int idNewService = db.insertService(name,price);
+
+        //ADD INTO HOTEL LIST
         Service s = new Service(idNewService,name,price);
         List<Service> e = hotel.getServices();
         e.add(s);
@@ -92,6 +107,7 @@ public class Manager extends Employee {
         scanner.close();
     }
 
+    //REMOVE SERVICE IN HOTEL AND DATABASE
     public void removeService(Hotel hotel) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter ID Service");
