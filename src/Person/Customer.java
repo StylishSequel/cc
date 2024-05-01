@@ -21,28 +21,7 @@ public class Customer extends Person {
         return bookedRoom;
     }
 
-    public void bookRoom(Hotel hotel){
-        System.out.println("Enter room id: ");
-        Scanner sc = new Scanner(System.in);
-        int id = sc.nextInt();
-        List<Room> rooms = hotel.getAvailableRoom();
-        for(Room room : rooms){
-            if(room.getId() == id){
-                System.out.println("Enter num of day: ");
-                int numOfDay = sc.nextInt();
-                bookedRoom.add(room);
-                hotel.getAvailableRoom().remove(room);
-                room.setAvailable(false);
-                ConnectDatabase connector = new ConnectDatabase();
-                connector.insertCustomerRoom(this.getID(), id, numOfDay);
-                System.out.println("Room booked successfully");
-            }
-            else {
-                System.out.println("Room is not found");
-            }
-        }
-        sc.close();
-    }
+    
 
 //    public void bookService(Hotel h){
 //        System.out.println("Enter service id: ");
@@ -75,7 +54,7 @@ public class Customer extends Person {
         }
     }
 
-    public double printBill() {
+    public double getBill() {
         double total = 0;
         for (Room room : bookedRoom) {
             total += room.getPrice();
@@ -86,6 +65,62 @@ public class Customer extends Person {
         }
         System.out.print("Total: " + total);
         return total;
+    }
+
+    public double printBill() {
+        double total = 0;
+        for (Room room : bookedRoom) {
+            double curTotal = 0;
+            total += room.getPrice();
+            List<Service> s = room.getBookedService();
+
+            System.out.println(room.toString());
+            for(Service service : s){
+                total += service.getPrice();
+                curTotal += service.getPrice();
+
+                System.out.println(service.toString());
+            }
+            curTotal = room.getPrice();
+            System.out.println("Total: " + curTotal);
+        }
+        System.out.print("Total: ");
+        return total;
+    }
+    public void bookRoom(Hotel hotel){
+        System.out.println("Enter room id: ");
+        Scanner sc = new Scanner(System.in);
+        int id = sc.nextInt();
+        List<Room> rooms = hotel.getAvailableRoom();
+        for(Room room : rooms){
+            if(room.getId() == id){
+                System.out.println("Enter num of day: ");
+                int numOfDay = sc.nextInt();
+                bookedRoom.add(room);
+                hotel.getAvailableRoom().remove(room);
+                room.setAvailable(false);
+                ConnectDatabase connector = new ConnectDatabase();
+                connector.insertCustomerRoom(this.getID(), id, numOfDay);
+                System.out.println("Room booked successfully");
+            }
+            else {
+                System.out.println("Room is not found");
+            }
+        }
+
+        
+            // ID chỉ có 1 nên không cần dùng for
+    
+            // Room r = rooms.stream().filter(room -> room.getId() == id).findFirst().orElse(null);
+            // if (r == null) {
+            //     System.out.println("Room is not found");
+            //     return;
+            // }
+            // r.setAvailable(false);
+            // System.out.println("Room booked successfully");
+            // bookedRoom.add(r);
+        
+        sc.close();
     }
 }
 
