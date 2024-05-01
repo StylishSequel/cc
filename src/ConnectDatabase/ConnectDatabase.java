@@ -224,6 +224,14 @@ public class ConnectDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        query = "UPDATE rooms SET is_available = false WHERE room_id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, roomID);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void updateCheckOutDate(int room_id) {
@@ -235,6 +243,7 @@ public class ConnectDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        
     }
 
     public int insertService(String name, double price) {

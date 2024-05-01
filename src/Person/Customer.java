@@ -34,7 +34,7 @@ public class Customer extends Person {
                 hotel.getAvailableRoom().remove(room);
                 room.setAvailable(false);
                 ConnectDatabase connector = new ConnectDatabase();
-                connector.insertBookingRoom(this.getID(), id, numOfDay);
+                connector.insertCustomerRoom(this.getID(), id, numOfDay);
                 System.out.println("Room booked successfully");
             }
             else {

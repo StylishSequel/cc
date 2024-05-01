@@ -108,8 +108,8 @@ public abstract class Room {
         try (Scanner sc = new Scanner(System.in)) {
             int id = sc.nextInt();
             ConnectDatabase connect = new ConnectDatabase();
-            connect.insertBookingService(this.getId(), id);
-            this.bookedService.add(connect.executeQueryService(id));
+            connect.insertRoomService(this.getId(), id);
+            this.bookedService.add(connect.queryService(id));
         }
         System.out.println("Service booked successfully");
 
