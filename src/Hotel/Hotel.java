@@ -176,7 +176,7 @@ public class Hotel {
 
     public void caculate() {
         double salary = employees.stream().mapToDouble(e -> e.getSalary()).sum();
-        double bills = customers.stream().mapToDouble(c -> c.printBill()).sum();
+        double bills = customers.stream().mapToDouble(c -> c.getBill()).sum();
         double profit = bills - salary;
         System.out.println("Profit: " + profit);
     }
