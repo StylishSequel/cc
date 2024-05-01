@@ -192,7 +192,7 @@ public class ConnectDatabase {
         }
     }
 
-    public int insertEmployee(String name, boolean gender, String phone, boolean is_active, double salary,
+    public Employee insertEmployee(String name, boolean gender, String phone, boolean is_active, double salary,
             String job) {
         String query = "INSERT INTO employees(name, gender, phone, is_active, salary, job)" +
                 "VALUES(?, ?, ?, ?, ?, ?) RETURNING employee_id";
@@ -206,28 +206,20 @@ public class ConnectDatabase {
             pstmt.setString(6, job);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            return rs.getInt("employee_id");
+            return new Employee(rs.getInt("employee_id"), name, gender, phone, is_active, salary, job);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
     public void insertCustomerRoom(int customerID, int roomID, int num_of_day) {
-        String query = "INSERT INTO bookings(customer_id, room_id, num_of_day, check_in_date)"
-                + "VALUES(?, ?, ?, CURRENT_DATE)";
+        String query = "INSERT INTO customer_rooms(customer_id, room_id, num_of_day, check_in_date, e_check_out_date)"
+                + "VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE + num_of_day + 1)";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, customerID);
             pstmt.setInt(2, roomID);
             pstmt.setInt(3, num_of_day);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        query = "UPDATE rooms SET is_available = false WHERE room_id = ?";
-        try (Connection con = connect();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setInt(1, roomID);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -243,10 +235,9 @@ public class ConnectDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        
     }
 
-    public int insertService(String name, double price) {
+    public Service insertService(String name, double price) {
         String query = "INSERT INTO services(name, price)" + "VALUES(?, ?) RETURNING service_id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -254,7 +245,7 @@ public class ConnectDatabase {
             pstmt.setDouble(2, price);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            return rs.getInt("service_id");
+            return new Service(rs.getInt("service_id"), name, price);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -368,10 +359,10 @@ public class ConnectDatabase {
 
     public List<Service> queryCurRoomService(int id) {
         String query = "SELECT r.room_id, name, s.price, check_in_date, e_check_out_date, date FROM rooms r" +
-        "JOIN room_services rs ON r.room_id = rs.room_id" +
-        "JOIN customer_rooms cr ON r.room_id = cr.room_id" +
-        "JOIN services s ON rs.service_id = s.service_id" +
-        "WHERE check_out_date IS NULL AND r.room_id = ?;";
+                "JOIN room_services rs ON r.room_id = rs.room_id" +
+                "JOIN customer_rooms cr ON r.room_id = cr.room_id" +
+                "JOIN services s ON rs.service_id = s.service_id" +
+                "WHERE check_out_date IS NULL AND r.room_id = ?;";
         List<Service> services = new ArrayList<>();
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
