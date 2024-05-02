@@ -19,9 +19,9 @@ import Person.Employee;
 
 public class ConnectDatabase {
     private String hostName = "localhost:5432";
-    private String databaseName = "test";
-    private String username = "postgres";
-    private String password = "123456";
+    private String databaseName = "postgres";
+    private String username = "duc";
+    private String password = "noname";
 
     private String connectionURL = "jdbc:postgresql://" + hostName + "/" + databaseName;
 
@@ -398,6 +398,20 @@ public class ConnectDatabase {
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, room_id);
             pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // Log in + Sign up Query
+    public boolean checkLogin(String username, String password) {
+        String query = "SELECT * FROM customer_account WHERE user_name = ? AND pass_word = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
