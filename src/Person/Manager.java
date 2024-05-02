@@ -1,4 +1,5 @@
 package Person;
+
 import ConnectDatabase.ConnectDatabase;
 import Service.Service;
 import java.sql.Connection;
@@ -10,13 +11,15 @@ import java.util.Scanner;
 import Hotel.*;
 
 public class Manager extends Employee {
-    public Manager(int ID, String name, boolean gender, String phone, boolean is_active, int unitTask, double salary, String job){
+    public Manager(int ID, String name, boolean gender, String phone, boolean is_active, int unitTask, double salary,
+            String job) {
         super(ID, name, gender, phone, is_active, salary, job);
     }
+
     public void addEmployee(Hotel hotel) throws SQLException {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter name");
-        String name = scanner.next();
+        String name = scanner.nextLine();
         System.out.println("Enter gender");
         boolean gender = scanner.nextBoolean();
         System.out.println("Enter phone");
@@ -25,11 +28,13 @@ public class Manager extends Employee {
         boolean is_active = scanner.nextBoolean();
         System.out.println("Enter salary");
         double salary = scanner.nextDouble();
+        scanner.nextLine();
         System.out.println("Enter job");
-        String job = scanner.next();
+        String job = scanner.nextLine();
 
         ConnectDatabase connector = new ConnectDatabase();
-        Employee e = connector.insertEmployee(name,gender,phone,is_active,salary,job);
+        Employee e = connector.insertEmployee(name, gender, phone, is_active, salary, job);
+
         hotel.getEmployees().add(e);
         System.out.println("Employee added successfully!");
     }
@@ -40,24 +45,24 @@ public class Manager extends Employee {
         System.out.println("Enter ID");
         int ID = scanner.nextInt();
 
-        List<Employee> listE = hotel.getEmployees();
-        if(e.isEmpty()) {
-            System.out.println("Employee list is empty");
-            return;
-        }
+        // List<Employee> listE = hotel.getEmployees();
+        // if (listE.isEmpty()) {
+        // System.out.println("Employee list is empty");
+        // return;
+        // }
 
-        for(Employee employee : listE) {
-            if(employee.getID() == ID) {
-                // remove Employee có id = ID chứ không phải remove vị trí ID
-                // listE.remove(ID);
-                listE.remove(employee);
-                ConnectDatabase connector = new ConnectDatabase();
-                connector.removeEmployee(ID);
-            }
-            else {
-                System.out.println("Employee not found");
-            }
-        }
+        // for (Employee employee : listE) {
+        // if (employee.getID() == ID) {
+        // // remove Employee có id = ID chứ không phải remove vị trí ID
+        // // listE.remove(ID);
+        // listE.remove(employee);
+        // } else {
+        // System.out.println("Employee not found");
+        // }
+        // }
+        ConnectDatabase connector = new ConnectDatabase();
+        connector.removeEmployee(ID);
+
 
     }
 
@@ -69,7 +74,8 @@ public class Manager extends Employee {
         double price = scanner.nextDouble();
 
         ConnectDatabase db = new ConnectDatabase();
-        Service s = db.insertService(name,price);
+        Service s = db.insertService(name, price);
+
         List<Service> e = hotel.getServices();
         e.add(s);
         System.out.println("Service added successfully!");
@@ -80,8 +86,10 @@ public class Manager extends Employee {
         System.out.println("Enter ID Service");
         int ID = scanner.nextInt();
         List<Service> e = hotel.getServices();
-        for(Service s : e) {
-            if(s.getId() == ID) {
+        for (Service s : e) {
+            if (s.getId() == ID) {
+                // Remove service có id = ID chứ không phải remove vị trí ID
+
                 e.remove(ID);
                 System.out.println("Service removed successfully!");
                 ConnectDatabase db = new ConnectDatabase();
@@ -89,6 +97,8 @@ public class Manager extends Employee {
             }
             // đặt ở đây nó in ra liên tục
             // else {
+            // System.out.println("Service not found!");
+            // return;
             //     System.out.println("Service not found!");
             //     return;
             // }
