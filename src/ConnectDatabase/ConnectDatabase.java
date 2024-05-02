@@ -19,9 +19,9 @@ import Person.Employee;
 
 public class ConnectDatabase {
     private String hostName = "localhost:5432";
-    private String databaseName = "postgres";
-    private String username = "duc";
-    private String password = "noname";
+    private String databaseName = "test";
+    private String username = "postgres";
+    private String password = "123456";
 
     private String connectionURL = "jdbc:postgresql://" + hostName + "/" + databaseName;
 
@@ -168,8 +168,8 @@ public class ConnectDatabase {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                customers.add(new Customer(rs.getInt("customer_id"), rs.getString("name"), rs.getBoolean("gender"),
-                        rs.getString("phone")));
+                customers.add(new Customer(rs.getInt("id"), rs.getString("name"), rs.getBoolean("gender"),
+                        rs.getString("phone"), rs.getBoolean("is_active")));
             }
             return customers;
         } catch (SQLException e) {
@@ -177,16 +177,18 @@ public class ConnectDatabase {
         }
     }
 
-    public int insertCustomer(String name, boolean gender, String phone) {
-        String query = "INSERT INTO customers(name, gender, phone)" + "VALUES(? ,?, ?) RETURNING customer_id";
+    public Customer insertCustomer(String name, boolean gender, String phone, boolean is_active) {
+        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
             pstmt.setBoolean(2, gender);
             pstmt.setString(3, phone);
+            pstmt.setBoolean(4, is_active);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            return rs.getInt("customer_id");
+            System.out.println("Customer inserted successfully!");
+            return new Customer(rs.getInt("id"), name, gender, phone, is_active);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -269,6 +271,7 @@ public class ConnectDatabase {
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, employee_id);
             pstmt.executeUpdate();
+            System.out.println("Employee removed successfully!");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -280,6 +283,7 @@ public class ConnectDatabase {
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, service_id);
             pstmt.executeUpdate();
+            System.out.println("Service removed successfully!");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -386,6 +390,17 @@ public class ConnectDatabase {
             r.setBookedService(queryCurRoomService(r.getId()));
         });
         return rooms;
+    }
+
+    public void updateAvailableRoom(int room_id) {
+        String query = "UPDATE rooms SET is_available = true WHERE room_id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, room_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
