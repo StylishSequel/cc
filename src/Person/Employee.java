@@ -14,7 +14,7 @@ public class Employee extends Person {
     private double salary;
     private String job;
     public Employee(int ID, String name, boolean gender, String phone, boolean is_active, double salary, String job) {
-        super(ID, name, gender, phone);
+        super(ID, name, gender, phone, is_active);
         this.is_active = is_active;
         this.salary = salary;
         this.job = job;

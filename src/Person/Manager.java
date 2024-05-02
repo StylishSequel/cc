@@ -2,10 +2,9 @@ package Person;
 
 import ConnectDatabase.ConnectDatabase;
 import Service.Service;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
+
 import java.sql.SQLException;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 import Hotel.*;
@@ -37,6 +36,7 @@ public class Manager extends Employee {
 
         hotel.getEmployees().add(e);
         System.out.println("Employee added successfully!");
+        scanner.close();
     }
 
     public void removeEmployee(Hotel hotel) throws SQLException {
@@ -44,7 +44,14 @@ public class Manager extends Employee {
 
         System.out.println("Enter ID");
         int ID = scanner.nextInt();
-
+        Employee employee  = hotel.getEmployees().stream().filter(e -> e.getID() == ID).findFirst().orElse(null);
+        if (employee != null) {
+            hotel.getEmployees().remove(employee);
+        } else {
+            System.out.println("Employee not found");
+            
+        }
+        scanner.close();
         // List<Employee> listE = hotel.getEmployees();
         // if (listE.isEmpty()) {
         // System.out.println("Employee list is empty");
@@ -62,7 +69,8 @@ public class Manager extends Employee {
         // }
         ConnectDatabase connector = new ConnectDatabase();
         connector.removeEmployee(ID);
-
+        System.out.println("Employee removed successfully!");
+        scanner.close();
 
     }
 
@@ -79,6 +87,7 @@ public class Manager extends Employee {
         List<Service> e = hotel.getServices();
         e.add(s);
         System.out.println("Service added successfully!");
+        scanner.close();
     }
 
     public void removeService(Hotel hotel) throws SQLException {
@@ -86,23 +95,30 @@ public class Manager extends Employee {
         System.out.println("Enter ID Service");
         int ID = scanner.nextInt();
         List<Service> e = hotel.getServices();
-        for (Service s : e) {
-            if (s.getId() == ID) {
-                // Remove service có id = ID chứ không phải remove vị trí ID
-
-                e.remove(ID);
-                System.out.println("Service removed successfully!");
-                ConnectDatabase db = new ConnectDatabase();
-                db.removeService(ID);
-            }
-            // đặt ở đây nó in ra liên tục
-            // else {
-            // System.out.println("Service not found!");
-            // return;
-            //     System.out.println("Service not found!");
-            //     return;
-            // }
+        Service s = e.stream().filter(service -> service.getId() == ID).findFirst().orElse(null);
+        if (s != null) {
+            e.remove(s);
+            ConnectDatabase db = new ConnectDatabase();
+            db.removeService(ID);
+            System.out.println("Service removed successfully!");
+        } else {
+            System.out.println("Service not found!");
         }
-        System.out.println("Service not found!");
+        scanner.close();
+//        for (Service s : e) {
+//            if (s.getId() == ID) {
+//
+//
+//                e.remove(s);
+//                System.out.println("Service removed successfully!");
+//                ConnectDatabase db = new ConnectDatabase();
+//                db.removeService(ID);
+//            }
+//            // đặt ở đây nó in ra liên tục
+//             else {
+//             System.out.println("Service not found!");
+//             scanner.close();
+             return;
     }
+
 }

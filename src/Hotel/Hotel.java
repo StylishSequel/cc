@@ -2,8 +2,7 @@ package Hotel;
 
 import Person.Customer;
 import Person.Employee;
-import Room.Room;
-import Room.StandardRoom;
+import Room.*;
 import Service.Service;
 
 import java.util.ArrayList;
@@ -79,6 +78,7 @@ public class Hotel {
         ConnectDatabase connector = new ConnectDatabase();
         Customer customer = connector.insertCustomer(name, gender, phone, is_active);
         customers.add(customer);
+        scan.close();
     }
 
     public void addRoom(Room room) {
@@ -135,11 +135,12 @@ public class Hotel {
         Room room = rooms.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
         if (room == null) {
             System.out.println("Room not found");
+            scan.close();
             return;
         }
         rooms.remove(room);
         System.out.println("Room removed successfully");
-
+        scan.close();
     }
 
     public void removeRoom(Room room) {

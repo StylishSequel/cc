@@ -1,11 +1,10 @@
 package Person;
 
-import ConnectDatabase.ConnectDatabase;
-import java.sql.Connection;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+import ConnectDatabase.*;
 import Hotel.Hotel;
 import Room.*;
 import Service.Service;
@@ -97,9 +96,8 @@ public class Customer extends Person {
         Scanner sc = new Scanner(System.in);
         int id = sc.nextInt();
         List<Room> rooms = hotel.getAvailableRoom();
-        for(Room room : rooms){
-            if(room.getId() == id){
-                System.out.println("Enter num of day: ");
+        Room room = rooms.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
+        System.out.println("Enter num of day: ");
                 int numOfDay = sc.nextInt();
                 bookedRoom.add(room);
                 hotel.getAvailableRoom().remove(room);
@@ -107,17 +105,37 @@ public class Customer extends Person {
                 ConnectDatabase connector = new ConnectDatabase();
                 connector.insertCustomerRoom(this.getID(), id, numOfDay);
                 System.out.println("Room booked successfully");
-            }
-            else {
-                System.out.println("Room is not found");
-            }
-        }
+
+//        for(Room room : rooms){
+//            if(room.getId() == id){
+//                System.out.println("Enter num of day: ");
+//                int numOfDay = sc.nextInt();
+//                bookedRoom.add(room);
+//                hotel.getAvailableRoom().remove(room);
+//                room.setAvailable(false);
+//                ConnectDatabase connector = new ConnectDatabase();
+//                connector.insertCustomerRoom(this.getID(), id, numOfDay);
+//                System.out.println("Room booked successfully");
+//                break;
+//            }
+//
+//        }
+
 
         
             // ID chỉ có 1 nên không cần dùng for
             
             
         sc.close();
+    }
+    public static void main(String[] args) {
+        Customer c = new Customer(1, "thanh", true, "092345234", true);
+        Hotel h = new Hotel("Threeboys", "Ha Noi");
+        c.bookRoom(h);
+        c.printBookedRoom();
+        c.printServices();
+        c.getBill();
+        c.printBill();
     }
 }
 

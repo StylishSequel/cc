@@ -44,10 +44,14 @@ public abstract class Room {
         this.bookedService = bookedService;
     }
 
-    public Room(int room_id2, double price2, int numOfDay2) {
-        this.room_id = room_id2;
-        this.price = price2;
-        this.numOfDay = numOfDay2;
+    public Room(int room_id, double price, int numOfDay) {
+        this.room_id = room_id;
+        this.price = price;
+        this.numOfDay = numOfDay;
+    }
+    public Room(double price, int numOfBed ){
+        this.price = price;
+        this.numOfBed = numOfBed;
     }
     public int getId() {
         return room_id;

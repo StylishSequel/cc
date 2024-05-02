@@ -20,11 +20,15 @@ public class DeluxeRoom extends Room{
         this.furniture = "";
        
     }
+    public DeluxeRoom(double price, int numOfBed, String furniture) {
+        super(price, numOfBed);
+        this.furniture = furniture;
+    }
     
-    public DeluxeRoom(int int1, double double1, int int2, String string) {
-        super(int1, double1, int2);
-        this.furniture = string;
-
+    
+    public DeluxeRoom(int ID, double price, int numOfBed , String furniture) {
+        super(ID, price, numOfBed);
+        this.furniture = furniture;
     }
     public String getFurniture() {
         return furniture;
