@@ -132,9 +132,9 @@ public class Customer extends Person {
         Customer c = new Customer(1, "thanh", true, "092345234", true);
         Hotel h = new Hotel("Threeboys", "Ha Noi");
         List<Room> availableRooms = h.getAvailableRoom();
-for (Room room : availableRooms) {
-    System.out.println(room);
-}
+        for (Room room : availableRooms) {
+            System.out.println(room);
+        }
         c.bookRoom(h);
         // c.printBookedRoom();
         // c.printServices();

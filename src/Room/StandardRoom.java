@@ -21,8 +21,9 @@ public class StandardRoom extends Room {
         this.havingShower = havingShower;
     }
 
-    public StandardRoom(int int1, double double1, int int2, boolean boolean1) {
-        //TODO Auto-generated constructor stub
+    public StandardRoom(int id, double price, int num_of_bed, boolean havingShower) {
+        super(id, price, num_of_bed);
+        this.havingShower = havingShower;
     }
 
     public boolean isHavingShower() {
@@ -33,10 +34,7 @@ public class StandardRoom extends Room {
         this.havingShower = havingShower;
     };
     public String toString() {
-        return "StandardRoom [havingShower=" + havingShower + ", getId()=" + getId() + ", getPrice()=" + getPrice()
-                + ", getCheck_in_date()=" + getCheck_in_date() + ", getCheck_out_date()=" + getCheck_out_date()
-                + ", getNumOfDay()=" + getNumOfDay() + ", getNumOfBed()=" + getNumOfBed() + ", isAvailable()="
-                + isAvailable() + ", getType()=" + getType() + ", getBookedService()=" + getBookedService() + "]";
+        return "Room Name: StandardRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
     }
     public double calculatePrice(){
         int showerPrice = this.isHavingShower() ? 50 : 0;

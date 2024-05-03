@@ -185,7 +185,8 @@ public class Hotel {
     }
 
     public List<Room> getAvailableRoom() {
-        return rooms.stream().filter(r -> r.isAvailable()).toList();
+        // return rooms.stream().filter(r -> r.isAvailable()).toList();
+        return this.rooms;
     }
 
     public void addService(Service service) {

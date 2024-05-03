@@ -37,10 +37,7 @@ public class DeluxeRoom extends Room{
         this.furniture = furniture;
     }
     public String toString() {
-        return "DeluxeRoom [furniture=" + furniture + ", getId()=" + getId() + ", getPrice()=" + getPrice()
-                + ", getCheck_in_date()=" + getCheck_in_date() + ", getCheck_out_date()=" + getCheck_out_date()
-                + ", getNumOfDay()=" + getNumOfDay() + ", getNumOfBed()=" + getNumOfBed() + ", isAvailable()="
-                + isAvailable() + ", getType()=" + getType() + ", getBookedService()=" + getBookedService() + "]";
+        return "Room Name: DeluxeRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
     }
 
     public double calculatePrice(){
