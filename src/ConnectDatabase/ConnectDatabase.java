@@ -70,9 +70,9 @@ public class ConnectDatabase {
     }
 
     public List<DeluxeRoom> queryDeluxeRooms() {
-        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, d.furniture " +
                 "FROM rooms r " +
-                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "JOIN deluxe_rooms d ON d.room_id = r.room_id " +
                 "WHERE r.is_available = true";
         List<DeluxeRoom> deluxeRooms = new ArrayList<>();
         try (Connection con = connect();
@@ -89,9 +89,9 @@ public class ConnectDatabase {
     }
 
     public List<SuiteRoom> querySuiteRooms() {
-        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.furniture " +
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.electric_devices " +
                 "FROM rooms r " +
-                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "JOIN suite_rooms s ON s.room_id = r.room_id " +
                 "WHERE r.is_available = true";
         List<SuiteRoom> suiteRooms = new ArrayList<>();
         try (Connection con = connect();
@@ -99,7 +99,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("electric_devices")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -404,7 +404,7 @@ public class ConnectDatabase {
     }
 
     // Log in + Sign up Query
-    public boolean checkLogin(String username, String password) {
+    public boolean checkLoginCustomer(String username, String password) {
         String query = "SELECT * FROM customer_account WHERE user_name = ? AND pass_word = ?";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -415,6 +415,30 @@ public class ConnectDatabase {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public boolean checkLoginEmployee(String username, String password) {
+        String query = "SELECT * FROM employee_account WHERE user_name = ? AND pass_word = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            ResultSet rs = pstmt.executeQuery();
+            return rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateActiveCustomer(int id) {
+        String query = "UPDATE customers SET is_active = false WHERE id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        throw new UnsupportedOperationException("Unimplemented method 'updateActiveCustomer'");
     }
 
 }

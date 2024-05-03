@@ -131,11 +131,15 @@ public class Customer extends Person {
     public static void main(String[] args) {
         Customer c = new Customer(1, "thanh", true, "092345234", true);
         Hotel h = new Hotel("Threeboys", "Ha Noi");
+        List<Room> availableRooms = h.getAvailableRoom();
+for (Room room : availableRooms) {
+    System.out.println(room);
+}
         c.bookRoom(h);
-        c.printBookedRoom();
-        c.printServices();
-        c.getBill();
-        c.printBill();
+        // c.printBookedRoom();
+        // c.printServices();
+        // c.getBill();
+        // c.printBill();
     }
 }
 

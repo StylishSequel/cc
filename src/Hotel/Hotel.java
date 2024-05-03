@@ -21,9 +21,11 @@ public class Hotel {
     List<Service> tasks;
 
     public Hotel(String name, String address) {
+        ConnectDatabase connector = new ConnectDatabase();
+        
         this.name = name;
         this.address = address;
-        rooms = new ArrayList<>();
+        rooms = connector.queryRooms();
         rooms.add(new StandardRoom(true));
         customers = new ArrayList<>();
         employees = new ArrayList<>();
@@ -118,14 +120,15 @@ public class Hotel {
             case 3:
                 System.out.println("Enter electric devices:");
                 String devices = scan.nextLine();
-                SuiteRoom newSR = new SuiteRoom(price, beds, devices);
-                this.addRoom(newSR);
+                SuiteRoom newSDR = new SuiteRoom(price, beds, devices);
+                this.addRoom(newSDR);
                 break;
 
             default:
                 System.out.println("Invalid choice");
                 break;
         }
+        scan.close();
     }
 
     public void removeRoom() {

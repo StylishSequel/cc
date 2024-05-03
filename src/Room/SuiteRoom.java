@@ -37,6 +37,10 @@ public class SuiteRoom extends Room{
     public String getType() {
         return type;
     }
+    public String toString() {
+        return "SuiteRoom [electricDevices=" + electricDevices + ", getId()=" + getId() + ", getPrice()=" + getPrice()
+                + ", getNumOfDay()=" + getNumOfDay() + ", getNumOfBed()=" + getNumOfBed() + "]";
+    }
     public double calculatePrice(){
         return this.getNumOfDay()*(this.getPrice() + (this.getNumOfBed()-1)*50) ;
     }

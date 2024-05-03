@@ -32,7 +32,12 @@ public class StandardRoom extends Room {
     public void setHavingShower(boolean havingShower) {
         this.havingShower = havingShower;
     };
-
+    public String toString() {
+        return "StandardRoom [havingShower=" + havingShower + ", getId()=" + getId() + ", getPrice()=" + getPrice()
+                + ", getCheck_in_date()=" + getCheck_in_date() + ", getCheck_out_date()=" + getCheck_out_date()
+                + ", getNumOfDay()=" + getNumOfDay() + ", getNumOfBed()=" + getNumOfBed() + ", isAvailable()="
+                + isAvailable() + ", getType()=" + getType() + ", getBookedService()=" + getBookedService() + "]";
+    }
     public double calculatePrice(){
         int showerPrice = this.isHavingShower() ? 50 : 0;
         return this.getNumOfDay() * (this.getPrice() + this.getNumOfBed() * 50 + showerPrice);
