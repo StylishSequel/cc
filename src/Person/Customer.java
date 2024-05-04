@@ -122,24 +122,24 @@ public class Customer extends Person {
 //        }
 
 
-        
+
             // ID chỉ có 1 nên không cần dùng for
-            
-            
+
+
         sc.close();
     }
-    public static void main(String[] args) {
-        Customer c = new Customer(1, "thanh", true, "092345234", true);
-        Hotel h = new Hotel("Threeboys", "Ha Noi");
-        c.bookRoom(h);
-        c.printBookedRoom();
-        c.printServices();
-        c.getBill();
-        c.printBill();
-    }
+//    public static void main(String[] args) {
+//        Customer c = new Customer(1, "thanh", true, "092345234", true);
+//        Hotel h = new Hotel("Threeboys", "Ha Noi");
+//        c.bookRoom(h);
+//        c.printBookedRoom();
+//        c.printServices();
+//        c.getBill();
+//        c.printBill();
+//    }
 }
 
-    
 
-   
+
+
 

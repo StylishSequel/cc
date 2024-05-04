@@ -49,7 +49,7 @@ public class Manager extends Employee {
             hotel.getEmployees().remove(employee);
         } else {
             System.out.println("Employee not found");
-            
+
         }
         scanner.close();
         // List<Employee> listE = hotel.getEmployees();
