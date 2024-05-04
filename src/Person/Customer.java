@@ -51,9 +51,9 @@ public class Customer extends Person {
 
     public void printServices() {
         for (Room room : bookedRoom) {
-            List<Service> s = room.getBookedService();
-            for (Service service : s) {
-                System.out.println(service.toString());
+            List<Service> services = room.getBookedService();
+            if (services != null) {
+                services.stream().forEach(service -> System.out.println(service));
             }
         }
     }
@@ -62,12 +62,14 @@ public class Customer extends Person {
         double total = 0;
         for (Room room : bookedRoom) {
             total += room.getPrice();
-            List<Service> s = room.getBookedService();
-            for (Service service : s) {
-                total += service.getPrice();
+            List<Service> services = room.getBookedService();
+            if (services != null) {
+                for (Service service : services) {
+                    total += service.getPrice();
+                }
             }
         }
-        System.out.print("Total: " + total);
+        // System.out.print("Total all the: " + total);
         return total;
     }
 
@@ -79,6 +81,10 @@ public class Customer extends Person {
             List<Service> s = room.getBookedService();
 
             System.out.println(room.toString());
+            if (s == null) {
+                System.out.println("Total: " + room.getPrice());
+                continue;
+            }
             for(Service service : s){
                 total += service.getPrice();
                 curTotal += service.getPrice();
@@ -88,7 +94,7 @@ public class Customer extends Person {
             curTotal = room.getPrice();
             System.out.println("Total: " + curTotal);
         }
-        System.out.print("Total: ");
+        System.out.print("Total all the rooms: ");
         return total;
     }
     public void bookRoom(Hotel hotel){
@@ -139,7 +145,8 @@ public class Customer extends Person {
         // c.printBookedRoom();
         // c.printServices();
         // c.getBill();
-        // c.printBill();
+        double z = c.printBill();
+        System.out.println(z);
     }
 }
 

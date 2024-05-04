@@ -27,9 +27,9 @@ public class Hotel {
         this.address = address;
         rooms = connector.queryRooms();
         rooms.add(new StandardRoom(true));
-        customers = new ArrayList<>();
-        employees = new ArrayList<>();
-        services = new ArrayList<>();
+        customers = connector.queryCustomers();
+        employees = connector.queryEmployees();
+        services = connector.queryAllServices();
         tasks = new ArrayList<>();
     }
 
