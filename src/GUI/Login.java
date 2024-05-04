@@ -32,8 +32,8 @@ public class Login extends JFrame {
 
      private JPasswordField textFieldPassword;
 
-     private JButton buttonLogin;
-     private JButton buttonSignUp;
+     private RoundedButton buttonLogin;
+     private RoundedButton buttonSignUp;
     //  private JButton forgetPassword;
 
     public Login() {
@@ -57,7 +57,7 @@ public class Login extends JFrame {
     public void setBackground() {
         JPanel panel = new JPanel();
         panel.setLayout(null);
-        panel.setBackground(new Color(217, 237, 191));
+        panel.setBackground(new Color(0, 0, 20));
         panel.setBounds(0, 0, 800, 600);
         add(panel);
     }
@@ -159,7 +159,7 @@ public class Login extends JFrame {
             @Override
             public void focusLost(FocusEvent e) {
                 if (textFieldUsername.getText().isEmpty()) {
-                    textFieldUsername.setText("user_name");
+                    textFieldUsername.setText("Email or Phone");
                 }
             }
         });
@@ -197,8 +197,10 @@ public class Login extends JFrame {
     public void setButton() {
         
         Container pane = this.getContentPane();
-        this.buttonLogin = new JButton("LOGIN");
-        this.buttonSignUp = new JButton("SIGN UP");
+        this.buttonLogin = new RoundedButton("LOGIN");
+        buttonLogin.setBackground(new Color(255, 152, 0));
+        this.buttonSignUp = new RoundedButton("SIGN UP");
+        buttonSignUp.setBackground(new Color(255, 152, 0));
         // this.forgetPassword = new JButton("FORGOT PASS");
         //Login button
         this.buttonLogin.addActionListener(new ActionListener() {
@@ -206,8 +208,9 @@ public class Login extends JFrame {
                 String username = textFieldUsername.getText();
                 String password = String.valueOf(textFieldPassword.getPassword());
                 ConnectDatabase db = new ConnectDatabase();
-                Boolean flag = db.checkLogin(username, password);
-                if(flag){
+                Boolean flag = db.checkLoginCustomer(username, password);
+                Boolean flag2 = db.checkLoginEmployee(username, password);
+                if(flag && flag2){
                     System.out.println("Login successfully");
                 }else{  
                     JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title", JOptionPane.INFORMATION_MESSAGE);
@@ -220,6 +223,15 @@ public class Login extends JFrame {
 
             }
         });
+        this.buttonLogin.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                buttonLogin.setBackground(Color.GREEN); // Change color when mouse entered
+            }
+        
+            public void mouseExited(MouseEvent evt) {
+                buttonLogin.setBackground(new Color(255, 152, 0)); // Change color back when mouse exited
+            }
+        });
         //Sign up button
         this.buttonSignUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -227,6 +239,15 @@ public class Login extends JFrame {
                 String password = String.valueOf(textFieldPassword.getPassword());
                 System.out.println("Username: " + username);
             System.out.println("Password: " + password);
+            }
+        });
+        this.buttonSignUp.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent evt) {
+                buttonSignUp.setBackground(Color.GREEN); // Change color when mouse entered
+            }
+        
+            public void mouseExited(MouseEvent evt) {
+                buttonSignUp.setBackground(new Color(255, 152, 0)); // Change color back when mouse exited
             }
         });
         // this.forgetPassword.addActionListener(new ActionListener() {

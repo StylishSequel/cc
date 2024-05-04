@@ -36,7 +36,9 @@ public class DeluxeRoom extends Room{
     public void setFurniture(String furniture) {
         this.furniture = furniture;
     }
-    
+    public String toString() {
+        return "Room Name: DeluxeRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
+    }
 
     public double calculatePrice(){
         return this.getNumOfDay()*this.getPrice() + (this.getNumOfBed()-1)*50;

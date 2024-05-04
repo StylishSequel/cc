@@ -13,8 +13,8 @@ public class SuiteRoom extends Room{
     }
 
     public SuiteRoom(int room_id, double price, int numOfDay, String electricDevices) {
-        super();
-        this.electricDevices = "";
+        super(  room_id, price, numOfDay);
+        this.electricDevices = electricDevices;
     }
     public SuiteRoom(double price, int numOfBed, String electricDevices) {
         super(price, numOfBed);
@@ -36,6 +36,9 @@ public class SuiteRoom extends Room{
 
     public String getType() {
         return type;
+    }
+    public String toString() {
+        return "Room Name: SuiteRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
     }
     public double calculatePrice(){
         return this.getNumOfDay()*(this.getPrice() + (this.getNumOfBed()-1)*50) ;

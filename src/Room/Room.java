@@ -44,10 +44,10 @@ public abstract class Room {
         this.bookedService = bookedService;
     }
 
-    public Room(int room_id, double price, int numOfDay) {
+    public Room(int room_id, double price, int numOfBed) {
         this.room_id = room_id;
         this.price = price;
-        this.numOfDay = numOfDay;
+        this.numOfBed = numOfBed;
     }
     public Room(double price, int numOfBed ){
         this.price = price;
