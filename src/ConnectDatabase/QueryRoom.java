@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import Person.Employee;
@@ -155,17 +156,95 @@ public class QueryRoom implements IQuery<Room> {
         numOfBed = rs.getInt("num_of_beds");
         isAvailable = rs.getBoolean("is_available");
         type = rs.getString("room_type");
-            query = 
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return room;
+        query = "SELECT * FROM rooms" 
+                + "LEFT JOIN standard_rooms ON rooms.room_id = standard_rooms.room_id"
+                + "LEFT JOIN deluxe_rooms ON rooms.room_id = deluxe_rooms.room_id"
+                + "LEFT JOIN suite_rooms ON rooms.room_id = suite_rooms.room_id" + "WHERE rooms.room_id = ?;";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            if (type.equals("Standard")) {
+                return new StandardRoom(id, price, numOfBed, isAvailable, rs.getBoolean("having_shower"));
+            } else if (type.equals("Deluxe")) {
+                return new DeluxeRoom(id, price, numOfBed, isAvailable, rs.getString("furniture"));
+            } else {
+                return new SuiteRoom(id, price, numOfBed, isAvailable, rs.getString("electric_devices"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } 
     }
 
+    public List<StandardRoom> selectStandardRooms() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower " +
+                "FROM rooms r " +
+                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        List<StandardRoom> standardRooms = new ArrayList<>();
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                standardRooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return standardRooms;
+    }
+
+    public List<DeluxeRoom> selectDeluxeRooms() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, d.furniture " +
+                "FROM rooms r " +
+                "JOIN deluxe_rooms d ON d.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        List<DeluxeRoom> deluxeRooms = new ArrayList<>();
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return deluxeRooms;
+    }
+
+    public List<SuiteRoom> selectSuiteRooms() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.electric_devices " +
+                "FROM rooms r " +
+                "JOIN suite_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        List<SuiteRoom> suiteRooms = new ArrayList<>();
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            while (rs.next()) {
+                suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getString("electric_devices")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return suiteRooms;
+    }
+
+
     @Override
-    public List selectAll() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'selectAll'");
+    public List<Room> selectAll() {
+        List<Room> rooms = new ArrayList<>();
+        rooms.addAll(selectStandardRooms());
+        rooms.addAll(selectDeluxeRooms());
+        rooms.addAll(selectSuiteRooms());
+        return rooms;
     }
 
 }
