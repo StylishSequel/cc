@@ -17,7 +17,7 @@ public abstract class Room {
 
     private boolean isAvailable;
     private String type;
-    private List<Service> bookedService;
+    
     
     
     public Room() {
@@ -106,9 +106,9 @@ public abstract class Room {
         ConnectDatabase connect = new ConnectDatabase();
         return connect.queryCurRoomService(this.getId());
     }
-    public void setBookedService(List<Service> queryCurRoomService) {
-        this.bookedService = queryCurRoomService;
-    }
+    // public void setBookedService(List<Service> queryCurRoomService) {
+    //     this.bookedService = queryCurRoomService;
+    // }
     
     // public void bookService(){
     //     System.out.println("Enter service id: ");
