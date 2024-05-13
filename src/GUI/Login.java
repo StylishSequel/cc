@@ -214,7 +214,7 @@ public class Login extends JFrame {
                     System.out.println("Login successfully");
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
-                    BaseForm baseForm = new BaseForm();
+                    HomePage home = new HomePage();
                     //Close login page
                     dispose();
                 }else{  

@@ -24,11 +24,7 @@ public class BookingPage extends BaseForm {
     public void setMenuPanel(){
         super.setMenuPanel(); // Gọi phương thức của lớp cha để thực hiện các thao tác trong đó
 
-        // Thêm nút mới vào MenuPanel
-        JButton bookRoomButton = new JButton("Book Room");
-        bookRoomButton.setFont(new Font("Arial", Font.PLAIN, 20));
-        bookRoomButton.setBounds(0, 350, 200, 50); // Đặt vị trí và kích thước cho nút mới
-        MenuPanel.add(bookRoomButton); // Thêm nút vào MenuPanel của lớp cha
+        
     }
 
     public static void main(String[] args) {
