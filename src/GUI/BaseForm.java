@@ -66,7 +66,7 @@ public class BaseForm extends JFrame {
     public void setContentPanel() {
         ContentPanel = new JPanel();
         ContentPanel.setLayout(null);
-        ContentPanel.setBackground(new Color(234,231, 214));
+        ContentPanel.setBackground(new Color(234,231, 214,144));
         ContentPanel.setBounds(200,0,600,100);
         BasePanel.add(ContentPanel);
         
@@ -74,7 +74,7 @@ public class BaseForm extends JFrame {
     public void setLogo(){
         try {
             Logo = new JLabel();
-            Logo.setBounds(-20, 0, 180, 180);
+            Logo.setBounds(-25, 0, 180, 180);
             ImageIcon originalIcon = new ImageIcon("cc\\Hotel_management cs3360\\src\\cc\\src\\GUI\\Icons\\jwrffo0t.png");
             Image originalImage = originalIcon.getImage();
             int newWidth = originalIcon.getIconWidth() / 2;
@@ -91,7 +91,7 @@ public class BaseForm extends JFrame {
     public void setMainPanel() {
         MainPanel = new JPanel();
         MainPanel.setLayout(null);
-        MainPanel.setBackground(new Color(176,212,184));
+        MainPanel.setBackground(new Color(34,231, 214,144));
         MainPanel.setBounds(200,100,600,500);
         
         BasePanel.add(MainPanel);
