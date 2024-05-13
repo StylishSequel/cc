@@ -1,0 +1,171 @@
+package ConnectDatabase;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.List;
+
+import Person.Employee;
+import Room.DeluxeRoom;
+import Room.Room;
+import Room.StandardRoom;
+import Room.SuiteRoom;
+
+public class QueryRoom implements IQuery<Room> {
+    private Connector connector;
+
+    public QueryRoom(Connector connector) {
+        this.connector = connector;
+    }
+
+    @Override
+    public void insert(Room room) {
+        int id;
+        String query = "INSERT INTO rooms(price, is_available, num_of_beds, room_type)"
+                + "VALUES(? ,?, ?, ?) RETURNING id";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setDouble(1, room.getPrice());
+            pstmt.setBoolean(2, room.isAvailable());
+            pstmt.setInt(3, room.getNumOfBed());
+            pstmt.setString(4, room.getType());
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            id = rs.getInt("id");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (room instanceof StandardRoom) {
+            StandardRoom standardRoom = (StandardRoom) room;
+            query = "INSERT INTO standard_rooms(room_id, having_shower) VALUES(?, ?)";
+            try (Connection con = connector.connect();
+                    PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setInt(1, id);
+                pstmt.setBoolean(2, standardRoom.isHavingShower());
+                pstmt.executeUpdate();
+                System.out.println("Standard room inserted successfully!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (room instanceof DeluxeRoom) {
+            DeluxeRoom deluxeRoom = (DeluxeRoom) room;
+            query = "INSERT INTO deluxe_rooms(room_id, furniture) VALUES(?, ?)";
+            try (Connection con = connector.connect();
+                    PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setInt(1, id);
+                pstmt.setString(2, deluxeRoom.getFurniture());
+                pstmt.executeUpdate();
+                System.out.println("Deluxe room inserted successfully!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            SuiteRoom suiteRoom = (SuiteRoom) room;
+            query = "INSERT INTO suite_rooms(room_id, electric_devices) VALUES(?, ?)";
+            try (Connection con = connector.connect();
+                    PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setInt(1, id);
+                pstmt.setString(2, suiteRoom.getElectricDevices());
+                pstmt.executeUpdate();
+                System.out.println("Suite room inserted successfully!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    @Override
+    public void update(Room room) {
+        String query = "UPDATE rooms SET price = ?, is_available = ?, num_of_beds = ? WHERE id = ?";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setDouble(1, room.getPrice());
+            pstmt.setBoolean(2, room.isAvailable());
+            pstmt.setInt(3, room.getNumOfBed());
+            pstmt.setInt(4, room.getId());
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        if (room instanceof StandardRoom) {
+            query = "UPDATE standard_rooms SET having_shower = ? WHERE room_id = ?";
+            try (Connection con = connector.connect();
+                    PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setBoolean(1, ((StandardRoom) room).isHavingShower());
+                pstmt.setInt(2, room.getId());
+                pstmt.executeUpdate();
+                System.out.println("Standard room updated successfully!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else if (room instanceof DeluxeRoom) {
+            query = "UPDATE deluxe_rooms SET furniture = ? WHERE room_id = ?";
+            try (Connection con = connector.connect();
+                    PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setString(1, ((DeluxeRoom) room).getFurniture());
+                pstmt.setInt(2, room.getId());
+                pstmt.executeUpdate();
+                System.out.println("Deluxe room updated successfully!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            query = "UPDATE suite_rooms SET electric_devices = ? WHERE room_id = ?";
+            try (Connection con = connector.connect();
+                    PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setString(1, ((SuiteRoom) room).getElectricDevices());
+                pstmt.setInt(2, room.getId());
+                pstmt.executeUpdate();
+                System.out.println("Suite room updated successfully!");
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+    }
+
+    @Override
+    public void delete(Room room) {
+        String query = "DELETE FROM rooms WHERE id = ?";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, room.getId());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    @Override
+    public Room select(int id) {
+        double price;
+        int numOfBed;
+        boolean isAvailable;
+        String type;
+        String query = "SELECT * FROM rooms WHERE id = ?";
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            rs.next();
+        price = rs.getDouble("price");
+        numOfBed = rs.getInt("num_of_beds");
+        isAvailable = rs.getBoolean("is_available");
+        type = rs.getString("room_type");
+            query = 
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return room;
+    }
+
+    @Override
+    public List selectAll() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'selectAll'");
+    }
+
+}
