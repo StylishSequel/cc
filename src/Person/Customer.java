@@ -1,29 +1,30 @@
 package Person;
 
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
 import ConnectDatabase.*;
+
+import java.util.List;
+
+
 import Hotel.Hotel;
 import Room.*;
 import Service.Service;
 
 public class Customer extends Person {
-    private List<Room> bookedRoom;
+    
 
     public Customer(int ID, String name, boolean gender, String phone, boolean is_active) {
         super(ID, name, gender, phone, is_active);
-        bookedRoom = new ArrayList<>();
+        
     }
 
     public Customer(String name, boolean gender, String phone, boolean is_active) {
         super(name, gender, phone, is_active);
-        bookedRoom = new ArrayList<>();
+        
     }
 
     public List<Room> getBookedRoom() {
-        return bookedRoom;
+        ConnectDatabase connector = new ConnectDatabase();
+        return connector.queryCurCustomerRoom(this.getID());
     }
 
     // public void bookService(Hotel h){
@@ -44,13 +45,13 @@ public class Customer extends Person {
 
 
     public void printBookedRoom() {
-        for (Room room : bookedRoom) {
+        for (Room room : this.getBookedRoom()) {
             System.out.println(room);
         }
     }
 
     public void printServices() {
-        for (Room room : bookedRoom) {
+        for (Room room : this.getBookedRoom()) {
             List<Service> services = room.getBookedService();
             if (services != null) {
                 services.stream().forEach(service -> System.out.println(service));
@@ -60,7 +61,7 @@ public class Customer extends Person {
 
     public double getBill() {
         double total = 0;
-        for (Room room : bookedRoom) {
+        for (Room room : this.getBookedRoom()) {
             total += room.getPrice();
             List<Service> services = room.getBookedService();
             if (services != null) {
@@ -75,7 +76,7 @@ public class Customer extends Person {
 
     public double printBill() {
         double total = 0;
-        for (Room room : bookedRoom) {
+        for (Room room : this.getBookedRoom()) {
             double curTotal = 0;
             total += room.getPrice();
             List<Service> s = room.getBookedService();
@@ -97,56 +98,41 @@ public class Customer extends Person {
         System.out.print("Total all the rooms: ");
         return total;
     }
-    public void bookRoom(Hotel hotel){
-        System.out.println("Enter room id: ");
-        Scanner sc = new Scanner(System.in);
-        int id = sc.nextInt();
-        List<Room> rooms = hotel.getAvailableRoom();
-        Room room = rooms.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
-        System.out.println("Enter num of day: ");
-                int numOfDay = sc.nextInt();
-                bookedRoom.add(room);
-                hotel.getAvailableRoom().remove(room);
-                room.setAvailable(false);
-                ConnectDatabase connector = new ConnectDatabase();
-                connector.insertCustomerRoom(this.getID(), id, numOfDay);
-                System.out.println("Room booked successfully");
-
-//        for(Room room : rooms){
-//            if(room.getId() == id){
-//                System.out.println("Enter num of day: ");
-//                int numOfDay = sc.nextInt();
-//                bookedRoom.add(room);
-//                hotel.getAvailableRoom().remove(room);
-//                room.setAvailable(false);
-//                ConnectDatabase connector = new ConnectDatabase();
-//                connector.insertCustomerRoom(this.getID(), id, numOfDay);
-//                System.out.println("Room booked successfully");
-//                break;
-//            }
-//
-//        }
-
-
-        
-            // ID chỉ có 1 nên không cần dùng for
-            
-            
-        sc.close();
-    }
-    public static void main(String[] args) {
-        Customer c = new Customer(1, "thanh", true, "092345234", true);
-        Hotel h = new Hotel("Threeboys", "Ha Noi");
-        List<Room> availableRooms = h.getAvailableRoom();
-        for (Room room : availableRooms) {
-            System.out.println(room);
+    // public void bookRoom(Hotel hotel){
+    //     System.out.println("Enter room id: ");
+    //     Scanner sc = new Scanner(System.in);
+    //     int id = sc.nextInt();
+    //     List<Room> rooms = hotel.getAvailableRoom();
+    //     Room room = rooms.stream().filter(r -> r.getId() == id).findFirst().orElse(null);
+    //     System.out.println("Enter num of day: ");
+    //             int numOfDay = sc.nextInt();
+    //             bookedRoom.add(room);
+    //             hotel.getAvailableRoom().remove(room);
+    //             room.setAvailable(false);
+    //             ConnectDatabase connector = new ConnectDatabase();
+    //             connector.insertCustomerRoom(this.getID(), id, numOfDay);
+    //             System.out.println("Room booked successfully");
+    public void bookRoom(int room_id, int numOfDay){
+        ConnectDatabase connector = new ConnectDatabase();
+        List<Room> availableRoom = connector.queryRooms();
+        boolean flag = availableRoom.stream().anyMatch(room -> room.getId() == room_id);
+        if(flag){
+            connector.insertCustomerRoom(this.getID(), room_id, numOfDay);
+            System.out.println("Room booked successfully");
+            return;
         }
-        c.bookRoom(h);
-        // c.printBookedRoom();
-        // c.printServices();
-        // c.getBill();
-        double z = c.printBill();
-        System.out.println(z);
+        System.out.println("Room is not available");
+        
+    }
+
+
+    public static void main(String[] args) {
+        Customer c = new Customer(1, "Huy", true, "123", true);
+        c.bookRoom(1, 2);
+        c.bookRoom(2, 3);
+        c.printBookedRoom();
+        c.printServices();
+        c.printBill();
     }
 }
 

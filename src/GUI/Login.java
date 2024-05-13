@@ -209,16 +209,20 @@ public class Login extends JFrame {
                 String password = String.valueOf(textFieldPassword.getPassword());
                 ConnectDatabase db = new ConnectDatabase();
                 Boolean flag = db.checkLoginCustomer(username, password);
-                Boolean flag2 = db.checkLoginEmployee(username, password);
-                if(flag && flag2){
+                // Boolean flag2 = db.checkLoginEmployee(username, password);
+                if(flag == true){
                     System.out.println("Login successfully");
+                    System.out.println("Username: " + username);
+                    System.out.println("Password: " + password);
+                    BaseForm baseForm = new BaseForm();
+                    //Close login page
+                    dispose();
                 }else{  
                     JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title", JOptionPane.INFORMATION_MESSAGE);
 
                 }
                 
-                System.out.println("Username: " + username);
-                System.out.println("Password: " + password);
+                
                 
 
             }
@@ -264,6 +268,9 @@ public class Login extends JFrame {
         // pane.add(this.forgetPassword);
 
         
+    }
+    public static void main(String[] args) {
+        new Login();
     }
 }
 
