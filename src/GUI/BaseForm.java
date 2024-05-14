@@ -75,7 +75,7 @@ public class BaseForm extends JFrame {
         try {
             Logo = new JLabel();
             Logo.setBounds(-25, 0, 180, 180);
-            ImageIcon originalIcon = new ImageIcon("cc\\Hotel_management cs3360\\src\\cc\\src\\GUI\\Icons\\jwrffo0t.png");
+            ImageIcon originalIcon = new ImageIcon("src\\GUI\\Icons\\jwrffo0t.png");
             Image originalImage = originalIcon.getImage();
             int newWidth = originalIcon.getIconWidth() / 2;
             int newHeight = originalIcon.getIconHeight() / 2;

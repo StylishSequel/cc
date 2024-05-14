@@ -15,8 +15,11 @@ import java.awt.font.TextAttribute;
 import ConnectDatabase.*;
 import Room.*;
 public class BookingPage extends BaseForm {
+    private JLabel Title;
     public BookingPage() {
         super();
+        setTitle("Booking Page");
+        
            
     }
     

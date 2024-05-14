@@ -130,17 +130,7 @@ public class Login extends JFrame {
         panel.setBounds(250, 95, 365, 400);
         add(panel);
     }
-    //SET USERNAME,PASSWORD TEXTFIELD
-    // public void setTextField() {
-    //     Container pane = this.getContentPane();
-    //     this.textFieldUsername = new JTextField();
-    //     this.textFieldPassword = new JPasswordField();
-    //     this.textFieldUsername.setBounds(430,185,150,30);
-    //     this.textFieldPassword.setBounds(430,230,150,30);
-    //     pane.add(this.textFieldUsername);
-    //     pane.add(this.textFieldPassword);
-    // }
-
+    
     
     public void setTextField() {
         Container pane = this.getContentPane();

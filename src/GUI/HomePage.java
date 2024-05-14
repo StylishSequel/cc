@@ -31,6 +31,8 @@ public class HomePage extends BaseForm {
         setBounds(100, 100, 800, 600);
         setBackground();
         setVisible(true);
+
+        
     }
     @Override 
     public void setMenuPanel() {
@@ -55,10 +57,10 @@ public class HomePage extends BaseForm {
         HomeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ContentPanel.removeAll();
-                ContentPanel.revalidate();
+                // ContentPanel.removeAll();
+                // ContentPanel.revalidate();
                 
-                ContentPanel.repaint();
+                // ContentPanel.repaint();
                 
             }
         });
@@ -93,9 +95,7 @@ public class HomePage extends BaseForm {
         BookingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ContentPanel.removeAll();
-                ContentPanel.revalidate();
-                ContentPanel.repaint();
+                
              
             }
         });
@@ -128,9 +128,9 @@ public class HomePage extends BaseForm {
         DiscountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ContentPanel.removeAll();
-                ContentPanel.revalidate();
-                ContentPanel.repaint();
+                // ContentPanel.removeAll();
+                // ContentPanel.revalidate();
+                // ContentPanel.repaint();
                 
             }
         });
@@ -167,9 +167,9 @@ public class HomePage extends BaseForm {
         AboutUsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ContentPanel.removeAll();
-                ContentPanel.revalidate();
-                ContentPanel.repaint();
+                // ContentPanel.removeAll();
+                // ContentPanel.revalidate();
+                // ContentPanel.repaint();
 
                 // Add your specific action for AboutUsButton here
             }

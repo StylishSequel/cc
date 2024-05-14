@@ -460,7 +460,18 @@ public class ConnectDatabase {
             throw new RuntimeException(e);
         }
     }
-
+    public void insertCustomerAccount(String username, String password, String name, Boolean gender, String phone) {
+        insertCustomer(name, gender, phone, true);
+        String query = "INSERT INTO customer_account(user_name, pass_word ) VALUES(?, ?)";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            pstmt.setString(2, password);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public void updateActiveCustomer(int id) {
         String query = "UPDATE customers SET is_active = false WHERE id = ?";
         try (Connection con = connect();
