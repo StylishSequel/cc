@@ -230,23 +230,23 @@ public class ConnectDatabase {
     public void insertCustomerRoom(int customerID, int roomID, int num_of_day) {
         String insertQuery = "INSERT INTO customer_rooms(customer_id, room_id, num_of_day, check_in_date) VALUES(?, ?, ?, CURRENT_DATE)";
         String updateQuery = "UPDATE customer_rooms SET e_check_out_date = CURRENT_DATE + ? WHERE customer_id = ? AND room_id = ?";
-    
+
         try (Connection con = connect();
                 PreparedStatement insertPstmt = con.prepareStatement(insertQuery);
                 PreparedStatement updatePstmt = con.prepareStatement(updateQuery)) {
-    
+
             // Execute the insert query
             insertPstmt.setInt(1, customerID);
             insertPstmt.setInt(2, roomID);
             insertPstmt.setInt(3, num_of_day);
             insertPstmt.executeUpdate();
-    
+
             // Execute the update query
             updatePstmt.setInt(1, num_of_day);
             updatePstmt.setInt(2, customerID);
             updatePstmt.setInt(3, roomID);
             updatePstmt.executeUpdate();
-    
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -419,7 +419,7 @@ public class ConnectDatabase {
         rooms.addAll(queryCurDeluxeCustomerRoom(id));
         rooms.addAll(queryCurSuiteCustomerRoom(id));
         rooms.stream().forEach(r -> {
-            r.setBookedService(queryCurRoomService(r.getId()));
+//            r.setBookedService(queryCurRoomService(r.getId()));
         });
         return rooms;
     }
