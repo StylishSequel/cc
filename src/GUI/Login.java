@@ -21,7 +21,6 @@ public class Login extends JFrame {
     // private JPanel panel;
 
     private JPanel panel;
-
      private JLabel label;
      private JLabel labelUsername;
      private JLabel labelPassword;
@@ -38,29 +37,19 @@ public class Login extends JFrame {
 
     public Login() {
         this.setSize(800, 600);
-        
+
         this.setLocation(100,100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
-        this.setTitle("Hotel Application");
-        
         this.setLabel();
         this.setTextField();
         this.setButton();
         this.setPanel();
 
-        this.setBackground();
+
         this.setVisible(true);
     }
 
-    //SET BACKGROUND
-    public void setBackground() {
-        JPanel panel = new JPanel();
-        panel.setLayout(null);
-        panel.setBackground(new Color(0, 0, 20));
-        panel.setBounds(0, 0, 800, 600);
-        add(panel);
-    }
     //SET USERNAME,PASSWORD LABEL
     public void setLabel() {
         Container pane = this.getContentPane();
