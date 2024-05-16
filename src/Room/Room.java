@@ -33,7 +33,7 @@ public abstract class Room {
 
     }
     public Room(int room_id, double price, String check_in_date, int numOfDay, int numOfBed,
-            boolean isAvailable, String type, List<Service> bookedService) {
+            boolean isAvailable, String type) {
         this.room_id = room_id;
         this.price = price;
         this.check_in_date = check_in_date;
@@ -45,10 +45,11 @@ public abstract class Room {
         
     }
 
-    public Room(int room_id, double price, int numOfBed) {
+    public Room(int room_id, double price, int numOfBed, boolean isAvailable) {
         this.room_id = room_id;
         this.price = price;
         this.numOfBed = numOfBed;
+        this.isAvailable = isAvailable;
     }
     public Room(double price, int numOfBed ){
         this.price = price;

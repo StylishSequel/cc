@@ -4,14 +4,15 @@ import java.util.List;
 
 
 public class DeluxeRoom extends Room{
+    private String type = "DeluxeRoom";
     private String furniture ;
     
     
 
     
     public DeluxeRoom(int room_id, double price, String check_in_date, int numOfDay, int numOfBed, boolean isAvailable,
-            String type, List<Service> bookedService, String furniture) {
-        super(room_id, price, check_in_date, numOfDay, numOfBed, isAvailable, type, bookedService);
+            String type,  String furniture) {
+        super(room_id, price, check_in_date, numOfDay, numOfBed, isAvailable, type);
         this.furniture = furniture;
     
     }
@@ -26,8 +27,8 @@ public class DeluxeRoom extends Room{
     }
     
     
-    public DeluxeRoom(int ID, double price, int numOfBed , String furniture) {
-        super(ID, price, numOfBed);
+    public DeluxeRoom(int ID, double price, int numOfBed , String furniture,Boolean isAvailable) {
+        super(ID, price, numOfBed, isAvailable);
         this.furniture = furniture;
     }
     public String getFurniture() {

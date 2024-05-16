@@ -6,16 +6,16 @@ public class SuiteRoom extends Room{
     private String electricDevices;
 
    
-    public SuiteRoom(int room_id, double price, int numOfDay, String type, String electricDevices) {
-        super(room_id, price, numOfDay);
+    public SuiteRoom(int room_id, double price, int numOfBed, String electricDevices, boolean isAvailable) {
+        super(room_id, price, numOfBed, isAvailable);
         this.electricDevices = electricDevices;
         
     }
 
-    public SuiteRoom(int room_id, double price, int numOfDay, String electricDevices) {
-        super(  room_id, price, numOfDay);
-        this.electricDevices = electricDevices;
-    }
+    // public SuiteRoom(int room_id, double price, int numOfBed, String electricDevices) {
+    //     super( room_id, price, numOfBed);
+    //     this.electricDevices = electricDevices;
+    // }
     public SuiteRoom(double price, int numOfBed, String electricDevices) {
         super(price, numOfBed);
         this.electricDevices = electricDevices;
