@@ -21,7 +21,7 @@ public class QueryCustomerRoom {
 
     public void insertCustomerRoom(int customerID, int roomID, int num_of_day) {
         String query = "INSERT INTO customer_rooms(customer_id, room_id, num_of_day, check_in_date, e_check_out_date)"
-                + "VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE + num_of_day + 1)";
+                + "VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE + num_of_day)";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, customerID);
@@ -31,6 +31,10 @@ public class QueryCustomerRoom {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        QueryRoom queryRoom = new QueryRoom(connector);
+        Room room = queryRoom.select(roomID);
+        room.setAvailable(false);
+        queryRoom.update(room);
     }
 
     public List<Room> selectCurStandardCustomerRoom(int id) {
@@ -123,5 +127,33 @@ public class QueryCustomerRoom {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public double calculateCurTotalRoomPrice(int customerId) {
+        String query = "SELECT SUM(" +
+                "CASE " +
+                "WHEN CURRENT_DATE < cs.e_check_out_date THEN " +
+                "r.price * cs.num_of_day " +
+                "ELSE " +
+                "r.price * (CURRENT_DATE - cs.check_in_date) " +
+                "END " +
+                ") AS total " +
+                "FROM customers c " +
+                "JOIN customer_rooms cs ON c.id = cs.customer_id " +
+                "JOIN rooms r ON r.room_id = cs.room_id " +
+                "WHERE c.id = ? AND cs.check_out_date IS NULL";
+
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, customerId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("total");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return 0.0;
     }
 }
