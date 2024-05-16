@@ -21,10 +21,11 @@ public class HomePage extends BaseForm {
     public HomePage() {
         setTitle("Home Page");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 600);
+        setBounds(250, 100, 800, 600);
         setBackground();
         setVisible(true);
     }
+
     public void setBackground() {
         super.setBackground();
         createButton();

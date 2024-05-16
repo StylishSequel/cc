@@ -60,7 +60,7 @@ public class ConnectDatabase {
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
-                standardRooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                standardRooms.add(new StandardRoom(rs.getInt(   "room_id"), rs.getDouble("price"),
                         rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
             }
         } catch (SQLException e) {
