@@ -7,6 +7,14 @@ public class Person {
     private String phone;
     private boolean is_active;
 
+    public Person() {
+        ID = 0;
+        name = null;
+        gender = false;
+        phone = null;
+        is_active = false;
+    }
+
     public Person(int ID, String name, boolean gender, String phone, boolean is_active) {
         this.ID = ID;
         this.name = name;
@@ -53,10 +61,10 @@ public class Person {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-    public boolean isIs_active() {
+    public boolean isActive() {
         return is_active;
     }
-    public void setIs_active(boolean is_active) {
+    public void setIsActive(boolean is_active) {
         this.is_active = is_active;
     }
 

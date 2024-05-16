@@ -1,7 +1,11 @@
 package GUI;
 
+import ConnectDatabase.ConnectDatabase;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class BookingPage extends BaseForm{
     private JPanel DeluxePanel;
@@ -12,9 +16,10 @@ public class BookingPage extends BaseForm{
 
     public BookingPage(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 600);
+        setBounds(250, 100, 800, 600);
         setVisible(true);
     }
+
     public void setBackground() {
         super.setBackground();
         setDeluxePanel();
@@ -26,62 +31,110 @@ public class BookingPage extends BaseForm{
     }
 
     //DELUXE
-    public void setDeluxePanel() {
+    public Integer setDeluxePanel() {
         DeluxePanel = new JPanel();
         DeluxePanel.setLayout(null);
         DeluxePanel.setBounds(50, 20, 200, 350);
-        DeluxePanel.setBackground(Color.WHITE);
+        DeluxePanel.setBackground(new Color(154, 200, 205));
+
+        //SET IMAGE
         ImageIcon img = new ImageIcon("src/GUI/Images/Deluxeroom1.jpg");
         JLabel imgLabel = new JLabel(img);
         imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
+
+        //SET DELUXE ROOM WORDS
         JLabel deluxe = new JLabel("Deluxe room");
         deluxe.setFont(new Font("Serif", Font.PLAIN, 20));
-        deluxe.setBounds(50,320,150,20);
-        deluxe.setForeground(new Color(14, 70, 163));
+        deluxe.setBounds(30,320,150,20);
+        deluxe.setForeground(Color.BLACK);
 
+        //SET NUMBER OF ROOM
         JTextField deluxeField = new JTextField("00");
-        deluxeField.setBounds(200,320,150,20);
+        deluxeField.setBounds(150,323,30,20);
+        deluxeField.setBackground(Color.WHITE);
+
+        //Return value
+        String numDeluRoom = deluxeField.getText();
+        Integer num = Integer.parseInt(numDeluRoom);
 
 
+        DeluxePanel.add(deluxeField);
         DeluxePanel.add(imgLabel);
         DeluxePanel.add(deluxe);
         MainPanel.add(DeluxePanel);
+
+        return num;
     }
 
     //STANDARD
-    public void setStandardPanel() {
+    public Integer setStandardPanel() {
         StandardPanel= new JPanel();
         StandardPanel.setLayout(null);
         StandardPanel.setBounds(300, 20, 200, 350);
-        StandardPanel.setBackground(Color.WHITE);
+        StandardPanel.setBackground(new Color(154, 200, 205));
+
+        //SET IMAGE
         ImageIcon img = new ImageIcon("src/GUI/Images/Standardroom1.jpg");
         JLabel imgLabel = new JLabel(img);
         imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
         JLabel standard = new JLabel("Standard room");
+
+        //SET STANDARD ROOM WORD
         standard.setFont(new Font("Serif", Font.PLAIN, 20));
-        standard.setForeground(new Color(14, 70, 163));
-        standard.setBounds(50,320,150,20);
+        standard.setForeground(Color.BLACK);
+        standard.setBounds(30,320,150,20);
+
+        //SET NUMBER OF ROOM
+        JTextField standardField = new JTextField("00");
+        standardField.setBounds(160,323,30,20);
+        standardField.setBackground(Color.WHITE);
+
+        //Return value
+        String numStandRoom = standardField.getText();
+        Integer num = Integer.parseInt(numStandRoom);
+
+
+        StandardPanel.add(standardField);
         StandardPanel.add(standard);
         StandardPanel.add(imgLabel);
         MainPanel.add(StandardPanel);
+
+        return num;
     }
 
     //SUITE
-    public void setSuitePanel() {
+    public Integer setSuitePanel() {
         SuitePanel = new JPanel();
         SuitePanel.setLayout(null);
         SuitePanel.setBounds(550, 20, 200, 350);
-        SuitePanel.setBackground(Color.WHITE);
+        SuitePanel.setBackground(new Color(154, 200, 205));
+
+        //SET IMAGE
         ImageIcon img = new ImageIcon("src/GUI/Images/Suiteroom1.jpg");
         JLabel imgLabel = new JLabel(img);
         imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
+
+        //SET SUITE ROOM WORD
         JLabel suite = new JLabel("Suite room");
         suite.setFont(new Font("Serif", Font.PLAIN, 20));
-        suite.setForeground(new Color(14, 70, 163));
+        suite.setForeground(Color.BLACK);
         suite.setBounds(50,320,150,20);
+
+        //SET NUMBER OF ROOM
+        JTextField suiteField = new JTextField("00");
+        suiteField.setBounds(150,323,30,20);
+        suiteField.setBackground(Color.WHITE);
+
+        //Return value
+        String numSuiteRoom = suiteField.getText();
+        Integer num = Integer.parseInt(numSuiteRoom);
+
+        SuitePanel.add(suiteField);
         SuitePanel.add(suite);
         SuitePanel.add(imgLabel);
         MainPanel.add(SuitePanel);
+
+        return num;
     }
 
 
@@ -97,51 +150,22 @@ public class BookingPage extends BaseForm{
         JLabel checkIn = new JLabel("Check In Date:");
         checkIn.setFont(f);
         checkIn.setForeground(Color.BLACK);
-        checkIn.setBounds(20,5,150,50);
+        checkIn.setBounds(100,5,150,50);
 
         //TEXT FIELD CHECK IN
         JTextArea inText = new JTextArea("00/00/0000");
-        inText.setBounds(20,50,100,20);
+        inText.setBounds(100,50,100,20);
 
         //WORD CHECK OUT
         JLabel checkOut = new JLabel("Check Out Date:");
         checkOut.setFont(f);
         checkOut.setForeground(Color.BLACK);
-        checkOut.setBounds(140,5,150,50);
+        checkOut.setBounds(300,5,150,50);
 
         //TEXT FIELD CHECK OUT
         JTextArea outText = new JTextArea("00/00/0000");
-        outText.setBounds(140,50,100,20);
+        outText.setBounds(300,50,100,20);
 
-        //WORD ROOM
-        JLabel room = new JLabel("Room:");
-        room.setFont(f);
-        room.setBounds(280,5,150,50);
-        room.setForeground(Color.BLACK);
-
-        //TEXT FIELD ROOM
-        JTextArea roomText = new JTextArea("00");
-        roomText.setBounds(280,50,50,20);
-
-        //WORD ADULT
-        JLabel adults = new JLabel("Adult:");
-        adults.setFont(f);
-        adults.setBounds(380,5,150,50);
-        adults.setForeground(Color.BLACK);
-
-        //TEXT FIELD ADULT
-        JTextArea adultText = new JTextArea("00");
-        adultText.setBounds(380,50,50,20);
-
-        //WORD CHILDREN
-        JLabel children = new JLabel("Children:");
-        children.setFont(f);
-        children.setBounds(480,10,150,50);
-        children.setForeground(Color.BLACK);
-
-        //TEXT FIELD CHILDREN
-        JTextArea childText = new JTextArea("00");
-        childText.setBounds(480,50,50,20);
 
         //BUTTON BOOKING
         JButton book = new JButton("Booking");
@@ -149,18 +173,13 @@ public class BookingPage extends BaseForm{
         book.setBackground(new Color(225, 247, 245));
         book.setForeground(new Color(14, 70, 163));
         book.setFont(new Font("Serif", Font.PLAIN, 15));
-        book.setBounds(580,40,100,30);
+        book.setBounds(500,40,100,30);
+
 
         //ADD
         BookingPanel.add(book);
         BookingPanel.add(outText);
-        BookingPanel.add(adultText);
-        BookingPanel.add(childText);
-        BookingPanel.add(roomText);
         BookingPanel.add(inText);
-        BookingPanel.add(children);
-        BookingPanel.add(room);
-        BookingPanel.add(adults);
         BookingPanel.add(checkOut);
         BookingPanel.add(checkIn);
         MainPanel.add(BookingPanel);

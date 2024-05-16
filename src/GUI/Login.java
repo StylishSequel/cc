@@ -12,7 +12,7 @@ import java.awt.event.*;
 import java.util.Map;
 import java.awt.font.TextAttribute;
 
-//ConnectDatabase libary 
+//ConnectDatabase libary
 import ConnectDatabase.*;
 
 //CREATE LOGIN PAGE
@@ -58,7 +58,7 @@ public class Login extends JFrame {
         this.label.setBounds(400,30,200,200);
         this.label.setFont(new Font("Calibri",Font.BOLD,20));
         this.label.setForeground(new Color(255, 152, 0));
-        
+
         this.labelUsername = new JLabel("USERNAME:");
         this.labelUsername.setFont(new Font("Calibri",Font.BOLD,15));
         this.labelUsername.setForeground(new Color(255, 152, 0));
@@ -68,7 +68,7 @@ public class Login extends JFrame {
         this.labelPassword.setFont(new Font("Calibri",Font.BOLD,15));
         this.labelPassword.setForeground(new Color(255, 152, 0));
         this.labelPassword.setBounds(300,140,200,200);
-        
+
         this.or = new JLabel("OR");
         this.or.setFont(new Font("Calibri",Font.BOLD,13));
         this.or.setForeground(new Color(255, 152, 0));
@@ -119,8 +119,8 @@ public class Login extends JFrame {
         panel.setBounds(250, 95, 365, 400);
         add(panel);
     }
-    
-    
+
+
     public void setTextField() {
         Container pane = this.getContentPane();
         this.textFieldUsername = new JTextField("Email or Phone");
@@ -170,11 +170,11 @@ public class Login extends JFrame {
         pane.add(this.textFieldPassword);
     }
 
-   
+
 
     //SET LOGIN,SIGNUP BUTTON
     public void setButton() {
-        
+
         Container pane = this.getContentPane();
         this.buttonLogin = new RoundedButton("LOGIN");
         buttonLogin.setBackground(new Color(255, 152, 0));
@@ -196,13 +196,13 @@ public class Login extends JFrame {
                     HomePage home = new HomePage();
                     //Close login page
                     dispose();
-                }else{  
+                }else{
                     JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title", JOptionPane.INFORMATION_MESSAGE);
 
                 }
-                
-                
-                
+
+
+
 
             }
         });
@@ -210,7 +210,7 @@ public class Login extends JFrame {
             public void mouseEntered(MouseEvent evt) {
                 buttonLogin.setBackground(Color.GREEN); // Change color when mouse entered
             }
-        
+
             public void mouseExited(MouseEvent evt) {
                 buttonLogin.setBackground(new Color(255, 152, 0)); // Change color back when mouse exited
             }
@@ -228,7 +228,7 @@ public class Login extends JFrame {
             public void mouseEntered(MouseEvent evt) {
                 buttonSignUp.setBackground(Color.GREEN); // Change color when mouse entered
             }
-        
+
             public void mouseExited(MouseEvent evt) {
                 buttonSignUp.setBackground(new Color(255, 152, 0)); // Change color back when mouse exited
             }
@@ -246,7 +246,7 @@ public class Login extends JFrame {
         // this.forgetPassword.setBounds(430,360,150,30);
         // pane.add(this.forgetPassword);
 
-        
+
     }
     public static void main(String[] args) {
         new Login();

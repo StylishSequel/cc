@@ -9,6 +9,8 @@ import java.util.List;
 
 import Person.Employee;
 
+import javax.swing.*;
+
 public class QueryEmployee implements IQuery<Employee> {
     private Connector connector;
 

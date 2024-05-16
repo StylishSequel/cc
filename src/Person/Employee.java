@@ -10,21 +10,26 @@ package Person;
 
 
 public class Employee extends Person {
-    private boolean is_active;
     private double salary;
     private String job;
+
+    public Employee() {
+        super();
+        salary = 0;
+        job = "";
+
+    }
     public Employee(int ID, String name, boolean gender, String phone, boolean is_active, double salary, String job) {
         super(ID, name, gender, phone, is_active);
-        this.is_active = is_active;
         this.salary = salary;
         this.job = job;
     }
-    public boolean is_active() {
-        return is_active;
+
+    public Boolean is_active() {
+        return this.isActive();
     }
-    public void setIs_active(boolean status) {
-        this.is_active = status;
-    }
+
+
     public double getSalary() {
         return salary;
     }
@@ -43,7 +48,6 @@ public class Employee extends Person {
     public String toString() {
         return "Employee{" +
                 super.toString()+
-                "is_active=" + is_active +
                 ", salary=" + salary +
                 ", job='" + job + '\'' +
                 '}';
