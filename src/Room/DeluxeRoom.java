@@ -23,6 +23,7 @@ public class DeluxeRoom extends Room{
     public DeluxeRoom(double price, int numOfBed, String furniture) {
         super(price, numOfBed);
         this.furniture = furniture;
+        this.setAvailable(true);
     }
     
     

@@ -5,7 +5,7 @@ public class SuiteRoom extends Room{
     private String type = "Suite";
     private String electricDevices;
 
-   
+    
     public SuiteRoom(int room_id, double price, int numOfBed, String electricDevices, boolean isAvailable) {
         super(room_id, price, numOfBed, isAvailable);
         this.electricDevices = electricDevices;
@@ -19,6 +19,7 @@ public class SuiteRoom extends Room{
     public SuiteRoom(double price, int numOfBed, String electricDevices) {
         super(price, numOfBed);
         this.electricDevices = electricDevices;
+        this.setAvailable(true);
     }
 
 
