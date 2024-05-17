@@ -259,4 +259,46 @@ public class QueryRoom implements IQuery<Room> {
         return rooms;
     }
 
+    public ResultSet selectStandardRoomsRS() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower, r.is_available " +
+                "FROM rooms r " +
+                "JOIN standard_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet selectDeluxeRoomsRS() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, d.furniture, r.is_available " +
+                "FROM rooms r " +
+                "JOIN deluxe_rooms d ON d.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ResultSet selectSuiteRoomsRS() {
+        String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.electric_devices, r.is_available " +
+                "FROM rooms r " +
+                "JOIN suite_rooms s ON s.room_id = r.room_id " +
+                "WHERE r.is_available = true";
+        try (Connection con = connector.connect();
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(query)) {
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
