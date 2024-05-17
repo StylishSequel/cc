@@ -21,12 +21,13 @@ public class QueryCustomerRoom {
 
     public void insertCustomerRoom(int customerID, int roomID, int num_of_day) {
         String query = "INSERT INTO customer_rooms(customer_id, room_id, num_of_day, check_in_date, e_check_out_date)"
-                + "VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE + num_of_day)";
+                + "VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE + ? * INTERVAL '1 day')";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, customerID);
             pstmt.setInt(2, roomID);
             pstmt.setInt(3, num_of_day);
+            pstmt.setInt(4, num_of_day);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -52,7 +53,8 @@ public class QueryCustomerRoom {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower"),false));
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower"), false, rs.getInt("num_of_day"),
+                        rs.getString("check_in_date"), rs.getString("e_check_out_date")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,7 +78,8 @@ public class QueryCustomerRoom {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
+                        rs.getInt("num_of_beds"), rs.getString("furniture"), false, rs.getInt("num_of_day"),
+                        rs.getString("check_in_date"), rs.getString("e_check_out_date")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -87,7 +90,8 @@ public class QueryCustomerRoom {
 
     public List<Room> selectCurSuiteCustomerRoom(int id) {
         List<Room> rooms = new ArrayList<>();
-        String query = "SELECT r.room_id, price, num_of_beds, room_type, furniture " +
+        String query = "SELECT r.room_id, price, num_of_beds, room_type, electric_devices, check_in_date, num_of_day, e_check_out_date "
+                +
                 "FROM customers c " +
                 "JOIN customer_rooms cs ON c.id = cs.customer_id " +
                 "JOIN rooms r ON cs.room_id = r.room_id " +
@@ -100,7 +104,8 @@ public class QueryCustomerRoom {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
+                        rs.getInt("num_of_beds"), rs.getString("electric_devices"), false, rs.getInt("num_of_day"),
+                        rs.getString("check_in_date"), rs.getString("e_check_out_date")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
