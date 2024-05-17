@@ -25,7 +25,7 @@ public class QueryCustomer implements IQuery<Customer> {
             pstmt.setString(1, customer.getName());
             pstmt.setBoolean(2, customer.isGender());
             pstmt.setString(3, customer.getPhone());
-            pstmt.setBoolean(4, customer.isActive());
+            pstmt.setBoolean(4, true);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             System.out.println("Customer inserted successfully!");
