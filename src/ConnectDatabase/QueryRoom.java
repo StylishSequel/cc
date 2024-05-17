@@ -8,7 +8,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-
+import Person.Employee;
 import Room.DeluxeRoom;
 import Room.Room;
 import Room.StandardRoom;
@@ -25,7 +25,7 @@ public class QueryRoom implements IQuery<Room> {
     public void insert(Room room) {
         int id;
         String query = "INSERT INTO rooms(price, is_available, num_of_beds, room_type)"
-                + "VALUES(? ,?, ?, ?) RETURNING id";
+                + "VALUES(? ,?, ?, ?) RETURNING room_id";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setDouble(1, room.getPrice());
@@ -34,7 +34,7 @@ public class QueryRoom implements IQuery<Room> {
             pstmt.setString(4, room.getType());
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            id = rs.getInt("id");
+            id = rs.getInt("room_id");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,15 +79,17 @@ public class QueryRoom implements IQuery<Room> {
 
     @Override
     public void update(Room room) {
-        String query = "UPDATE rooms SET price = ?, is_available = ?, num_of_beds = ? WHERE id = ?";
+        String query = "UPDATE rooms SET price = ?, is_available = ?, num_of_beds = ? WHERE room_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setDouble(1, room.getPrice());
             pstmt.setBoolean(2, room.isAvailable());
             pstmt.setInt(3, room.getNumOfBed());
             pstmt.setInt(4, room.getId());
-            ResultSet rs = pstmt.executeQuery();
-            rs.next();
+            int rowsUpdated = pstmt.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new RuntimeException("No room found with id: " + room.getId());
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -130,7 +132,7 @@ public class QueryRoom implements IQuery<Room> {
 
     @Override
     public void delete(Room room) {
-        String query = "DELETE FROM rooms WHERE id = ?";
+        String query = "DELETE FROM rooms WHERE room_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, room.getId());
@@ -147,33 +149,44 @@ public class QueryRoom implements IQuery<Room> {
         int numOfBed;
         boolean isAvailable;
         String type;
-        String query = "SELECT * FROM rooms WHERE id = ?";
+        String query = "SELECT * FROM rooms WHERE room_id = ?";
         try (Connection con = connector.connect();
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
-            rs.next();
-            price = rs.getDouble("price");
-            numOfBed = rs.getInt("num_of_beds");
-            isAvailable = rs.getBoolean("is_available");
-            type = rs.getString("room_type");
+                PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                price = rs.getDouble("price");
+                numOfBed = rs.getInt("num_of_beds");
+                isAvailable = rs.getBoolean("is_available");
+                type = rs.getString("room_type");
+            } else {
+                return null;
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        query = "SELECT * FROM rooms"
-                + "LEFT JOIN standard_rooms ON rooms.room_id = standard_rooms.room_id"
-                + "LEFT JOIN deluxe_rooms ON rooms.room_id = deluxe_rooms.room_id"
-                + "LEFT JOIN suite_rooms ON rooms.room_id = suite_rooms.room_id" + "WHERE rooms.room_id = ?;";
+        query = "SELECT * FROM rooms "
+                + "FULL OUTER JOIN standard_rooms ON rooms.room_id = standard_rooms.room_id "
+                + "FULL OUTER JOIN deluxe_rooms ON rooms.room_id = deluxe_rooms.room_id "
+                + "FULL OUTER JOIN suite_rooms ON rooms.room_id = suite_rooms.room_id "
+                + "WHERE rooms.room_id = ?;";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
-            rs.next();
-            if (type.equals("Standard")) {
-                return new StandardRoom(id, price, numOfBed, isAvailable, rs.getBoolean("having_shower"));
-            } else if (type.equals("Deluxe")) {
-                return new DeluxeRoom(id, price, numOfBed, rs.getString("furniture"), isAvailable);
+            if (rs.next()) {
+                if (type.equals("Standard")) {
+                    return new StandardRoom(id, price, numOfBed, isAvailable,
+                            rs.getBoolean("having_shower"));
+                } else if (type.equals("Deluxe")) {
+                    return new DeluxeRoom(id, price, numOfBed, rs.getString("furniture"),
+                            isAvailable);
+                } else {
+                    return new SuiteRoom(id, price, numOfBed, rs.getString("electric_devices"),
+                            isAvailable);
+                }
             } else {
-                return new SuiteRoom(id, price, numOfBed, rs.getString("electric_devices"), isAvailable);
+                throw new RuntimeException("No room found with id: " + id);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
