@@ -85,4 +85,14 @@ public class QueryService implements IQuery<Service> {
         }
     }
 
+    public ResultSet selectAllRS() {
+        String query = "SELECT * FROM services";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            ResultSet rs = pstmt.executeQuery();
+            return rs;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
