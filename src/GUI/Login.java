@@ -14,6 +14,7 @@ import java.awt.font.TextAttribute;
 
 //ConnectDatabase libary
 import ConnectDatabase.*;
+import Person.Customer;
 
 //CREATE LOGIN PAGE
 
@@ -187,13 +188,14 @@ public class Login extends JFrame {
                 String username = textFieldUsername.getText();
                 String password = String.valueOf(textFieldPassword.getPassword());
                 ConnectDatabase db = new ConnectDatabase();
-                Boolean flag = db.checkLoginCustomer(username, password);
-                // Boolean flag2 = db.checkLoginEmployee(username, password);
-                if(flag == true){
+                int ID = db.checkLoginCustomer(username, password);
+                
+                if(ID != 0){
                     System.out.println("Login successfully");
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
-                    HomePage home = new HomePage();
+                    Customer customer = db.getCustomer(ID);
+                    HomePage home = new HomePage(customer);
                     //Close login page
                     dispose();
                 }else{
@@ -222,6 +224,8 @@ public class Login extends JFrame {
                 String password = String.valueOf(textFieldPassword.getPassword());
                 System.out.println("Username: " + username);
             System.out.println("Password: " + password);
+            SignUpPage signUp = new SignUpPage();
+            dispose();
             }
         });
         this.buttonSignUp.addMouseListener(new MouseAdapter() {

@@ -40,7 +40,9 @@ public class DeluxeRoom extends Room{
     public String toString() {
         return "Room Name: DeluxeRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
     }
-
+    public String getType() {
+        return type;
+    }
     public double calculatePrice(){
         return this.getNumOfDay()*this.getPrice() + (this.getNumOfBed()-1)*50;
     }

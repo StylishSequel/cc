@@ -114,7 +114,7 @@ public class ConnectDatabase {
         rooms.addAll(querySuiteRooms());
         return rooms;
     }
-
+    
     public List<Employee> queryEmployees() {
         String query = "SELECT * FROM employees";
         List<Employee> employees = new ArrayList<>();
@@ -178,7 +178,7 @@ public class ConnectDatabase {
     }
 
     public Customer insertCustomer(String name, boolean gender, String phone, boolean is_active) {
-        String query = "INSERT INTO customer(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING customer_id";
+        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING customer_id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
@@ -188,7 +188,7 @@ public class ConnectDatabase {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             System.out.println("Customer inserted successfully!");
-            return new Customer(rs.getInt("id"), name, gender, phone, is_active);
+            return new Customer(rs.getInt("customer_id"), name, gender, phone, is_active);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -436,37 +436,65 @@ public class ConnectDatabase {
     }
 
     // Log in + Sign up Query
-    public boolean checkLoginCustomer(String username, String password) {
+    public int checkLoginCustomer(String username, String password) {
         String query = "SELECT * FROM customer_account WHERE user_name = ? AND pass_word = ?";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next();
+            if (rs.next()) {
+                return rs.getInt("customer_account_id");
+            } else {
+                return -1;  // or throw an exception
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public boolean checkLoginEmployee(String username, String password) {
+
+    public Customer getCustomer(int id) {
+        String query = "SELECT * FROM customers WHERE customer_id = ?";
+        try (Connection con = connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()){
+                return new Customer(rs.getInt("customer_id"), rs.getString("name"), rs.getBoolean("gender"),
+                        rs.getString("phone"), rs.getBoolean("is_active"));
+            }
+            else{
+                return null;
+            }
+    
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+            
+        }
+
+    }
+
+    public int checkLoginEmployee(String username, String password) {
         String query = "SELECT * FROM employee_account WHERE user_name = ? AND pass_word = ?";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, username);
             pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
-            return rs.next();
+            return rs.getInt("employee_id");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
     public void insertCustomerAccount(String username, String password, String name, Boolean gender, String phone) {
-        insertCustomer(name, gender, phone, true);
-        String query = "INSERT INTO customer_account(user_name, pass_word ) VALUES(?, ?)";
+        int id = insertCustomer(name, gender, phone, true).getID();
+        
+        String query = "INSERT INTO customer_account(customer_account_id,user_name, pass_word ) VALUES(?, ?, ?)";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, username);
+            pstmt.setString(3, password);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

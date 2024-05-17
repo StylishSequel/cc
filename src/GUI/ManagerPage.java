@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import Person.*;
 
 public class ManagerPage extends BaseForm {
     private JPanel chooseFunction;
@@ -15,7 +15,8 @@ public class ManagerPage extends BaseForm {
     private JTextField nameField,phoneField,salaryField,jobField;
     private JRadioButton maleRadio,femaleRadio,activeRadio;
     private JButton enterButton;
-    public ManagerPage() {
+    public ManagerPage(Person person) {
+        super(person);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
         setBackground();
@@ -49,7 +50,8 @@ public class ManagerPage extends BaseForm {
         addEm.setBounds(20,100,150,50);
         addEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddEmployeePage addEmployeePage = new AddEmployeePage();
+                Manager manager = new Manager();
+                AddEmployeePage addEmployeePage = new AddEmployeePage(manager);
             }
         });
 
@@ -145,7 +147,9 @@ public class ManagerPage extends BaseForm {
 
 
     public static void main(String[] args) {
-        new ManagerPage();
+        Manager manager = new Manager();
+        Customer customer = new Customer("John Doe",true,"123456789",true);
+        new ManagerPage(manager);
     }
 
 }

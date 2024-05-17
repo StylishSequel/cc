@@ -120,7 +120,7 @@ public class SignUpPage extends JFrame{
 
 
         //SET ENTER BUTTON
-        login = new JButton("SIGN UP");
+        login = new RoundedButton("SIGN UP");
         login.setForeground(new Color(69, 60, 103));
         login.setBackground(new Color(248, 246, 227));
         login.setBounds(80,300,150,30);
@@ -129,6 +129,7 @@ public class SignUpPage extends JFrame{
 
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 String newCusName = nameField.getText();
                 Boolean newgenderCus = true;
                 Boolean is_active = false;
@@ -138,9 +139,16 @@ public class SignUpPage extends JFrame{
                 System.out.println(newCusName);
                 System.out.println(newgenderCus);
                 String newusername = usernameField.getText();
-                String newpassword = passwordField.getText();
+                String newpassword = new String(passwordField.getPassword());
+                String phone = phoneField.getText();
+                System.out.println(phone);
                 System.out.println(newusername);
                 System.out.println(newpassword);
+                
+                ConnectDatabase db = new ConnectDatabase();
+                db.insertCustomerAccount(newusername, newpassword, newCusName, newgenderCus, phone) ;
+
+
                 Login login = new Login();
                 dispose();
             }

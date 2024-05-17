@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import Person.*;
 
 public class BaseForm extends JFrame  {
     protected JPanel MenuPanel;
@@ -15,7 +16,7 @@ public class BaseForm extends JFrame  {
     private JButton homeButton;
 
 
-    public BaseForm() {
+    public BaseForm(Person person) {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
 
@@ -101,7 +102,8 @@ public class BaseForm extends JFrame  {
         homeButton.setBounds(310,5,100,30);
         homeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HomePage homePage = new HomePage();
+                Customer customer = new Customer("John Doe",true,"123456789",true);
+                HomePage homePage = new HomePage(customer);
                 dispose();
             }
         });
@@ -112,7 +114,8 @@ public class BaseForm extends JFrame  {
         bookingButton.setBounds(420,5,120,30);
         bookingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BookingPage bookingPage = new BookingPage();
+                Customer customer = new Customer("John Doe",true,"123456789",true);
+                BookingPage bookingPage = new BookingPage(customer);
                 dispose();
             }
         });
@@ -123,7 +126,8 @@ public class BaseForm extends JFrame  {
         staffButton.setBounds(550, 5, 100, 30);
         staffButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ManagerPage managerPage = new ManagerPage();
+                Manager manager  = new Manager();
+                ManagerPage managerPage = new ManagerPage(manager); 
                 dispose();
             }
         });
@@ -142,6 +146,8 @@ public class BaseForm extends JFrame  {
     }
 
     public static void main(String[] args) {
-        BaseForm frame = new BaseForm();
+        Manager manager  = new Manager();
+        Customer customer = new Customer("John Doe",true,"123456789",true);
+        BaseForm frame = new BaseForm(customer);
     }
 }

@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import Person.*;
 public class AddEmployeePage extends BaseForm {
 
     private JPanel addEmployeePanel;
@@ -12,7 +12,8 @@ public class AddEmployeePage extends BaseForm {
     private JRadioButton maleRadio,femaleRadio,activeRadio;
     private JButton enterButton;
 
-    public AddEmployeePage(){
+    public AddEmployeePage(Manager manager){
+        super(manager);
         setAddEmployeePanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -160,6 +161,7 @@ public class AddEmployeePage extends BaseForm {
     }
 
     public static void main(String[] args) {
-        new AddEmployeePage();
+        Manager manager = new Manager();
+        new AddEmployeePage(manager);
     }
 }

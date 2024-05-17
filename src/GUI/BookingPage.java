@@ -1,7 +1,8 @@
 package GUI;
 
 import ConnectDatabase.Connector;
-
+import Person.Customer;
+import Person.Person;
 import javax.swing.*;
 import java.awt.*;
 
@@ -17,7 +18,8 @@ public class BookingPage extends BaseForm{
 
 
 
-    public BookingPage(){
+    public BookingPage(Person person){
+        super(person);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
         setVisible(true);
@@ -288,6 +290,7 @@ public class BookingPage extends BaseForm{
 
 
     public static void main(String[] args) {
-        new BookingPage();
+        Customer customer = new Customer("John Doe",true,"123456789",true);
+        new BookingPage(customer);
     }
 }
