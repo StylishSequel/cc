@@ -78,19 +78,9 @@ public class SignUpPage extends JFrame{
         female.setFont(fontWord);
         female.setBounds(210,130,100,40);
 
-        male.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                female.setSelected(false);
-                Boolean isMale = true;
-
-            }
-        });
-        female.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                male.setSelected(false);
-                Boolean isFemale = false;
-            }
-        });
+        ButtonGroup group = new ButtonGroup();
+        group.add(male);
+        group.add(female);
 
         //SET PHONE WORD
         JLabel phone = new JLabel("PHONE");
@@ -139,20 +129,19 @@ public class SignUpPage extends JFrame{
 
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                String newusername = usernameField.getText();
-//                String newpassword = passwordField.getText();
-//                ConnectDatabase db = new ConnectDatabase();
-//                String sql = "INSERT INTO customer_account (user_name, pass_word) VALUES (?, ?)";
-//                try (Connection connection = db.connect();
-//                     PreparedStatement pstmt = connection.prepareStatement(sql)) {
-//                    pstmt.setString(1, newusername);
-//                    pstmt.setString(2, newpassword);
-//                    pstmt.executeUpdate();
-//                } catch (SQLException ex) {
-//                                           throw new RuntimeException(ex);
-//                                        }
-
-                Login l = new Login();
+                String newCusName = nameField.getText();
+                Boolean newgenderCus = true;
+                Boolean is_active = false;
+                if(female.isSelected()){
+                    newgenderCus = false;
+                }
+                System.out.println(newCusName);
+                System.out.println(newgenderCus);
+                String newusername = usernameField.getText();
+                String newpassword = passwordField.getText();
+                System.out.println(newusername);
+                System.out.println(newpassword);
+                Login login = new Login();
                 dispose();
             }
         });

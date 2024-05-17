@@ -245,8 +245,6 @@ public class Login extends JFrame {
         pane.add(this.buttonLogin);
         // this.forgetPassword.setBounds(430,360,150,30);
         // pane.add(this.forgetPassword);
-
-
     }
     public static void main(String[] args) {
         new Login();

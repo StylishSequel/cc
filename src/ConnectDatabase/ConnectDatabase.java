@@ -178,7 +178,7 @@ public class ConnectDatabase {
     }
 
     public Customer insertCustomer(String name, boolean gender, String phone, boolean is_active) {
-        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING id";
+        String query = "INSERT INTO customer(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING customer_id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);

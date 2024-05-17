@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class BaseForm extends JFrame {
+public class BaseForm extends JFrame  {
     protected JPanel MenuPanel;
     protected JPanel ContactPanel;
     protected JPanel MainPanel;
@@ -139,9 +139,6 @@ public class BaseForm extends JFrame {
             }
         });
         MenuPanel.add(staffButton);
-
-
-
     }
 
     public static void main(String[] args) {
