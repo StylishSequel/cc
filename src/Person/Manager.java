@@ -3,6 +3,9 @@ package Person;
 
 import Service.Service;
 import ConnectDatabase.ConnectDatabase;
+import ConnectDatabase.Connector;
+import ConnectDatabase.QueryAll;
+
 import java.sql.SQLException;
 
 import java.util.List;
@@ -19,8 +22,10 @@ public class Manager extends Employee {
     }
 
     public void addEmployee(String name,boolean gender, String phone,boolean is_active,double salary, String job) throws SQLException {
-        ConnectDatabase connect = new ConnectDatabase();
-        connect.insertEmployee(name, gender, phone, is_active, salary, job);
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        Employee newEmployee = new Employee(name, gender, phone, is_active, salary, job)
+        connectToDb.queryEmployee.insert(newEmployee);
     }
 
     public void removeEmployee(Hotel hotel) throws SQLException {
@@ -75,6 +80,8 @@ public class Manager extends Employee {
     }
 
     public void removeService(Hotel hotel) throws SQLException {
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter ID Service");
         int ID = scanner.nextInt();
@@ -82,8 +89,7 @@ public class Manager extends Employee {
         Service s = e.stream().filter(service -> service.getId() == ID).findFirst().orElse(null);
         if (s != null) {
             e.remove(s);
-            ConnectDatabase db = new ConnectDatabase();
-            db.removeService(ID);
+            connectToDb.queryService.delete(s);
             System.out.println("Service removed successfully!");
         } else {
             System.out.println("Service not found!");
