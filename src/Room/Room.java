@@ -4,6 +4,9 @@ import Service.Service;
 import java.util.List;
 
 import ConnectDatabase.ConnectDatabase;
+import ConnectDatabase.Connector;
+import ConnectDatabase.QueryAll;
+
 import java.util.Scanner ;
 
 public abstract class Room {
@@ -104,8 +107,9 @@ public abstract class Room {
         this.type = type;
     }
     public List<Service> getBookedService() {
-        ConnectDatabase connect = new ConnectDatabase();
-        return connect.queryCurRoomService(this.getId());
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        return connectToDb.queryRoomService.queryCurRoomService(this.getId());
     }
     // public void setBookedService(List<Service> queryCurRoomService) {
     //     this.bookedService = queryCurRoomService;
@@ -123,14 +127,15 @@ public abstract class Room {
 
     // }
     public void bookService(int id){
-        ConnectDatabase connect = new ConnectDatabase();
-        List<Service> services = connect.queryAllServices();
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        List<Service> services = connectToDb.queryService.selectAll();
         boolean flag = services.stream().anyMatch(service -> service.getId() == id);
         if (!flag) {
             System.out.println("Service is not found");
             return;
         }
-        connect.insertRoomService(this.getId(), id);
+        connectToDb.queryRoomService.insertRoomService(this.getId(), id);
         
         System.out.println("Service booked successfully");
     }
