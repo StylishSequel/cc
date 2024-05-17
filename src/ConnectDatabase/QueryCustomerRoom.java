@@ -52,7 +52,7 @@ public class QueryCustomerRoom {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -76,7 +76,7 @@ public class QueryCustomerRoom {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -100,7 +100,7 @@ public class QueryCustomerRoom {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

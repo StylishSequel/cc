@@ -1,6 +1,6 @@
 package Room;
-import Service.Service;
-import java.util.List;
+
+
 
 public class StandardRoom extends Room {
     private String type ="StandardRoom";
@@ -13,17 +13,18 @@ public class StandardRoom extends Room {
         this.havingShower = havingShower;
     }
 
-    public StandardRoom() {
-        super();
-        this.havingShower = false;
-       
-    }
+    
 
     
 
     public StandardRoom(int id, double price, int num_of_bed, boolean havingShower, boolean isAvailable) {
         super(id, price, num_of_bed, isAvailable);
         this.havingShower = havingShower;
+    }
+
+    public StandardRoom(double price, int beds, boolean b) {
+        super(price, beds);
+        this.havingShower = b;
     }
 
     public boolean isHavingShower() {

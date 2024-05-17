@@ -2,11 +2,11 @@ package Hotel;
 
 import Person.Customer;
 import Person.Employee;
-import Room.Room;
-import Room.StandardRoom;
+import Room.*;
+
 import Service.Service;
 
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Scanner;
 
@@ -52,9 +52,9 @@ public class Hotel {
     //     }
     // }
 
-    // public List<Service> getServices() {
-    //     return serviceQuery.selectAll();
-    // }
+    public List<Service> getServices() {
+        return serviceQuery.selectAll();
+    }
 
     // public void printRooms() {
     //     System.out.println("Rooms in hotel:");
@@ -77,6 +77,7 @@ public class Hotel {
         ConnectDatabase connector = new ConnectDatabase();
         Customer customer = connector.insertCustomer(name, gender, phone, is_active);
         customerQuery.insert(customer);
+        scan.close();
     }
 
 
@@ -93,6 +94,7 @@ public class Hotel {
         System.out.println("Enter number of beds: ");
         int beds = scan.nextInt();
         scan.nextLine();
+        
 
         switch (choice) {
             case 1:
@@ -113,14 +115,15 @@ public class Hotel {
             case 3:
                 System.out.println("Enter electric devices:");
                 String devices = scan.nextLine();
-                SuiteRoom newSR = new SuiteRoom(price, beds, devices);
-                roomQuery.insert(newSR);
+                SuiteRoom newSUR = new SuiteRoom(price, beds, devices);
+                roomQuery.insert(newSUR);
                 break;
 
             default:
                 System.out.println("Invalid choice");
                 break;
         }
+        scan.close();
     }
 
     public void removeRoom() {
@@ -129,6 +132,7 @@ public class Hotel {
         int id = scan.nextInt();
         roomQuery.delete(roomQuery.select(id));
         System.out.println("Room removed successfully");
+        scan.close();
 
     }
 

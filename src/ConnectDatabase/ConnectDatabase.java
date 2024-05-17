@@ -61,7 +61,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 standardRooms.add(new StandardRoom(rs.getInt(   "room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -80,7 +80,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -99,7 +99,7 @@ public class ConnectDatabase {
                 ResultSet rs = stmt.executeQuery(query)) {
             while (rs.next()) {
                 suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("electric_devices")));
+                        rs.getInt("num_of_beds"), rs.getString("electric_devices"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -336,7 +336,7 @@ public class ConnectDatabase {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower")));
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -360,7 +360,7 @@ public class ConnectDatabase {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -384,7 +384,7 @@ public class ConnectDatabase {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 rooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
-                        rs.getInt("num_of_beds"), rs.getString("furniture")));
+                        rs.getInt("num_of_beds"), rs.getString("furniture"),false));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

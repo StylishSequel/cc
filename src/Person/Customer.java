@@ -5,7 +5,7 @@ import ConnectDatabase.*;
 import java.util.List;
 
 
-import Hotel.Hotel;
+
 import Room.*;
 import Service.Service;
 
@@ -26,6 +26,7 @@ public class Customer extends Person {
         ConnectDatabase connector = new ConnectDatabase();
         return connector.queryCurCustomerRoom(this.getID());
     }
+     
 
     // public void bookService(Hotel h){
     // System.out.println("Enter service id: ");

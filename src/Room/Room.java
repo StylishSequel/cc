@@ -3,11 +3,11 @@ import Service.Service;
 
 import java.util.List;
 
-import ConnectDatabase.ConnectDatabase;
+
 import ConnectDatabase.Connector;
 import ConnectDatabase.QueryAll;
 
-import java.util.Scanner ;
+
 
 public abstract class Room {
     private int room_id;
@@ -111,21 +111,7 @@ public abstract class Room {
         QueryAll connectToDb = new QueryAll(connector);
         return connectToDb.queryRoomService.queryCurRoomService(this.getId());
     }
-    // public void setBookedService(List<Service> queryCurRoomService) {
-    //     this.bookedService = queryCurRoomService;
-    // }
     
-    // public void bookService(){
-    //     System.out.println("Enter service id: ");
-    //     try (Scanner sc = new Scanner(System.in)) {
-    //         int id = sc.nextInt();
-    //         ConnectDatabase connect = new ConnectDatabase();
-    //         connect.insertRoomService(this.getId(), id);
-    //         this.bookedService.add(connect.queryService(id));
-    //     }
-    //     System.out.println("Service booked successfully");
-
-    // }
     public void bookService(int id){
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);

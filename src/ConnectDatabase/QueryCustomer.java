@@ -25,7 +25,7 @@ public class QueryCustomer implements IQuery<Customer> {
             pstmt.setString(1, customer.getName());
             pstmt.setBoolean(2, customer.isGender());
             pstmt.setString(3, customer.getPhone());
-            pstmt.setBoolean(4, customer.is_active());
+            pstmt.setBoolean(4, customer.isActive());
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             System.out.println("Customer inserted successfully!");
@@ -43,7 +43,7 @@ public class QueryCustomer implements IQuery<Customer> {
             pstmt.setString(1, customer.getName());
             pstmt.setBoolean(2, customer.isGender());
             pstmt.setString(3, customer.getPhone());
-            pstmt.setBoolean(4, customer.is_active());
+            pstmt.setBoolean(4, customer.isActive());
             pstmt.setInt(5, customer.getID());
             pstmt.executeUpdate();
             System.out.println("Customer updated successfully!");
