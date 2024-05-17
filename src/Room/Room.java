@@ -3,8 +3,11 @@ import Service.Service;
 
 import java.util.List;
 
-import ConnectDatabase.ConnectDatabase;
-import java.util.Scanner ;
+
+import ConnectDatabase.Connector;
+import ConnectDatabase.QueryAll;
+
+
 
 public abstract class Room {
     private int room_id;
@@ -33,7 +36,7 @@ public abstract class Room {
 
     }
     public Room(int room_id, double price, String check_in_date, int numOfDay, int numOfBed,
-            boolean isAvailable, String type, List<Service> bookedService) {
+            boolean isAvailable, String type) {
         this.room_id = room_id;
         this.price = price;
         this.check_in_date = check_in_date;
@@ -45,10 +48,11 @@ public abstract class Room {
         
     }
 
-    public Room(int room_id, double price, int numOfBed) {
+    public Room(int room_id, double price, int numOfBed, boolean isAvailable) {
         this.room_id = room_id;
         this.price = price;
         this.numOfBed = numOfBed;
+        this.isAvailable = isAvailable;
     }
     public Room(double price, int numOfBed ){
         this.price = price;
@@ -103,33 +107,21 @@ public abstract class Room {
         this.type = type;
     }
     public List<Service> getBookedService() {
-        ConnectDatabase connect = new ConnectDatabase();
-        return connect.queryCurRoomService(this.getId());
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        return connectToDb.queryRoomService.queryCurRoomService(this.getId());
     }
-    // public void setBookedService(List<Service> queryCurRoomService) {
-    //     this.bookedService = queryCurRoomService;
-    // }
     
-    // public void bookService(){
-    //     System.out.println("Enter service id: ");
-    //     try (Scanner sc = new Scanner(System.in)) {
-    //         int id = sc.nextInt();
-    //         ConnectDatabase connect = new ConnectDatabase();
-    //         connect.insertRoomService(this.getId(), id);
-    //         this.bookedService.add(connect.queryService(id));
-    //     }
-    //     System.out.println("Service booked successfully");
-
-    // }
     public void bookService(int id){
-        ConnectDatabase connect = new ConnectDatabase();
-        List<Service> services = connect.queryAllServices();
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        List<Service> services = connectToDb.queryService.selectAll();
         boolean flag = services.stream().anyMatch(service -> service.getId() == id);
         if (!flag) {
             System.out.println("Service is not found");
             return;
         }
-        connect.insertRoomService(this.getId(), id);
+        connectToDb.queryRoomService.insertRoomService(this.getId(), id);
         
         System.out.println("Service booked successfully");
     }

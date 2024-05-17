@@ -51,6 +51,7 @@ public class QueryEmployee implements IQuery<Employee> {
             pstmt.setString(6, employee.getJob());
             pstmt.setInt(7, employee.getID());
             pstmt.executeUpdate();
+            System.out.println("Updated successfully");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -5,7 +5,7 @@ import ConnectDatabase.*;
 import java.util.List;
 
 
-import Hotel.Hotel;
+
 import Room.*;
 import Service.Service;
 
@@ -26,6 +26,7 @@ public class Customer extends Person {
         ConnectDatabase connector = new ConnectDatabase();
         return connector.queryCurCustomerRoom(this.getID());
     }
+     
 
     // public void bookService(Hotel h){
     // System.out.println("Enter service id: ");
@@ -113,11 +114,12 @@ public class Customer extends Person {
     //             connector.insertCustomerRoom(this.getID(), id, numOfDay);
     //             System.out.println("Room booked successfully");
     public void bookRoom(int room_id, int numOfDay){
-        ConnectDatabase connector = new ConnectDatabase();
-        List<Room> availableRoom = connector.queryRooms();
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        List<Room> availableRoom = connectToDb.queryRoom.selectAll();
         boolean flag = availableRoom.stream().anyMatch(room -> room.getId() == room_id);
         if(flag){
-            connector.insertCustomerRoom(this.getID(), room_id, numOfDay);
+            connectToDb.queryCustomerRoom.insertCustomerRoom(this.getID(), room_id, numOfDay);
             System.out.println("Room booked successfully");
             return;
         }
@@ -139,4 +141,3 @@ public class Customer extends Person {
     
 
    
-

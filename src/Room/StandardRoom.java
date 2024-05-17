@@ -1,29 +1,32 @@
 package Room;
-import Service.Service;
-import java.util.List;
+
+
 
 public class StandardRoom extends Room {
+    private String type ="StandardRoom";
     private boolean havingShower ;
     
     
     public StandardRoom(int room_id, double price, String check_in_date, int numOfDay, int numOfBed,
-            boolean isAvailable, String type, List<Service> bookedService, boolean havingShower) {
-        super(room_id, price, check_in_date, numOfDay, numOfBed, isAvailable, type, bookedService);
+            boolean isAvailable, String type, boolean havingShower) {
+        super(room_id, price, check_in_date, numOfDay, numOfBed, isAvailable, type);
         this.havingShower = havingShower;
     }
 
-    public StandardRoom(boolean havingShower) {
+    
+
+    
+
+    public StandardRoom(int id, double price, int num_of_bed, boolean havingShower, boolean isAvailable) {
+        super(id, price, num_of_bed, isAvailable);
         this.havingShower = havingShower;
+
     }
 
-    public StandardRoom( double price, int numOfBed, boolean havingShower) {
-        super(price, numOfBed);
-        this.havingShower = havingShower;
-    }
-
-    public StandardRoom(int id, double price, int num_of_bed, boolean havingShower) {
-        super(id, price, num_of_bed);
-        this.havingShower = havingShower;
+    public StandardRoom(double price, int beds, boolean b) {
+        super(price, beds);
+        this.havingShower = b;
+        this.setAvailable(true);
     }
 
     public boolean isHavingShower() {

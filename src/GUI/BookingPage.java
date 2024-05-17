@@ -140,7 +140,7 @@ public class BookingPage extends BaseForm{
         DeluxePanel.setBackground(new Color(154, 200, 205));
 
         //SET IMAGE
-        ImageIcon img = new ImageIcon("src/GUI/Images/Deluxeroom1.jpg");
+        ImageIcon img = new ImageIcon("src\\GUI\\Images\\Deluxeroom1.jpg");
         JLabel imgLabel = new JLabel(img);
         imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
 
