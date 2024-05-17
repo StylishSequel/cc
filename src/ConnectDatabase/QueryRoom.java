@@ -304,4 +304,16 @@ public class QueryRoom implements IQuery<Room> {
         }
     }
 
+    public void updateAvailableRoom(int room_id, boolean isAvailable) {
+        String query = "UPDATE rooms SET is_available = ? WHERE room_id = ?";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setBoolean(1, isAvailable);
+            pstmt.setInt(2, room_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
