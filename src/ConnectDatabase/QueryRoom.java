@@ -303,7 +303,12 @@ public class QueryRoom implements IQuery<Room> {
             throw new RuntimeException(e);
         }
     }
+<<<<<<< HEAD
     public void updateRoomAvailable(int room_id, Boolean isAvailable) {
+=======
+
+    public void updateAvailableRoom(int room_id, boolean isAvailable) {
+>>>>>>> 439ae2a07ef1d84f08cf27272da5e3a4a904ab49
         String query = "UPDATE rooms SET is_available = ? WHERE room_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -314,4 +319,8 @@ public class QueryRoom implements IQuery<Room> {
             throw new RuntimeException(e);
         }
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 439ae2a07ef1d84f08cf27272da5e3a4a904ab49
 }
