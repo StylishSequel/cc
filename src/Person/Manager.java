@@ -28,7 +28,7 @@ public class Manager extends Employee {
         connectToDb.queryEmployee.insert(newEmployee);
     }
 
-    public void removeEmployee(Hotel hotel) throws SQLException {
+    public void removeEmployee() throws SQLException {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Enter ID");

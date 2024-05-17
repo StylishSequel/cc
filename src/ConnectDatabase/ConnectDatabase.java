@@ -424,16 +424,19 @@ public class ConnectDatabase {
         return rooms;
     }
 
-    public void updateAvailableRoom(int room_id) {
-        String query = "UPDATE rooms SET is_available = true WHERE room_id = ?";
+    public void updateAvailableRoom(int room_id, Boolean isAvailable) {
+        String query = "UPDATE rooms SET is_available = ? WHERE room_id = ?";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setInt(1, room_id);
+            pstmt.setBoolean(1, isAvailable);
+            pstmt.setInt(2, room_id);
+
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+    
 
     // Log in + Sign up Query
     public int checkLoginCustomer(String username, String password) {
@@ -500,11 +503,12 @@ public class ConnectDatabase {
             throw new RuntimeException(e);
         }
     }
-    public void updateActiveCustomer(int id) {
-        String query = "UPDATE customers SET is_active = false WHERE id = ?";
+    public void updateActiveCustomer(int id,boolean isActive) {
+        String query = "UPDATE customers SET is_active = ? WHERE id = ?";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setInt(1, id);
+            pstmt.setBoolean(1, isActive);
+            pstmt.setInt(2, id);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
