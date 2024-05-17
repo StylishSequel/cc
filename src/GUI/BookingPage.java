@@ -1,9 +1,11 @@
 package GUI;
 
 import ConnectDatabase.Connector;
+import ConnectDatabase.QueryAll;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.ResultSet;
 
 public class BookingPage extends BaseForm{
     private JPanel DeluxePanel;
@@ -114,11 +116,13 @@ public class BookingPage extends BaseForm{
         table = new JTable();
         table.setBounds(5,100,530,360);
 
-        try {
-            Connector conn = new Connector();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Connector conn = new Connector();
+//            QueryAll connectDb = new QueryAll(conn);
+//            table.setModel()
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         inforPanel.add(table);
         inforPanel.add(cbroom);
