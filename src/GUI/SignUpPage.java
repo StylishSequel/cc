@@ -130,7 +130,7 @@ public class SignUpPage extends JFrame{
 
 
         //SET ENTER BUTTON
-        login = new JButton("SIGN UP");
+        login = new RoundedButton("SIGN UP");
         login.setForeground(new Color(69, 60, 103));
         login.setBackground(new Color(248, 246, 227));
         login.setBounds(80,300,150,30);
@@ -152,7 +152,7 @@ public class SignUpPage extends JFrame{
 //                                           throw new RuntimeException(ex);
 //                                        }
 
-                Login l = new Login();
+                Login login = new Login();
                 dispose();
             }
         });

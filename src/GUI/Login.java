@@ -222,6 +222,8 @@ public class Login extends JFrame {
                 String password = String.valueOf(textFieldPassword.getPassword());
                 System.out.println("Username: " + username);
             System.out.println("Password: " + password);
+            SignUpPage signUp = new SignUpPage();
+            dispose();
             }
         });
         this.buttonSignUp.addMouseListener(new MouseAdapter() {

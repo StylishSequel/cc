@@ -39,6 +39,9 @@ public class StandardRoom extends Room {
     public String toString() {
         return "Room Name: StandardRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
     }
+    public String getType() {
+        return type;
+    }
     public double calculatePrice(){
         int showerPrice = this.isHavingShower() ? 50 : 0;
         return this.getNumOfDay() * (this.getPrice() + this.getNumOfBed() * 50 + showerPrice);
