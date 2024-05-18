@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import Person.*;
 public class BaseForm extends JFrame  {
     protected JPanel MenuPanel;
     protected JPanel ContactPanel;
@@ -18,7 +19,6 @@ public class BaseForm extends JFrame  {
     public BaseForm() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
-
         setBackground();
         setResizable(false);
         setVisible(true);
@@ -32,7 +32,6 @@ public class BaseForm extends JFrame  {
         BasePanel.setBounds(0, 0, 800, 600);
         setMenuPanel();
         setMainPanel();
-
         setcontactPanel();
         createButton();
         add(BasePanel);
@@ -45,7 +44,6 @@ public class BaseForm extends JFrame  {
         MainPanel.setBackground(new Color(248, 246, 227));
         MainPanel.setBounds(0,30,800,500);
         BasePanel.add(MainPanel);
-
     }
 
 

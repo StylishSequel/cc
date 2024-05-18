@@ -20,23 +20,36 @@ public class HomePage extends BaseForm {
 
     public HomePage() {
         setTitle("Home Page");
+        createButton();
+        setword();
+        setImage();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
         setBackground();
         setVisible(true);
     }
 
-    public void setBackground() {
-        super.setBackground();
-        createButton();
-        setword();
-        setImage();
-    }
 
     public void setImage() {
         ImageIcon image = new ImageIcon("src/GUI/Images/marina-bay-vung-tau-resort-spa-24.png");
         JLabel imageLabel = new JLabel(image);
         imageLabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
+
+        //SET BUTTON LOG OUT
+        JButton logout = new JButton("LOG OUT");
+        logout.setLayout(null);
+        logout.setBackground(new Color(248, 246, 227));
+        logout.setForeground(new Color(69, 60, 103));
+        logout.setFont(new Font("Serif", Font.PLAIN, 20));
+        logout.setBounds(620,460,150,30);
+        logout.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Login login = new Login();
+                dispose();
+            }
+        });
+
+        MainPanel.add(logout);
         MainPanel.add(imageLabel);
     }
 

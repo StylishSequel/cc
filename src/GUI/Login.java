@@ -38,7 +38,7 @@ public class Login extends JFrame {
     public Login() {
         this.setSize(800, 600);
 
-        this.setLocation(100,100);
+        this.setLocation(250,100);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLayout(null);
         this.setLabel();
@@ -200,10 +200,6 @@ public class Login extends JFrame {
                     JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title", JOptionPane.INFORMATION_MESSAGE);
 
                 }
-
-
-
-
             }
         });
         this.buttonLogin.addMouseListener(new MouseAdapter() {
@@ -218,10 +214,8 @@ public class Login extends JFrame {
         //Sign up button
         this.buttonSignUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String username = textFieldUsername.getText();
-                String password = String.valueOf(textFieldPassword.getPassword());
-                System.out.println("Username: " + username);
-            System.out.println("Password: " + password);
+                SignUpPage newPage = new SignUpPage();
+                dispose();
             }
         });
         this.buttonSignUp.addMouseListener(new MouseAdapter() {
@@ -233,6 +227,8 @@ public class Login extends JFrame {
                 buttonSignUp.setBackground(new Color(255, 152, 0)); // Change color back when mouse exited
             }
         });
+
+
         // this.forgetPassword.addActionListener(new ActionListener() {
         //     public void actionPerformed(ActionEvent e) {
         //         String username = String.valueOf(textFieldUsername.getText());

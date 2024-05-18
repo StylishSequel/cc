@@ -1,11 +1,16 @@
 package GUI;
 
 import ConnectDatabase.Connector;
-import ConnectDatabase.QueryAll;
+import ConnectDatabase.QueryRoom;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 
 public class BookingPage extends BaseForm{
     private JPanel DeluxePanel;
@@ -20,20 +25,15 @@ public class BookingPage extends BaseForm{
 
 
     public BookingPage(){
+        setbookingPanel();
+        setInforPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
+        setBackground();
+        setResizable(false);
         setVisible(true);
     }
 
-    public void setBackground() {
-        super.setBackground();
-        setbookingPanel();
-        setInforPanel();
-//        setDeluxePanel();
-//        setStandardPanel();
-//        setSuitePanel();
-//        setBookingPanel();
-    }
 
     public void setbookingPanel() {
         JPanel imagePanel = new JPanel();
@@ -46,7 +46,36 @@ public class BookingPage extends BaseForm{
         JLabel imgLabel = new JLabel(img);
         imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
 
+        //SET BUTTON BOOKING
+        JButton book = new JButton("Booking");
+        book.setLayout(null);
+        book.setBackground(new Color(248, 246, 227));
+        book.setForeground(new Color(69, 60, 103));
+        book.setFont(new Font("Serif", Font.PLAIN, 15));
+        book.setBounds(40,350,100,30);
+        book.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ServicePage sp = new ServicePage();
+                dispose();
+            }
+        });
 
+        //SET BUTTON BACK
+        JButton back = new JButton("Back");
+        back.setLayout(null);
+        back.setBackground(new Color(248, 246, 227));
+        back.setForeground(new Color(69, 60, 103));
+        back.setFont(new Font("Serif", Font.PLAIN, 15));
+        back.setBounds(40,400,100,30);
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+               HomePage hp = new HomePage();
+                dispose();
+            }
+        });
+
+        imagePanel.add(back);
+        imagePanel.add(book);
         imagePanel.add(imgLabel);
         MainPanel.add(imagePanel);
     }
@@ -113,17 +142,56 @@ public class BookingPage extends BaseForm{
         cbbed.setForeground(Color.BLACK);
         cbbed.setBounds(250,50,100,20);
 
+        //SET BUTTON SEARCH
+        JButton search = new JButton("Search");
+        search.setLayout(null);
+        search.setBackground(new Color(248, 246, 227));
+        search.setForeground(new Color(69, 60, 103));
+        search.setFont(new Font("Serif", Font.PLAIN, 15));
+        search.setBounds(400,80,100,30);
+        search.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ServicePage sp = new ServicePage();
+                dispose();
+            }
+        });
+
         table = new JTable();
-        table.setBounds(5,100,530,360);
+        table.setBounds(5,130,530,330);
 
-//        try {
-//            Connector conn = new Connector();
-//            QueryAll connectDb = new QueryAll(conn);
-//            table.setModel()
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        String columnNames[] = {"Room Id", "Price", "Num Of Bed","Room Type", "Available"};
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(5, 130, 530, 330);
+
+
+//        search.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                // Add code to fetch data and update table
+//                try {
+//                    Connector conn = new Connector();
+//                    QueryRoom newquery = new QueryRoom(conn);
+//                    ResultSet rs = newquery.selectStandardRoomsRS();
+//                    model.setRowCount(0); // Clear existing data
+//
+//                    while (rs.next()) {
+//                        int roomId = rs.getInt("room_id");
+//                        double price = rs.getDouble("price");
+//                        int numOfBeds = rs.getInt("num_of_beds");
+//                        String roomType = rs.getString("room_type");
+//                        boolean isAvailable = rs.getBoolean("is_available");
+//                        Object[] row = {roomId, price, numOfBeds, roomType, isAvailable};
+//                        model.addRow(row);
+//                    }
+//                } catch (SQLException ex) {
+//                    ex.printStackTrace();
+//                }
+//            }
+//        });
+
+        inforPanel.add(scrollPane);
+        inforPanel.add(search);
         inforPanel.add(table);
         inforPanel.add(cbroom);
         inforPanel.add(cbbed);

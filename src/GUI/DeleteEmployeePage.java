@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-public class EmployeePage  extends BaseForm{
+public class DeleteEmployeePage extends BaseForm{
     private JPanel contentPanel;
-    public EmployeePage(){
+    public DeleteEmployeePage(){
         super();
         setContentPane();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -25,14 +25,14 @@ public class EmployeePage  extends BaseForm{
         contentPanel.setBackground(new Color(154, 200, 205));
         contentPanel.setBounds(280, 100, 200, 200);
 
-        //WORD CHECK OUT
-        JLabel checkout = new JLabel("CHECK OUT");
+        //WORD DELETE EMPLOYEE
+        JLabel checkout = new JLabel("DELETE EMPLOYEE");
         checkout.setForeground(new Color(69, 60, 103));
         checkout.setFont(new Font("Serif", Font.PLAIN, 20));
-        checkout.setBounds(40,10,200,50);
+        checkout.setBounds(10,10,200,50);
 
         //SET TEXT FIELD
-        JTextArea idText = new JTextArea("Enter Customer id");
+        JTextArea idText = new JTextArea("Enter Employee Id");
         idText.setFont(new Font("Serif", Font.PLAIN, 17));
         idText.setBounds(35,75,130,30);
 
@@ -40,7 +40,7 @@ public class EmployeePage  extends BaseForm{
         idText.addFocusListener(new FocusListener() {
             @Override
             public void focusGained(FocusEvent e) {
-                if (idText.getText().equals("Enter Customer id")) {
+                if (idText.getText().equals("Enter Employee Id")) {
                     idText.setText("");
                     idText.setForeground(Color.BLACK);
                 }
@@ -49,7 +49,7 @@ public class EmployeePage  extends BaseForm{
             @Override
             public void focusLost(FocusEvent e) {
                 if (idText.getText().isEmpty()) {
-                    idText.setText("Enter Customer id");
+                    idText.setText("Enter Employee Id");
                     idText.setForeground(Color.BLACK);
                 }
             }
@@ -60,7 +60,7 @@ public class EmployeePage  extends BaseForm{
         enterButton.setLayout(null);
         enterButton.setBackground(new Color(248, 246, 227));
         enterButton.setForeground(new Color(69, 60, 103));
-        enterButton.setFont(new Font("Serif", Font.PLAIN, 15));
+        enterButton.setFont(new Font("Serif", Font.PLAIN, 20));
         enterButton.setBounds(50,120,100,30);
 
         enterButton.addActionListener(new ActionListener() {
@@ -70,6 +70,21 @@ public class EmployeePage  extends BaseForm{
             }
         });
 
+        //SET BUTTON BACK
+        JButton back = new JButton("Back");
+        back.setLayout(null);
+        back.setBackground(new Color(248, 246, 227));
+        back.setForeground(new Color(69, 60, 103));
+        back.setFont(new Font("Serif", Font.PLAIN, 20));
+        back.setBounds(50,160,100,30);
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ManagerPage managerPage = new ManagerPage();
+                dispose();
+            }
+        });
+
+        contentPanel.add(back);
         contentPanel.add(enterButton);
         contentPanel.add(idText);
         contentPanel.add(checkout);
@@ -77,6 +92,6 @@ public class EmployeePage  extends BaseForm{
     }
 
     public static void main(String[] args) {
-        new EmployeePage();
+        DeleteEmployeePage page = new DeleteEmployeePage();
     }
 }

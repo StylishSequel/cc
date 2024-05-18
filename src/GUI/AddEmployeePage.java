@@ -20,10 +20,6 @@ public class AddEmployeePage extends BaseForm {
         setVisible(true);
     }
 
-    public void setBackground() {
-        super.setBackground();
-    }
-
     public void setAddEmployeePanel() {
         addEmployeePanel = new JPanel();
         addEmployeePanel.setLayout(null);
@@ -141,6 +137,21 @@ public class AddEmployeePage extends BaseForm {
             }
         });
 
+        //SET BUTTON BACK
+        JButton back = new JButton("Back");
+        back.setLayout(null);
+        back.setBackground(new Color(248, 246, 227));
+        back.setForeground(new Color(69, 60, 103));
+        back.setFont(font);
+        back.setBounds(280,390,100,30);
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ManagerPage managerPage = new ManagerPage();
+                dispose();
+            }
+        });
+
+        addEmployeePanel.add(back);
         addEmployeePanel.add(jobLabel);
         addEmployeePanel.add(jobField);
         addEmployeePanel.add(salaryLabel);
