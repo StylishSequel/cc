@@ -19,23 +19,27 @@ public class QueryCustomerRoom {
         this.connector = connector;
     }
 
-    public void insertCustomerRoom(int customerID, int roomID, int num_of_day) {
+    public void insertCustomerRoom(int customerID, String checkInDate, int roomID, int num_of_day) {
         String query = "INSERT INTO customer_rooms(customer_id, room_id, num_of_day, check_in_date, e_check_out_date)"
-                + "VALUES(?, ?, ?, CURRENT_DATE, CURRENT_DATE + ? * INTERVAL '1 day')";
+                + "VALUES(?, ?, ?, ?, (?::date + ? * INTERVAL '1 day'))";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, customerID);
             pstmt.setInt(2, roomID);
             pstmt.setInt(3, num_of_day);
-            pstmt.setInt(4, num_of_day);
+
+            java.sql.Date sqlCheckInDate = java.sql.Date.valueOf(checkInDate);
+            pstmt.setDate(4, sqlCheckInDate);
+            pstmt.setDate(5, sqlCheckInDate);
+
+            pstmt.setInt(6, num_of_day);
             pstmt.executeUpdate();
+            System.out.println("Customer with ID " + customerID + " has checked in room with ID " + roomID);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         QueryRoom queryRoom = new QueryRoom(connector);
-        Room room = queryRoom.select(roomID);
-        room.setAvailable(false);
-        queryRoom.update(room);
+        queryRoom.updateAvailableRoom(roomID, false);
     }
 
     public List<Room> selectCurStandardCustomerRoom(int id) {
