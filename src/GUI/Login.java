@@ -14,7 +14,7 @@ import java.awt.font.TextAttribute;
 
 //ConnectDatabase libary
 import ConnectDatabase.*;
-import Person.Customer;
+import Person.*;
 
 //CREATE LOGIN PAGE
 
@@ -188,25 +188,38 @@ public class Login extends JFrame {
                 String username = textFieldUsername.getText();
                 String password = String.valueOf(textFieldPassword.getPassword());
                 ConnectDatabase db = new ConnectDatabase();
-                Boolean flag = db.checkLoginCustomer(username, password);
-                // Boolean flag2 = db.checkLoginEmployee(username, password);
-                if(flag == true){
+
+                int idCus = db.checkLoginCustomer(username, password);
+                int idEm = db.checkLoginEmployee(username, password);
+
+                Connector connector = new Connector();
+                QueryAll query = new QueryAll(connector);
+                Person person = new Person();
+                if(idCus != -1) {
                     System.out.println("Login successfully");
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
-                    HomePage home = new HomePage();
-                    //Close login page
-                    dispose();
-                }else{
-                    JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title", JOptionPane.INFORMATION_MESSAGE);
-
+                    person = db.getCustomer(idCus);
                 }
-
-
-
+                else if(idEm != -1){
+                        Employee employee = query.queryEmployee.select(idEm);
+                        if (employee.getJob() == "Manager") {
+                            person = new Manager(employee.getID(), employee.getName(), employee.isGender(), employee.getPhone(), employee.is_active(), employee.getSalary(), employee.getJob());
+                        }
+                        else{
+                            person = employee;
+                        }
+                }
+                else{
+                    JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title",
+                            JOptionPane.INFORMATION_MESSAGE);
+                }
+            HomePage home = new HomePage(person);
+            dispose();
 
             }
         });
+
         this.buttonLogin.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent evt) {
                 buttonLogin.setBackground(Color.GREEN); // Change color when mouse entered

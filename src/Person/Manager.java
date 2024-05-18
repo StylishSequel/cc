@@ -24,44 +24,44 @@ public class Manager extends Employee {
     public void addEmployee(String name,boolean gender, String phone,boolean is_active,double salary, String job) throws SQLException {
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);
-        Employee newEmployee = new Employee(name, gender, phone, is_active, salary, job)
+        Employee newEmployee = new Employee(name, gender, phone, is_active, salary, job);
         connectToDb.queryEmployee.insert(newEmployee);
     }
 
-    public void removeEmployee() throws SQLException {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Enter ID");
-        int ID = scanner.nextInt();
-        Employee employee  = hotel.getEmployees().stream().filter(e -> e.getID() == ID).findFirst().orElse(null);
-        if (employee != null) {
-            hotel.getEmployees().remove(employee);
-        } else {
-            System.out.println("Employee not found");
-
-        }
-        scanner.close();
-        // List<Employee> listE = hotel.getEmployees();
-        // if (listE.isEmpty()) {
-        // System.out.println("Employee list is empty");
-        // return;
-        // }
-
-        // for (Employee employee : listE) {
-        // if (employee.getID() == ID) {
-        // // remove Employee có id = ID chứ không phải remove vị trí ID
-        // // listE.remove(ID);
-        // listE.remove(employee);
-        // } else {
-        // System.out.println("Employee not found");
-        // }
-        // }
-        ConnectDatabase connector = new ConnectDatabase();
-        connector.removeEmployee(ID);
-        System.out.println("Employee removed successfully!");
-        scanner.close();
-
-    }
+//    public void removeEmployee() throws SQLException {
+//        Scanner scanner = new Scanner(System.in);
+//
+//        System.out.println("Enter ID");
+//        int ID = scanner.nextInt();
+//        Employee employee  = hotel.getEmployees().stream().filter(e -> e.getID() == ID).findFirst().orElse(null);
+//        if (employee != null) {
+//            hotel.getEmployees().remove(employee);
+//        } else {
+//            System.out.println("Employee not found");
+//
+//        }
+//        scanner.close();
+//        // List<Employee> listE = hotel.getEmployees();
+//        // if (listE.isEmpty()) {
+//        // System.out.println("Employee list is empty");
+//        // return;
+//        // }
+//
+//        // for (Employee employee : listE) {
+//        // if (employee.getID() == ID) {
+//        // // remove Employee có id = ID chứ không phải remove vị trí ID
+//        // // listE.remove(ID);
+//        // listE.remove(employee);
+//        // } else {
+//        // System.out.println("Employee not found");
+//        // }
+//        // }
+//        ConnectDatabase connector = new ConnectDatabase();
+//        connector.removeEmployee(ID);
+//        System.out.println("Employee removed successfully!");
+//        scanner.close();
+//
+//    }
 
     public void addService(Hotel hotel) throws SQLException {
         Scanner scanner = new Scanner(System.in);

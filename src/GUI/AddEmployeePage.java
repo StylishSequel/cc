@@ -6,14 +6,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Person.*;
 public class AddEmployeePage extends BaseForm {
-
+    private Person person;
     private JPanel addEmployeePanel;
     private JTextField nameField,phoneField,salaryField,jobField;
     private JRadioButton maleRadio,femaleRadio,activeRadio;
     private JButton enterButton;
 
-    public AddEmployeePage(Manager manager){
-        super(manager);
+    public AddEmployeePage(Person person){
+        super(person);
+        this.person = person;
         setAddEmployeePanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -147,7 +148,7 @@ public class AddEmployeePage extends BaseForm {
         back.setBounds(280,390,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ManagerPage managerPage = new ManagerPage();
+                ManagerPage managerPage = new ManagerPage(person);
                 dispose();
             }
         });
@@ -171,8 +172,8 @@ public class AddEmployeePage extends BaseForm {
         MainPanel.add(addEmployeePanel);
     }
 
-    public static void main(String[] args) {
-        Manager manager = new Manager();
-        new AddEmployeePage(manager);
-    }
+//    public static void main(String[] args) {
+//        Manager manager = new Manager();
+//        new AddEmployeePage(manager);
+//    }
 }

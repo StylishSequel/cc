@@ -9,8 +9,12 @@ import java.awt.event.FocusListener;
 
 public class EmployeePage  extends BaseForm{
     private JPanel contentPanel;
+    private Person person;
+
+
     public EmployeePage(Person person){
         super(person);
+        this.person = person;
         setContentPane();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -65,7 +69,7 @@ public class EmployeePage  extends BaseForm{
 
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HomePage homePage = new HomePage();
+                HomePage homePage = new HomePage(person);
                 dispose();
             }
         });
@@ -76,7 +80,7 @@ public class EmployeePage  extends BaseForm{
         MainPanel.add(contentPanel);
     }
 
-    public static void main(String[] args) {
-        new EmployeePage();
-    }
+//    public static void main(String[] args) {
+//        new EmployeePage();
+//    }
 }

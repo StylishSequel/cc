@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import Person.*;
 
-import Person.*;
+
 public class BaseForm extends JFrame  {
     protected JPanel MenuPanel;
     protected JPanel ContactPanel;
@@ -13,11 +13,15 @@ public class BaseForm extends JFrame  {
     protected JPanel BasePanel;
     protected JButton setButton;
     private JButton bookingButton;
-    private JButton staffButton;
+    private JButton managerButton;
     private JButton homeButton;
+    private JButton customerButton;
+    private JButton employeeButton;
+    private Person person;
 
 
     public BaseForm(Person person) {
+        this.person = person;
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
         setBackground();
@@ -25,11 +29,9 @@ public class BaseForm extends JFrame  {
         setVisible(true);
     }
 
-
     public void setBackground() {
         BasePanel = new JPanel();
         BasePanel.setLayout(null);
-
         BasePanel.setBounds(0, 0, 800, 600);
         setMenuPanel();
         setMainPanel();
@@ -88,64 +90,78 @@ public class BaseForm extends JFrame  {
         setButton.setBackground(new Color(248, 246, 227));
         setButton.setForeground(new Color(69, 60, 103));
         setButton.setFont(new Font("Serif", Font.PLAIN, 20));
-        MenuPanel.add(setButton);
         return setButton;
     }
 
     //CREATE BUTTONS
     public void createButton() {
-
         //HOME BUTTON
         homeButton =setButton("Home");
-        homeButton.setBounds(310,5,100,30);
+        homeButton.setBounds(210,5,90,30);
         homeButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Customer customer = new Customer("John Doe",true,"123456789",true);
-                HomePage homePage = new HomePage(customer);
+                HomePage homePage = new HomePage(person);
                 dispose();
             }
         });
-        MenuPanel.add(homeButton);
 
         //BOOKING BUTTON
         bookingButton = setButton("Booking");
-        bookingButton.setBounds(420,5,120,30);
+        bookingButton.setBounds(310,5,105,30);
         bookingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Customer customer = new Customer("John Doe",true,"123456789",true);
-                BookingPage bookingPage = new BookingPage(customer);
+                BookingPage bookingPage = new BookingPage(person);
                 dispose();
             }
         });
-        MenuPanel.add(bookingButton);
-
-        //STAFF BUTTON
-        staffButton = setButton("Staff");
-        staffButton.setBounds(550, 5, 100, 30);
-        staffButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                Manager manager  = new Manager();
-                ManagerPage managerPage = new ManagerPage(manager); 
-                dispose();
-            }
-        });
-        MenuPanel.add(staffButton);
 
         //CUSTOMER BUTTON
-        staffButton = setButton("Customer");
-        staffButton.setBounds(660, 5, 120, 30);
-        staffButton.addActionListener(new ActionListener() {
+        customerButton = setButton("Customer");
+        customerButton.setBounds(425, 5, 115, 30);
+        customerButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CustomerPage customerPage = new CustomerPage();
+                CustomerPage customerPage = new CustomerPage(person);
                 dispose();
             }
         });
-        MenuPanel.add(staffButton);
+
+        //EMPLOYEE BUTTON
+        employeeButton = setButton("Employee");
+        employeeButton.setBounds(550,5,120,30);
+        employeeButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Customer customer = new Customer("John Doe",true,"123456789",true);
+                EmployeePage em = new EmployeePage(person);
+                dispose();
+            }
+        });
+
+        //MANAGER BUTTON
+        managerButton = setButton("Manager");
+        managerButton.setBounds(675, 5, 105, 30);
+        managerButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                ManagerPage managerPage = new ManagerPage(person);
+                dispose();
+            }
+        });
+
+        if(person instanceof Customer) {
+            MenuPanel.add(customerButton);
+        } else if(person instanceof Employee) {
+            MenuPanel.add(customerButton);
+            if(person instanceof Manager) {
+                MenuPanel.add(managerButton);
+            }
+            MenuPanel.add(employeeButton);
+        }
+        MenuPanel.add(bookingButton);
+        MenuPanel.add(homeButton);
     }
 
-    public static void main(String[] args) {
-        Manager manager  = new Manager();
-        Customer customer = new Customer("John Doe",true,"123456789",true);
-        BaseForm frame = new BaseForm(customer);
-    }
+//    public static void main(String[] args) {
+//        Manager manager  = new Manager();
+//        Customer customer = new Customer("John Doe",true,"123456789",true);
+//        BaseForm frame = new BaseForm(customer);
+//    }
 }

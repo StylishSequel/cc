@@ -48,15 +48,13 @@ public class StandardRoom extends Room {
     public String toString() {
         return "Room Name: StandardRoom, ID: " + this.getId() + ", Number of Beds: " + this.getNumOfBed();
     }
-<<<<<<< HEAD
     public String getType() {
         return type;
     }
-    public double calculatePrice(){
-=======
+//    public double calculatePrice(){
+
 
     public double calculatePrice() {
->>>>>>> 58b22988e3feb85dca322d39bd604f4d0e326abe
         int showerPrice = this.isHavingShower() ? 50 : 0;
         return this.getNumOfDay() * (this.getPrice() + this.getNumOfBed() * 50 + showerPrice);
     }

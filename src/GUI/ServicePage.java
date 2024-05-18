@@ -1,5 +1,7 @@
 package GUI;
 
+import Person.Person;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,8 +13,11 @@ public class ServicePage extends BaseForm {
     private JPanel fruitPanel;
     private JPanel breakfastPanel;
     private JPanel laundryPanel;
-    public ServicePage(){
-        super();
+    private Person person;
+
+    public ServicePage(Person person){
+        super(person);
+        this.person = person;
         setCleaningPanel();
         setFruitPanel();
         setBreakfastPanel();
@@ -53,7 +58,7 @@ public class ServicePage extends BaseForm {
 
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HomePage homePage = new HomePage();
+                HomePage homePage = new HomePage(person);
                 dispose();
             }
         });
@@ -67,7 +72,7 @@ public class ServicePage extends BaseForm {
         back.setBounds(310,390,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BookingPage bookingPage = new BookingPage();
+                BookingPage bookingPage = new BookingPage(person);
                 dispose();
             }
         });
@@ -195,7 +200,7 @@ public class ServicePage extends BaseForm {
     }
 
 
-    public static void main(String[] args) {
-        new ServicePage();
-    }
+//    public static void main(String[] args) {
+//        new ServicePage();
+//    }
 }

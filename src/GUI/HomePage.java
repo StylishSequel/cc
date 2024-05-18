@@ -16,10 +16,11 @@ public class HomePage extends BaseForm {
     private JButton BookingButton;
     private JButton ServiceButton;
     private JButton LoginButton;
-
+    private Person person;
 
     public HomePage(Person person) {
         super(person);
+        this.person = person;
         setTitle("Home Page");
         createButton();
         setword();

@@ -23,11 +23,13 @@ public class BookingPage extends BaseForm{
     private JButton enterButton;
     private JPanel bookingPanel;
     private JTable table;
+    private Person person;
 
 
 
     public BookingPage(Person person){
         super(person);
+        this.person = person;
         setbookingPanel();
         setInforPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -58,7 +60,7 @@ public class BookingPage extends BaseForm{
         book.setBounds(40,350,100,30);
         book.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ServicePage sp = new ServicePage();
+                ServicePage sp = new ServicePage(person);
                 dispose();
             }
         });
@@ -72,7 +74,7 @@ public class BookingPage extends BaseForm{
         back.setBounds(40,400,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-               HomePage hp = new HomePage();
+               HomePage hp = new HomePage(person);
                 dispose();
             }
         });
@@ -154,7 +156,7 @@ public class BookingPage extends BaseForm{
         search.setBounds(400,80,100,30);
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ServicePage sp = new ServicePage();
+                ServicePage sp = new ServicePage(person);
                 dispose();
             }
         });
@@ -362,7 +364,7 @@ public class BookingPage extends BaseForm{
 //    }
 
 
-    public static void main(String[] args) {
-        new BookingPage();
-    }
+//    public static void main(String[] args) {
+//        new BookingPage(person);
+//    }
 }

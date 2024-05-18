@@ -6,11 +6,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-
+import Person.*;
 public class DeleteEmployeePage extends BaseForm{
     private JPanel contentPanel;
-    public DeleteEmployeePage(){
-        super();
+    private Person person;
+    public DeleteEmployeePage(Person person){
+        super(person);
+        this.person = person;
         setContentPane();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -65,7 +67,7 @@ public class DeleteEmployeePage extends BaseForm{
 
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HomePage homePage = new HomePage();
+                HomePage homePage = new HomePage(person);
                 dispose();
             }
         });
@@ -79,7 +81,7 @@ public class DeleteEmployeePage extends BaseForm{
         back.setBounds(50,160,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ManagerPage managerPage = new ManagerPage();
+                ManagerPage managerPage = new ManagerPage(person);
                 dispose();
             }
         });
@@ -90,8 +92,8 @@ public class DeleteEmployeePage extends BaseForm{
         contentPanel.add(checkout);
         MainPanel.add(contentPanel);
     }
-
-    public static void main(String[] args) {
-        DeleteEmployeePage page = new DeleteEmployeePage();
-    }
+//
+//    public static void main(String[] args) {
+//        DeleteEmployeePage page = new DeleteEmployeePage();
+//    }
 }

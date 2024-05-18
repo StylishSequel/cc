@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class Connector {
     private String hostName = "localhost:5432";
-    private String databaseName = "test";
-    private String username = "postgres";
-    private String password = "123456";
+    private String databaseName = "postgres";
+    private String username = "duc";
+    private String password = "noname";
 
     private String connectionURL = "jdbc:postgresql://" + hostName + "/" + databaseName;
 

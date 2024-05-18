@@ -9,11 +9,13 @@ import java.awt.event.ActionListener;
 
 public class CustomerPage extends BaseForm{
     private JPanel customerPanel;
-    public CustomerPage(){
-        super();
+    private Person person;
+    public CustomerPage(Person person){
+        super(person);
+        this.person = person;
         setCustomerPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setBounds(100, 100, 800, 600);
+        setBounds(250, 100, 800, 600);
         setBackground();
         setVisible(true);
     }
@@ -54,7 +56,7 @@ public class CustomerPage extends BaseForm{
         bookingButton.setBounds(300,15,200,30);
         bookingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ServicePage servicePage = new ServicePage();
+                ServicePage servicePage = new ServicePage(person);
                 dispose();
             }
         });
@@ -89,7 +91,7 @@ public class CustomerPage extends BaseForm{
         MainPanel.add(customerPanel);
     }
 
-    public static void main(String[] args) {
-        new CustomerPage();
-    }
+//    public static void main(String[] args) {
+//        new CustomerPage();
+//    }
 }

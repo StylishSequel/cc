@@ -15,8 +15,11 @@ public class ManagerPage extends BaseForm {
     private JTextField nameField,phoneField,salaryField,jobField;
     private JRadioButton maleRadio,femaleRadio,activeRadio;
     private JButton enterButton;
+    private Person person;
+
     public ManagerPage(Person person) {
         super(person);
+        this.person = person;
         setChooseFunction();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -53,7 +56,7 @@ public class ManagerPage extends BaseForm {
         removeEm.setBounds(200,100,180,50);
         removeEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                DeleteEmployeePage deleteEmployeePage = new DeleteEmployeePage();
+                DeleteEmployeePage deleteEmployeePage = new DeleteEmployeePage(person);
             }
         });
 
@@ -67,7 +70,7 @@ public class ManagerPage extends BaseForm {
         back.setBounds(140,180,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HomePage hp = new HomePage();
+                HomePage hp = new HomePage(person);
                 dispose();
             }
         });
@@ -79,8 +82,8 @@ public class ManagerPage extends BaseForm {
         MainPanel.add(chooseFunction);
     }
 
-    public static void main(String[] args) {
-        new ManagerPage();
-    }
+//    public static void main(String[] args) {
+//        new ManagerPage();
+//    }
 
 }

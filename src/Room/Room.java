@@ -142,7 +142,7 @@ public abstract class Room {
     public List<Service> getBookedService() {
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);
-        return connectToDb.queryRoomService.queryCurRoomService(this.getId());
+        return connectToDb.queryRoomService.selectCurRoomService(this.getId());
     }
     // public void setBookedService(List<Service> queryCurRoomService) {
     // this.bookedService = queryCurRoomService;
