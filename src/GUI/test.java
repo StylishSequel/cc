@@ -1,6 +1,11 @@
 package GUI;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+
+import ConnectDatabase.Connector;
+import ConnectDatabase.QueryAll;
+
 import java.awt.*;
 import Room.*;
 import java.util.ArrayList;
@@ -10,11 +15,11 @@ import java.util.stream.Collectors;
 public class test {
     public static List<Room> rooms = new ArrayList<>();
 
+    public static Connector connector = new Connector();
+    public static QueryAll connectToDb = new QueryAll(connector);
+
     public static void main(String[] args) {
         // Tạo dữ liệu mẫu
-        rooms.add(new Room("Room A", 10, "Conference"));
-        rooms.add(new Room("Room B", 20, "Meeting"));
-        rooms.add(new Room("Room C", 30, "Classroom"));
 
         // Tạo JFrame
         JFrame frame = new JFrame("Room List");
@@ -22,11 +27,11 @@ public class test {
         frame.setSize(800, 400);
         frame.setLayout(new BorderLayout());
 
-        String[] roomTypes = {"All", "Conference", "Meeting", "Classroom"};
+        String[] roomTypes = { "All", "Standard Room", "Deluxe Room", "Suite Room" };
         JComboBox<String> comboBox = new JComboBox<>(roomTypes);
         comboBox.setSelectedIndex(0);
 
-        JTextField capacityField = new JTextField(10);
+        JTextField capacityField = new JTextField("0", 10);
         JPanel topPanel = new JPanel();
         topPanel.add(new JLabel("Type:"));
         topPanel.add(comboBox);
@@ -34,12 +39,24 @@ public class test {
         topPanel.add(capacityField);
 
         // Tạo bảng với DefaultTableModel
-        String[] columnNames = {"Room Name", "Capacity", "Type"};
+        String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
+                "Electric device" };
         DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
 
         for (Room room : rooms) {
-            Object[] rowData = {room.getName(), room.getCapacity()};
-            tableModel.addRow(rowData);
+            if (room instanceof StandardRoom) {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(),
+                        ((StandardRoom) room).isHavingShower() ? "Yes" : "No", "No", "No" };
+                tableModel.addRow(rowData);
+            } else if (room instanceof DeluxeRoom) {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(), "Yes",
+                        ((DeluxeRoom) room).getFurniture(), "No" };
+                tableModel.addRow(rowData);
+            } else {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(), "Yes", "No",
+                        ((SuiteRoom) room).getElectricDevices() };
+                tableModel.addRow(rowData);
+            }
         }
 
         JTable table = new JTable(tableModel);
@@ -53,8 +70,9 @@ public class test {
         frame.add(searchButton, BorderLayout.SOUTH);
         searchButton.addActionListener(comboBoxSearchEvent -> {
             String selectedType = (String) comboBox.getSelectedItem();
-            String capacityText = capacityField.getText();
-            List<Room> filteredRooms = filterRoomsByType(selectedType, capacityText);
+            String capacityText = capacityField.getText() == null ? "0" : capacityField.getText();
+            int capacity = Integer.parseInt(capacityText); // Parse the capacityText string to an integer
+            List<Room> filteredRooms = filterRoomsByType(selectedType, capacity);
             updateTable(tableModel, filteredRooms);
         });
 
@@ -64,21 +82,40 @@ public class test {
         frame.setVisible(true);
     }
 
-    private static List<Room> filterRoomsByType(String type, String capacityText) {
-        if ("All".equals(type)) {
-            return rooms;
+    private static List<Room> filterRoomsByType(String type, int num_of_beds) {
+        rooms = connectToDb.queryRoom.selectAll();
+        rooms.forEach(System.out::println);
+        if (type.equals("All") && num_of_beds == 0) {
+            return new ArrayList<>(rooms);
         }
-        return rooms.stream()
-                .filter(room -> room.getType().equalsIgnoreCase(type)
-                        && room.getCapacity() == Integer.parseInt(capacityText))
-                .collect(Collectors.toList());
+        if (type.equals("Standard Room")) {
+            return connectToDb.queryRoom.selectStandardRoomsRS(num_of_beds);
+        }
+        if (type.equals("Deluxe Room")) {
+            return connectToDb.queryRoom.selectDeluxeRoomsRS(num_of_beds);
+        }
+        if (type.equals("Suite Room")) {
+            return connectToDb.queryRoom.selectSuiteRoomsRS(num_of_beds);
+        }
+        return null;
     }
 
     private static void updateTable(DefaultTableModel tableModel, List<Room> rooms) {
         tableModel.setRowCount(0); // Xóa tất cả các hàng
         for (Room room : rooms) {
-            Object[] rowData = {room.getName(), room.getCapacity(), room.getType()};
-            tableModel.addRow(rowData);
+            if (room instanceof StandardRoom) {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(),
+                        ((StandardRoom) room).isHavingShower() ? "Yes" : "No", "No", "No" };
+                tableModel.addRow(rowData);
+            } else if (room instanceof DeluxeRoom) {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(), "Yes",
+                        ((DeluxeRoom) room).getFurniture(), "No" };
+                tableModel.addRow(rowData);
+            } else {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(), "Yes", "No",
+                        ((SuiteRoom) room).getElectricDevices() };
+                tableModel.addRow(rowData);
+            }
         }
     }
 }
