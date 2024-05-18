@@ -111,6 +111,19 @@ public class QueryCustomer implements IQuery<Customer> {
         }
         throw new UnsupportedOperationException("Unimplemented method 'updateActiveCustomer'");
     }
-
+    public boolean checkCustomerAccountExist(String user_name) {
+        String query = "SELECT * FROM customer_account WHERE user_name = ? ";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, user_name);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
     
 }

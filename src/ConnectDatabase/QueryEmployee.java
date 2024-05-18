@@ -103,5 +103,19 @@ public class QueryEmployee implements IQuery<Employee> {
             throw new RuntimeException(e);
         }
     }
+    public boolean checkEmployeeAccountExist(String username){
+        String query = "SELECT * FROM employee_account WHERE user_name = ?";
+        try (Connection con = connector.connect();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+            return false;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }

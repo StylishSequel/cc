@@ -200,6 +200,8 @@ public class Login extends JFrame {
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
                     person = db.getCustomer(idCus);
+                    HomePage hone = new HomePage(person);
+                    dispose();
                 }
                 else if(idEm != -1){
                         Employee employee = query.queryEmployee.select(idEm);
