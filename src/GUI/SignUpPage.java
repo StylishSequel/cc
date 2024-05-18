@@ -129,7 +129,8 @@ public class SignUpPage extends JFrame{
 
         login.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
+                Connector connector = new Connector();
+                QueryAll query = new QueryAll(connector);
                 String newCusName = nameField.getText();
                 Boolean newgenderCus = true;
                 Boolean is_active = false;
@@ -139,13 +140,20 @@ public class SignUpPage extends JFrame{
                 System.out.println(newCusName);
                 System.out.println(newgenderCus);
                 String newusername = usernameField.getText();
-                String newpassword = new String(passwordField.getPassword());
                 String phone = phoneField.getText();
+                String newpassword = new String(passwordField.getPassword());
+                Boolean flag1 = query.queryCustomer.checkCustomerAccountExist(newusername);
+                Boolean flag2 = query.queryEmployee.checkEmployeeAccountExist(newusername);
+                
                 System.out.println(phone);
                 System.out.println(newusername);
                 System.out.println(newpassword);
                 
                 ConnectDatabase db = new ConnectDatabase();
+                if(flag1 || flag2){
+                    JOptionPane.showMessageDialog(null, "Username already exists");
+                    return;
+                }
                 db.insertCustomerAccount(newusername, newpassword, newCusName, newgenderCus, phone) ;
 
 
