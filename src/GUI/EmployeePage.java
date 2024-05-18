@@ -1,5 +1,5 @@
 package GUI;
-
+import Person.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -9,8 +9,8 @@ import java.awt.event.FocusListener;
 
 public class EmployeePage  extends BaseForm{
     private JPanel contentPanel;
-    public EmployeePage(){
-        super();
+    public EmployeePage(Person person){
+        super(person);
         setContentPane();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);

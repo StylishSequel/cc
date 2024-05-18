@@ -14,6 +14,7 @@ import java.awt.font.TextAttribute;
 
 //ConnectDatabase libary
 import ConnectDatabase.*;
+import Person.Customer;
 
 //CREATE LOGIN PAGE
 
@@ -200,6 +201,10 @@ public class Login extends JFrame {
                     JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title", JOptionPane.INFORMATION_MESSAGE);
 
                 }
+
+
+
+
             }
         });
         this.buttonLogin.addMouseListener(new MouseAdapter() {
@@ -214,8 +219,10 @@ public class Login extends JFrame {
         //Sign up button
         this.buttonSignUp.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                SignUpPage newPage = new SignUpPage();
-                dispose();
+                String username = textFieldUsername.getText();
+                String password = String.valueOf(textFieldPassword.getPassword());
+                System.out.println("Username: " + username);
+            System.out.println("Password: " + password);
             }
         });
         this.buttonSignUp.addMouseListener(new MouseAdapter() {
@@ -227,8 +234,6 @@ public class Login extends JFrame {
                 buttonSignUp.setBackground(new Color(255, 152, 0)); // Change color back when mouse exited
             }
         });
-
-
         // this.forgetPassword.addActionListener(new ActionListener() {
         //     public void actionPerformed(ActionEvent e) {
         //         String username = String.valueOf(textFieldUsername.getText());

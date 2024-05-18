@@ -1,6 +1,8 @@
 package GUI;
 
 import ConnectDatabase.Connector;
+import Person.Customer;
+import Person.Person;
 import ConnectDatabase.QueryRoom;
 
 import javax.swing.*;
@@ -24,7 +26,8 @@ public class BookingPage extends BaseForm{
 
 
 
-    public BookingPage(){
+    public BookingPage(Person person){
+        super(person);
         setbookingPanel();
         setInforPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

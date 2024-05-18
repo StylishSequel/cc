@@ -24,7 +24,11 @@ public class Employee extends Person {
         this.salary = salary;
         this.job = job;
     }
-
+    public Employee(String name, boolean gender, String phone, boolean is_active, double salary, String job) {
+        super(name,gender,phone,is_active);
+        this.salary = salary;
+        this.job = job;
+    } 
     public Boolean is_active() {
         return this.isActive();
     }

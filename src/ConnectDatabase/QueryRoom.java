@@ -259,46 +259,68 @@ public class QueryRoom implements IQuery<Room> {
         return rooms;
     }
 
-    public ResultSet selectStandardRoomsRS() {
+    public ResultSet selectStandardRoomsRS(int num_of_beds) {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower, r.is_available " +
                 "FROM rooms r " +
                 "JOIN standard_rooms s ON s.room_id = r.room_id " +
                 "WHERE r.is_available = true";
         try (Connection con = connector.connect();
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, num_of_beds);
+            ResultSet rs = pstmt.executeQuery();
             return rs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ResultSet selectDeluxeRoomsRS() {
+    public ResultSet selectDeluxeRoomsRS(int num_of_beds) {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, d.furniture, r.is_available " +
                 "FROM rooms r " +
                 "JOIN deluxe_rooms d ON d.room_id = r.room_id " +
                 "WHERE r.is_available = true";
         try (Connection con = connector.connect();
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, num_of_beds);
+            ResultSet rs = pstmt.executeQuery();
             return rs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ResultSet selectSuiteRoomsRS() {
+    public ResultSet selectSuiteRoomsRS(int num_of_beds) {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.electric_devices, r.is_available " +
                 "FROM rooms r " +
                 "JOIN suite_rooms s ON s.room_id = r.room_id " +
-                "WHERE r.is_available = true";
+                "WHERE r.is_available = true AND r.num_of_beds = ?";
         try (Connection con = connector.connect();
-                Statement stmt = con.createStatement();
-                ResultSet rs = stmt.executeQuery(query)) {
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, num_of_beds);
+            ResultSet rs = pstmt.executeQuery();
             return rs;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+<<<<<<< HEAD
+    public void updateRoomAvailable(int room_id, Boolean isAvailable) {
+=======
 
+    public void updateAvailableRoom(int room_id, boolean isAvailable) {
+>>>>>>> 439ae2a07ef1d84f08cf27272da5e3a4a904ab49
+        String query = "UPDATE rooms SET is_available = ? WHERE room_id = ?";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setBoolean(1, isAvailable);
+            pstmt.setInt(2, room_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 439ae2a07ef1d84f08cf27272da5e3a4a904ab49
 }

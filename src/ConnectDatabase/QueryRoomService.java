@@ -17,7 +17,7 @@ public class QueryRoomService {
     }
 
     public void insertRoomService(int room_id, int service_id) {
-        String query = "INSERT INTO booking_services(room_id, service_id, date)" + "VALUES(?, ?, CURRENT_DATE)";
+        String query = "INSERT INTO room_services(room_id, service_id, date)" + "VALUES(?, ?, CURRENT_DATE)";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, room_id);
@@ -28,12 +28,12 @@ public class QueryRoomService {
         }
     }
 
-    public List<Service> queryCurRoomService(int id) {
-        String query = "SELECT r.room_id, name, s.price, check_in_date, e_check_out_date, date FROM rooms r" +
-                "JOIN room_services rs ON r.room_id = rs.room_id" +
-                "JOIN customer_rooms cr ON r.room_id = cr.room_id" +
-                "JOIN services s ON rs.service_id = s.service_id" +
-                "WHERE check_out_date IS NULL AND r.room_id = ?;"+
+    public List<Service> selectCurRoomService(int id) {
+        String query = "SELECT s.service_id, s.price, s.name, date FROM rooms r " +
+                "JOIN room_services rs ON r.room_id = rs.room_id " +
+                "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
+                "JOIN services s ON rs.service_id = s.service_id " +
+                "WHERE check_out_date IS NULL AND r.room_id = ? " +
                 "AND date > check_in_date";
         List<Service> services = new ArrayList<>();
         try (Connection con = connector.connect();
@@ -51,12 +51,12 @@ public class QueryRoomService {
 
     public double calculateRoomService(int roomId) {
         String query = "SELECT SUM(s.price) AS total " +
-        "FROM rooms r " +
-        "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
-        "JOIN room_services rs ON r.room_id = rs.room_id " +
-        "JOIN services s ON rs.service_id = s.service_id " +
-        "WHERE cr.check_out_date IS NULL AND date > check_in_date AND r.room_id = ?";
-    
+                "FROM rooms r " +
+                "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
+                "JOIN room_services rs ON r.room_id = rs.room_id " +
+                "JOIN services s ON rs.service_id = s.service_id " +
+                "WHERE cr.check_out_date IS NULL AND date > check_in_date AND r.room_id = ?";
+
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, roomId);
@@ -67,24 +67,24 @@ public class QueryRoomService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    
+
         return 0.0;
     }
 
     public List<Double> calculateRoomServiceTotals(int customerId) {
         String query = "SELECT SUM(s.price) AS total " +
-        "FROM rooms r " +
-        "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
-        "JOIN room_services rs ON r.room_id = rs.room_id " +
-        "JOIN services s ON rs.service_id = s.service_id " +
-        "WHERE cr.check_out_date IS NULL AND date > check_in_date " +
-        "GROUP BY r.room_id" +
-        "WHERE cr.customer_id = ?";
-    
+                "FROM rooms r " +
+                "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
+                "FULL JOIN room_services rs ON r.room_id = rs.room_id " +
+                "FULL JOIN services s ON rs.service_id = s.service_id " +
+                "WHERE cr.check_out_date IS NULL AND (date >= check_in_date OR date IS NULL) AND cr.customer_id = ? " +
+                "GROUP BY r.room_id";
+
         List<Double> totals = new ArrayList<>();
-    
+
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, customerId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 totals.add(rs.getDouble("total"));
@@ -92,7 +92,7 @@ public class QueryRoomService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    
+
         return totals;
     }
 }

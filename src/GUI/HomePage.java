@@ -8,7 +8,7 @@ import java.awt.*;
 // import java.awt.event.ActionEvent;
 // import java.awt.event.ActionListener;
 import java.awt.event.*;
-
+import Person.*;
 //ConnectDatabase libary
 
 public class HomePage extends BaseForm {
@@ -18,7 +18,8 @@ public class HomePage extends BaseForm {
     private JButton LoginButton;
 
 
-    public HomePage() {
+    public HomePage(Person person) {
+        super(person);
         setTitle("Home Page");
         createButton();
         setword();
@@ -64,9 +65,9 @@ public class HomePage extends BaseForm {
 
 
 
-    public static void main(String[] args) {
-        new HomePage();
-    }
+    // public static void main(String[] args) {
+    //     new HomePage();
+    // }
 }
 
 
