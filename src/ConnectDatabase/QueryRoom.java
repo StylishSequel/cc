@@ -137,6 +137,7 @@ public class QueryRoom implements IQuery<Room> {
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, room.getId());
             pstmt.executeUpdate();
+            System.out.println("Room deleted successfully!");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -259,52 +260,67 @@ public class QueryRoom implements IQuery<Room> {
         return rooms;
     }
 
-    public ResultSet selectStandardRoomsRS(int num_of_beds) {
+    public List<Room> selectStandardRoomsRS(int num_of_beds) {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.having_shower, r.is_available " +
                 "FROM rooms r " +
                 "JOIN standard_rooms s ON s.room_id = r.room_id " +
-                "WHERE r.is_available = true";
+                "WHERE r.is_available = true AND r.num_of_beds = ?";
+        List<Room> standardRooms = new ArrayList<>();
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, num_of_beds);
             ResultSet rs = pstmt.executeQuery();
-            return rs;
+            while (rs.next()) {
+                standardRooms.add(new StandardRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getBoolean("having_shower"), rs.getBoolean("is_available")));
+            }
+            return standardRooms;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ResultSet selectDeluxeRoomsRS(int num_of_beds) {
+    public List<Room> selectDeluxeRoomsRS(int num_of_beds) {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, d.furniture, r.is_available " +
                 "FROM rooms r " +
                 "JOIN deluxe_rooms d ON d.room_id = r.room_id " +
-                "WHERE r.is_available = true";
+                "WHERE r.is_available = true AND r.num_of_beds = ?";
+        List<Room> deluxeRooms = new ArrayList<>();
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, num_of_beds);
             ResultSet rs = pstmt.executeQuery();
-            return rs;
+            while (rs.next()) {
+                deluxeRooms.add(new DeluxeRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getString("furniture"), rs.getBoolean("is_available")));
+            }
+            return deluxeRooms;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public ResultSet selectSuiteRoomsRS(int num_of_beds) {
+    public List<Room> selectSuiteRoomsRS(int num_of_beds) {
         String query = "SELECT r.room_id, r.price, r.num_of_beds, r.room_type, s.electric_devices, r.is_available " +
                 "FROM rooms r " +
                 "JOIN suite_rooms s ON s.room_id = r.room_id " +
                 "WHERE r.is_available = true AND r.num_of_beds = ?";
+        List<Room> suiteRooms = new ArrayList<>();
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, num_of_beds);
             ResultSet rs = pstmt.executeQuery();
-            return rs;
+            while (rs.next()) {
+                suiteRooms.add(new SuiteRoom(rs.getInt("room_id"), rs.getDouble("price"),
+                        rs.getInt("num_of_beds"), rs.getString("electric_devices"), rs.getBoolean("is_available")));
+            }
+            return suiteRooms;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public void updateRoomAvailable(int room_id, Boolean isAvailable) {
+    public void updateAvailableRoom(int room_id, boolean isAvailable) {
         String query = "UPDATE rooms SET is_available = ? WHERE room_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
@@ -315,4 +331,5 @@ public class QueryRoom implements IQuery<Room> {
             throw new RuntimeException(e);
         }
     }
+
 }
