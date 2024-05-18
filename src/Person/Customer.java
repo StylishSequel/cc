@@ -11,7 +11,9 @@ import Service.Service;
 
 public class Customer extends Person {
     
+    public Customer() {
 
+    }
     public Customer(int ID, String name, boolean gender, String phone, boolean is_active) {
         super(ID, name, gender, phone, is_active);
         
@@ -113,13 +115,13 @@ public class Customer extends Person {
     //             ConnectDatabase connector = new ConnectDatabase();
     //             connector.insertCustomerRoom(this.getID(), id, numOfDay);
     //             System.out.println("Room booked successfully");
-    public void bookRoom(int room_id, int numOfDay){
+    public void bookRoom(int room_id, int numOfDay,String checkindate){
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);
         List<Room> availableRoom = connectToDb.queryRoom.selectAll();
         boolean flag = availableRoom.stream().anyMatch(room -> room.getId() == room_id);
         if(flag){
-            connectToDb.queryCustomerRoom.insertCustomerRoom(this.getID(), room_id, numOfDay);
+            connectToDb.queryCustomerRoom.insertCustomerRoom(this.getID(), checkindate,room_id, numOfDay);
             System.out.println("Room booked successfully");
             return;
         }
@@ -141,15 +143,15 @@ public class Customer extends Person {
         System.out.println("Check out successfully");
         
     }
-
-    public static void main(String[] args) {
-        Customer c = new Customer(1, "Huy", true, "123", true);
-        c.bookRoom(1, 2);
-        c.bookRoom(2, 3);
-        c.printBookedRoom();
-        c.printServices();
-        c.printBill();
-    }
+//
+//    public static void main(String[] args) {
+//        Customer c = new Customer(1, "Huy", true, "123", true);
+//        c.bookRoom(1, 2);
+//        c.bookRoom(2, 3);
+//        c.printBookedRoom();
+//        c.printServices();
+//        c.printBill();
+//    }
 }
 
     

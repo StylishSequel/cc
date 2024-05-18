@@ -44,7 +44,7 @@ public class QueryCustomerRoom {
 
     public List<Room> selectCurStandardCustomerRoom(int id) {
         List<Room> rooms = new ArrayList<>();
-        String query = "SELECT r.room_id, price, num_of_beds, room_type, having_shower " +
+        String query = "SELECT r.room_id, price, num_of_beds, room_type, having_shower,  check_in_date, num_of_day, e_check_out_date " +
                 "FROM customers c " +
                 "JOIN customer_rooms cs ON c.id = cs.customer_id " +
                 "JOIN rooms r ON cs.room_id = r.room_id " +
@@ -69,7 +69,7 @@ public class QueryCustomerRoom {
 
     public List<Room> selectCurDeluxeCustomerRoom(int id) {
         List<Room> rooms = new ArrayList<>();
-        String query = "SELECT r.room_id, price, num_of_beds, room_type, furniture " +
+        String query = "SELECT r.room_id, price, num_of_beds, room_type, furniture , check_in_date, num_of_day, e_check_out_date " +
                 "FROM customers c " +
                 "JOIN customer_rooms cs ON c.id = cs.customer_id " +
                 "JOIN rooms r ON cs.room_id = r.room_id " +

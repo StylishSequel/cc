@@ -1,7 +1,7 @@
 package GUI;
 
 import ConnectDatabase.*;
-import Person.Person;
+import Person.*;
 import Room.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -54,7 +54,7 @@ public class BookingPage extends BaseForm{
         checkIn.setBounds(5,5,150,50);
 
         //TEXT FIELD CHECK IN
-        JTextArea inText = new JTextArea("0000/00/00");
+        JTextArea inText = new JTextArea("0000-00-00");
         inText.setBounds(5,50,100,20);
 
         //WORD NUMBER OF DAY
@@ -64,8 +64,8 @@ public class BookingPage extends BaseForm{
         numDay.setBounds(130,5,150,50);
 
         //TEXT FIELD NUMBER OF DAY
-        JTextArea outText = new JTextArea("00");
-        outText.setBounds(130,50,100,20);
+        JTextArea numDayField = new JTextArea("00");
+        numDayField.setBounds(130,50,100,20);
 
         //WORD NUM OF BED
         JLabel numofbed = new JLabel("Number of Bed:");
@@ -163,17 +163,16 @@ public class BookingPage extends BaseForm{
         book.setBounds(400,80,100,30);
         book.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-//                int customerID, String checkInDate, int roomID, int num_of_day
                 String checkInInput = inText.getText();
-                int numDayInput = Integer.parseInt(numDay.getText());
-                int roomIdInput = Integer.parseInt(cbbed.getText());
-                Integer enterfieldId = Integer.parseInt(enterRoomIdField.getText());
+                int numDayInput = Integer.parseInt(numDayField.getText());
+                int roomIdInput = Integer.parseInt(enterRoomIdField.getText());
 
-                Connector connector = new Connector();
-                QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
-//                queryCustomerRoom.insertCustomerRoom();
-                ServicePage sp = new ServicePage(person,enterfieldId);
-                dispose();
+                if (person instanceof Customer) {
+                    ((Customer) person).bookRoom(roomIdInput, numDayInput, checkInInput);
+                }
+                    ServicePage sp = new ServicePage(person, roomIdInput);
+                    dispose();
+
             }
         });
 
@@ -204,7 +203,7 @@ public class BookingPage extends BaseForm{
         inforPanel.add(typeroom);
         inforPanel.add(checkIn);
         inforPanel.add(numDay);
-        inforPanel.add(outText);
+        inforPanel.add(numDayField);
         inforPanel.add(inText);
         inforPanel.add(typeroom);
         MainPanel.add(inforPanel);

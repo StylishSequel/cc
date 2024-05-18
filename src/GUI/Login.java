@@ -200,6 +200,8 @@ public class Login extends JFrame {
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
                     person = db.getCustomer(idCus);
+                    HomePage home = new HomePage(person);
+                    dispose();
                 }
                 else if(idEm != -1){
                         Employee employee = query.queryEmployee.select(idEm);
@@ -209,7 +211,7 @@ public class Login extends JFrame {
                         else{
                             person = employee;
                         }
-                        HomePage home = new HomePage(person);
+                    HomePage home = new HomePage(person);
                     dispose();
                 }
                 else{
