@@ -5,11 +5,17 @@ public class Service {
     private double price;
     private String date;
 
-    public Service(int id, String name, double price) {
+    public Service(int id, String name, double price,String date) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.date = date;
+    }
+
+    public Service(int id, String name, double price) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
     }
     public Service(){
         this.id = 0;

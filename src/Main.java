@@ -1,3 +1,9 @@
+import ConnectDatabase.Connector;
+import ConnectDatabase.QueryRoomService;
+import Service.Service;
+
+import java.util.List;
+
 //import java.sql.SQLException;
 //import java.util.Scanner;
 //
@@ -161,9 +167,12 @@
 //// import javax.swing.*;
 //// import GUI.*;
 //
-////     public class Main {
-////         public static void main(String[] args) {
-////         Login login = new Login();
-////         //    MyFrame m = new MyFrame();
-////         }
-////     }
+import Person.*;
+     public class Main {
+         public static void main(String[] args) {
+             Connector connector = new Connector();
+             QueryRoomService queryRoomService = new QueryRoomService(connector);
+             List<Service> services = queryRoomService.selectCurRoomService(1);
+             System.out.println(services);
+         }
+     }
