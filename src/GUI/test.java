@@ -10,7 +10,6 @@ import java.awt.*;
 import Room.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class test {
     public static List<Room> rooms = new ArrayList<>();
@@ -85,7 +84,7 @@ public class test {
     private static List<Room> filterRoomsByType(String type, int num_of_beds) {
         rooms = connectToDb.queryRoom.selectAll();
         rooms.forEach(System.out::println);
-        if (type.equals("All") && num_of_beds == 0) {
+        if (type.equals("All")) {
             return new ArrayList<>(rooms);
         }
         if (type.equals("Standard Room")) {

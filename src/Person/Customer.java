@@ -132,7 +132,7 @@ public class Customer extends Person {
         List<Room> bookedRoom = connectToDb.queryCustomerRoom.selectCustomerRooms(this.getID());
         bookedRoom.stream().filter(room -> room.getId() == room_id).findFirst().ifPresent(room -> {
             connectToDb.queryCustomerRoom.updateCheckOutDate(this.getID(),room_id);
-            connectToDb.queryRoom.updateRoomAvailable(room_id,true);
+//            connectToDb.queryRoom.updateRoomAvailable(room_id,true);
 
             
         });

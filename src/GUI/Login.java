@@ -209,7 +209,7 @@ public class Login extends JFrame {
                         else{
                             person = employee;
                         }
-                    HomePage home = new HomePage(person);
+                        HomePage home = new HomePage(person);
                     dispose();
                 }
                 else{

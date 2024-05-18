@@ -39,6 +39,16 @@ public class CustomerPage extends BaseForm{
         idText.setForeground(Color.BLACK);
         idText.setBounds(100,15,50,30);
 
+        //WORD ENTER ID ROOM
+        JLabel enterid = new JLabel("Enter Id Room:");
+        enterid.setFont(fontWord);
+        enterid.setForeground(Color.BLACK);
+        enterid.setBounds(130,70,150,50);
+
+        //TEXT FIELD ENTER ID
+        JTextArea enterfield = new JTextArea("00");
+        enterfield.setBounds(250,85,100,20);
+
         //SET ENTER BUTTON
         JButton enterButton = new JButton("Enter");
         enterButton.setLayout(null);
@@ -56,7 +66,8 @@ public class CustomerPage extends BaseForm{
         bookingButton.setBounds(300,15,200,30);
         bookingButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ServicePage servicePage = new ServicePage(person);
+                int enterid = Integer.parseInt(enterfield.getText());
+                ServicePage servicePage = new ServicePage(person,enterid);
                 dispose();
             }
         });

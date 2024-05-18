@@ -84,7 +84,6 @@ public class QueryEmployee implements IQuery<Employee> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return null;
     }
 
     @Override

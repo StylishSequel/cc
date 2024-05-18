@@ -1,27 +1,25 @@
 package GUI;
 
-import ConnectDatabase.Connector;
-import Person.Customer;
+import ConnectDatabase.*;
 import Person.Person;
-import ConnectDatabase.QueryRoom;
-
+import Room.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class BookingPage extends BaseForm{
+    public static List<Room> rooms = new ArrayList<>();
     private JPanel DeluxePanel;
     private JPanel StandardPanel;
     private JPanel SuitePanel;
     private JPanel BookingPanel;
     private JPanel inforPanel;
     private JButton enterButton;
-    private JPanel bookingPanel;
     private JTable table;
     private Person person;
 
@@ -30,7 +28,7 @@ public class BookingPage extends BaseForm{
     public BookingPage(Person person){
         super(person);
         this.person = person;
-        setbookingPanel();
+
         setInforPanel();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -40,57 +38,11 @@ public class BookingPage extends BaseForm{
     }
 
 
-    public void setbookingPanel() {
-        JPanel imagePanel = new JPanel();
-        imagePanel.setLayout(null);
-        imagePanel.setBackground(Color.WHITE);
-        imagePanel.setBounds(570, 20, 200, 470);
-
-        //Set image
-        ImageIcon img = new ImageIcon("src/GUI/Images/Deluxeroom1.jpg");
-        JLabel imgLabel = new JLabel(img);
-        imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
-
-        //SET BUTTON BOOKING
-        JButton book = new JButton("Booking");
-        book.setLayout(null);
-        book.setBackground(new Color(248, 246, 227));
-        book.setForeground(new Color(69, 60, 103));
-        book.setFont(new Font("Serif", Font.PLAIN, 15));
-        book.setBounds(40,350,100,30);
-        book.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                ServicePage sp = new ServicePage(person);
-                dispose();
-            }
-        });
-
-        //SET BUTTON BACK
-        JButton back = new JButton("Back");
-        back.setLayout(null);
-        back.setBackground(new Color(248, 246, 227));
-        back.setForeground(new Color(69, 60, 103));
-        back.setFont(new Font("Serif", Font.PLAIN, 15));
-        back.setBounds(40,400,100,30);
-        back.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-               HomePage hp = new HomePage(person);
-                dispose();
-            }
-        });
-
-        imagePanel.add(back);
-        imagePanel.add(book);
-        imagePanel.add(imgLabel);
-        MainPanel.add(imagePanel);
-    }
-
-
     public void setInforPanel() {
         inforPanel = new JPanel();
         inforPanel.setLayout(null);
         inforPanel.setBackground(new Color(154, 200, 205));
-        inforPanel.setBounds(10, 20, 540, 470);
+        inforPanel.setBounds(20, 20, 750, 470);
 
         Font f = new Font("Serif", Font.PLAIN, 15);
 
@@ -102,17 +54,17 @@ public class BookingPage extends BaseForm{
         checkIn.setBounds(5,5,150,50);
 
         //TEXT FIELD CHECK IN
-        JTextArea inText = new JTextArea("00/00/0000");
+        JTextArea inText = new JTextArea("0000/00/00");
         inText.setBounds(5,50,100,20);
 
-        //WORD CHECK OUT
-        JLabel checkOut = new JLabel("Check Out Date:");
-        checkOut.setFont(f);
-        checkOut.setForeground(Color.BLACK);
-        checkOut.setBounds(130,5,150,50);
+        //WORD NUMBER OF DAY
+        JLabel numDay = new JLabel("Number Of Day:");
+        numDay.setFont(f);
+        numDay.setForeground(Color.BLACK);
+        numDay.setBounds(130,5,150,50);
 
-        //TEXT FIELD CHECK OUT
-        JTextArea outText = new JTextArea("00/00/0000");
+        //TEXT FIELD NUMBER OF DAY
+        JTextArea outText = new JTextArea("00");
         outText.setBounds(130,50,100,20);
 
         //WORD NUM OF BED
@@ -125,8 +77,8 @@ public class BookingPage extends BaseForm{
 //        JTextArea numfield = new JTextArea("00");
 //        outText.setBounds(200,50,50,20);
 
-        String str[] = {"Single bed","Double bed"};
-        JComboBox cbbed = new JComboBox(str);
+
+        JTextField cbbed = new JTextField("1 or 2");
         cbbed.setFont(f);
         cbbed.setForeground(Color.BLACK);
         cbbed.setBounds(250,50,100,20);
@@ -137,7 +89,7 @@ public class BookingPage extends BaseForm{
         typeroom.setForeground(Color.BLACK);
         typeroom.setBounds(400,5,150,50);
 
-        String room[] = {"Standard room","Suite room","Deluxeroom"};
+        String room[] = {"All", "Standard Room","Suite Room","Deluxe Room"};
         JComboBox cbroom = new JComboBox(room);
         cbroom.setFont(f);
         cbroom.setForeground(Color.BLACK);
@@ -153,216 +105,150 @@ public class BookingPage extends BaseForm{
         search.setBackground(new Color(248, 246, 227));
         search.setForeground(new Color(69, 60, 103));
         search.setFont(new Font("Serif", Font.PLAIN, 15));
-        search.setBounds(400,80,100,30);
+        search.setBounds(5,80,100,30);
+
+        String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
+                "Electric device" };
+        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
+        for (Room Room : rooms) {
+            if (Room instanceof StandardRoom) {
+                Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
+                        ((StandardRoom) Room).isHavingShower() ? "Yes" : "No", "No", "No" };
+                model.addRow(rowData);
+            } else if (Room instanceof DeluxeRoom) {
+                Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(), "Yes",
+                        ((DeluxeRoom) Room).getFurniture(), "No" };
+                model.addRow(rowData);
+            } else {
+                Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(), "Yes", "No",
+                        ((SuiteRoom) Room).getElectricDevices() };
+                model.addRow(rowData);
+            }
+        }
+        table = new JTable(model);
+        table.setBounds(5,130,700,330);
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        scrollPane.setBounds(5, 130, 700, 330);
+
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                ServicePage sp = new ServicePage(person);
+              String roomType = cbroom.getSelectedItem().toString();
+              String bedText = cbbed.getText() == null ? "0" : cbbed.getText();
+              int bedNum = Integer.parseInt(bedText);
+              List<Room> filteredRooms = filterRoomsByType(roomType, bedNum);
+              updateTable(model, filteredRooms);
+            }
+        });
+
+        updateTable(model, rooms);
+
+        //WORD ENTER ID ROOM
+        JLabel enterid = new JLabel("Enter Id Room:");
+        enterid.setFont(f);
+        enterid.setForeground(Color.BLACK);
+        enterid.setBounds(130,70,150,50);
+
+        //TEXT FIELD ENTER ID
+        JTextArea enterRoomIdField = new JTextArea("00");
+        enterRoomIdField.setBounds(250,85,100,20);
+
+        //SET BUTTON BOOKING
+        JButton book = new JButton("Booking");
+        book.setLayout(null);
+        book.setBackground(new Color(248, 246, 227));
+        book.setForeground(new Color(69, 60, 103));
+        book.setFont(new Font("Serif", Font.PLAIN, 15));
+        book.setBounds(400,80,100,30);
+        book.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+//                int customerID, String checkInDate, int roomID, int num_of_day
+                String checkInInput = inText.getText();
+                int numDayInput = Integer.parseInt(numDay.getText());
+                int roomIdInput = Integer.parseInt(cbbed.getText());
+                Integer enterfieldId = Integer.parseInt(enterRoomIdField.getText());
+
+                Connector connector = new Connector();
+                QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
+//                queryCustomerRoom.insertCustomerRoom();
+                ServicePage sp = new ServicePage(person,enterfieldId);
                 dispose();
             }
         });
 
-        table = new JTable();
-        table.setBounds(5,130,530,330);
+        //SET BUTTON BACK
+        JButton back = new JButton("Back");
+        back.setLayout(null);
+        back.setBackground(new Color(248, 246, 227));
+        back.setForeground(new Color(69, 60, 103));
+        back.setFont(new Font("Serif", Font.PLAIN, 15));
+        back.setBounds(600,80,100,30);
+        back.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                HomePage hp = new HomePage(person);
+                dispose();
+            }
+        });
 
-        String columnNames[] = {"Room Id", "Price", "Num Of Bed","Room Type", "Available"};
-        DefaultTableModel model = new DefaultTableModel(columnNames, 0);
 
-        JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(5, 130, 530, 330);
-
-
-//        search.addActionListener(new ActionListener() {
-//            public void actionPerformed(ActionEvent e) {
-//                // Add code to fetch data and update table
-//                try {
-//                    Connector conn = new Connector();
-//                    QueryRoom newquery = new QueryRoom(conn);
-//                    ResultSet rs = newquery.selectStandardRoomsRS();
-//                    model.setRowCount(0); // Clear existing data
-//
-//                    while (rs.next()) {
-//                        int roomId = rs.getInt("room_id");
-//                        double price = rs.getDouble("price");
-//                        int numOfBeds = rs.getInt("num_of_beds");
-//                        String roomType = rs.getString("room_type");
-//                        boolean isAvailable = rs.getBoolean("is_available");
-//                        Object[] row = {roomId, price, numOfBeds, roomType, isAvailable};
-//                        model.addRow(row);
-//                    }
-//                } catch (SQLException ex) {
-//                    ex.printStackTrace();
-//                }
-//            }
-//        });
-
+        inforPanel.add(enterid);
+        inforPanel.add(enterRoomIdField);
+        inforPanel.add(back);
+        inforPanel.add(book);
         inforPanel.add(scrollPane);
         inforPanel.add(search);
-        inforPanel.add(table);
         inforPanel.add(cbroom);
         inforPanel.add(cbbed);
         inforPanel.add(numofbed);
         inforPanel.add(typeroom);
-        inforPanel.add(inText);
-        inforPanel.add(checkOut);
-        inforPanel.add(outText);
         inforPanel.add(checkIn);
+        inforPanel.add(numDay);
+        inforPanel.add(outText);
+        inforPanel.add(inText);
         inforPanel.add(typeroom);
         MainPanel.add(inforPanel);
     }
-    //DELUXE
-    public Integer setDeluxePanel() {
-        DeluxePanel = new JPanel();
-        DeluxePanel.setLayout(null);
-        DeluxePanel.setBounds(50, 20, 200, 350);
-        DeluxePanel.setBackground(new Color(154, 200, 205));
 
-        //SET IMAGE
-        ImageIcon img = new ImageIcon("src\\GUI\\Images\\Deluxeroom1.jpg");
-        JLabel imgLabel = new JLabel(img);
-        imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
-
-        //SET DELUXE ROOM WORDS
-        JLabel deluxe = new JLabel("Deluxe room");
-        deluxe.setFont(new Font("Serif", Font.PLAIN, 20));
-        deluxe.setBounds(30,320,150,20);
-        deluxe.setForeground(Color.BLACK);
-
-        //SET NUMBER OF ROOM
-        JTextField deluxeField = new JTextField("00");
-        deluxeField.setBounds(150,323,30,20);
-        deluxeField.setBackground(Color.WHITE);
-
-        //Return value
-        String numDeluRoom = deluxeField.getText();
-        Integer num = Integer.parseInt(numDeluRoom);
-
-
-        DeluxePanel.add(deluxeField);
-        DeluxePanel.add(imgLabel);
-        DeluxePanel.add(deluxe);
-        MainPanel.add(DeluxePanel);
-
-        return num;
+    private static List<Room> filterRoomsByType(String type, int num_of_beds) {
+        ConnectDatabase connectDatabase = new ConnectDatabase();
+        Connector connector = new Connector();
+        QueryAll connectToDb = new QueryAll(connector);
+        rooms = connectToDb.queryRoom.selectAll();
+        rooms.forEach(System.out::println);
+        if (type.equals("All")) {
+            return new ArrayList<>(rooms);
+        }
+        if (type.equals("Standard Room")) {
+            return connectToDb.queryRoom.selectStandardRoomsRS(num_of_beds);
+        }
+        if (type.equals("Deluxe Room")) {
+            return connectToDb.queryRoom.selectDeluxeRoomsRS(num_of_beds);
+        }
+        if (type.equals("Suite Room")) {
+            return connectToDb.queryRoom.selectSuiteRoomsRS(num_of_beds);
+        }
+        return null;
     }
 
-    //STANDARD
-    public Integer setStandardPanel() {
-        StandardPanel= new JPanel();
-        StandardPanel.setLayout(null);
-        StandardPanel.setBounds(300, 20, 200, 350);
-        StandardPanel.setBackground(new Color(154, 200, 205));
-
-        //SET IMAGE
-        ImageIcon img = new ImageIcon("src/GUI/Images/Standardroom1.jpg");
-        JLabel imgLabel = new JLabel(img);
-        imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
-        JLabel standard = new JLabel("Standard room");
-
-        //SET STANDARD ROOM WORD
-        standard.setFont(new Font("Serif", Font.PLAIN, 20));
-        standard.setForeground(Color.BLACK);
-        standard.setBounds(30,320,150,20);
-
-        //SET NUMBER OF ROOM
-        JTextField standardField = new JTextField("00");
-        standardField.setBounds(160,323,30,20);
-        standardField.setBackground(Color.WHITE);
-
-        //Return value
-        String numStandRoom = standardField.getText();
-        Integer num = Integer.parseInt(numStandRoom);
-
-
-        StandardPanel.add(standardField);
-        StandardPanel.add(standard);
-        StandardPanel.add(imgLabel);
-        MainPanel.add(StandardPanel);
-
-        return num;
+    private static void updateTable(DefaultTableModel tableModel, List<Room> rooms) {
+        tableModel.setRowCount(0);
+        for (Room room : rooms) {
+            if (room instanceof StandardRoom) {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(),
+                        ((StandardRoom) room).isHavingShower() ? "Yes" : "No", "No", "No" };
+                tableModel.addRow(rowData);
+            } else if (room instanceof DeluxeRoom) {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(), "Yes",
+                        ((DeluxeRoom) room).getFurniture(), "No" };
+                tableModel.addRow(rowData);
+            } else {
+                Object[] rowData = { room.getId(), room.getPrice(), room.getType(), room.getNumOfBed(), "Yes", "No",
+                        ((SuiteRoom) room).getElectricDevices() };
+                tableModel.addRow(rowData);
+            }
+        }
     }
-
-    //SUITE
-    public Integer setSuitePanel() {
-        SuitePanel = new JPanel();
-        SuitePanel.setLayout(null);
-        SuitePanel.setBounds(550, 20, 200, 350);
-        SuitePanel.setBackground(new Color(154, 200, 205));
-
-        //SET IMAGE
-        ImageIcon img = new ImageIcon("src/GUI/Images/Suiteroom1.jpg");
-        JLabel imgLabel = new JLabel(img);
-        imgLabel.setBounds(0, 0, img.getIconWidth(), img.getIconHeight());
-
-        //SET SUITE ROOM WORD
-        JLabel suite = new JLabel("Suite room");
-        suite.setFont(new Font("Serif", Font.PLAIN, 20));
-        suite.setForeground(Color.BLACK);
-        suite.setBounds(50,320,150,20);
-
-        //SET NUMBER OF ROOM
-        JTextField suiteField = new JTextField("00");
-        suiteField.setBounds(150,323,30,20);
-        suiteField.setBackground(Color.WHITE);
-
-        //Return value
-        String numSuiteRoom = suiteField.getText();
-        Integer num = Integer.parseInt(numSuiteRoom);
-
-        SuitePanel.add(suiteField);
-        SuitePanel.add(suite);
-        SuitePanel.add(imgLabel);
-        MainPanel.add(SuitePanel);
-
-        return num;
-    }
-
-
-    //BOOKING
-//    public void setBookingPanel() {
-//        BookingPanel = new JPanel();
-//        BookingPanel.setLayout(null);
-//        BookingPanel.setBounds(50,380,700,100);
-//        BookingPanel.setBackground(new Color(154, 200, 205));
-//
-//        //WORD CHECK IN
-//        JLabel checkIn = new JLabel("Check In Date:");
-//        checkIn.setFont(f);
-//        checkIn.setForeground(Color.BLACK);
-//        checkIn.setBounds(100,5,150,50);
-//
-//        //TEXT FIELD CHECK IN
-//        JTextArea inText = new JTextArea("00/00/0000");
-//        inText.setBounds(100,50,100,20);
-//
-//        //WORD CHECK OUT
-//        JLabel checkOut = new JLabel("Check Out Date:");
-//        checkOut.setFont(f);
-//        checkOut.setForeground(Color.BLACK);
-//        checkOut.setBounds(300,5,150,50);
-//
-//        //TEXT FIELD CHECK OUT
-//        JTextArea outText = new JTextArea("00/00/0000");
-//        outText.setBounds(300,50,100,20);
-//
-//
-//        //BUTTON BOOKING
-//        JButton book = new JButton("Booking");
-//        book.setLayout(null);
-//        book.setBackground(new Color(225, 247, 245));
-//        book.setForeground(new Color(14, 70, 163));
-//        book.setFont(new Font("Serif", Font.PLAIN, 15));
-//        book.setBounds(500,40,100,30);
-//
-//
-//        //ADD
-//        BookingPanel.add(book);
-//        BookingPanel.add(outText);
-//        BookingPanel.add(inText);
-//        BookingPanel.add(checkOut);
-//        BookingPanel.add(checkIn);
-//        MainPanel.add(BookingPanel);
-//    }
-
 
 //    public static void main(String[] args) {
 //        new BookingPage(person);
