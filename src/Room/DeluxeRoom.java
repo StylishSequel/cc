@@ -6,7 +6,12 @@ import java.util.List;
 public class DeluxeRoom extends Room{
     private String type = "DeluxeRoom";
     private String furniture ;
-    
+
+    public DeluxeRoom (double price, int numOfBed, boolean isAvailable, String type, String furniture) {
+        super(price, numOfBed,isAvailable);
+        this.type = type;
+        this.furniture = furniture;
+    }
     
     public DeluxeRoom(int room_id, double price, int numOfBed, String furniture, boolean isAvailable, int numOfDay,
             String check_in_date, String e_check_out_date) {

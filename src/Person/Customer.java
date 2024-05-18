@@ -128,20 +128,19 @@ public class Customer extends Person {
         System.out.println("Room is not available");
         
     }
-    public void checkOut(int room_id){
+    public double checkOut(int room_id){
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);
         List<Room> bookedRoom = connectToDb.queryCustomerRoom.selectCustomerRooms(this.getID());
+        connectToDb.queryRoom.updateAvailableRoom(room_id,true);
         bookedRoom.stream().filter(room -> room.getId() == room_id).findFirst().ifPresent(room -> {
             connectToDb.queryCustomerRoom.updateCheckOutDate(this.getID(),room_id);
-//            connectToDb.queryRoom.updateRoomAvailable(room_id,true);
-
-            
         });
-        ConnectDatabase connection = new ConnectDatabase();
-        connection.updateActiveCustomer(this.getID(),false);
         System.out.println("Check out successfully");
-        
+        double service  = connectToDb.queryRoomService.calculateRoomService(room_id);
+
+        Room room = connectToDb.queryRoom.select(room_id);
+        return service + room.getPrice() * room.getNumOfDay();
     }
 //
 //    public static void main(String[] args) {

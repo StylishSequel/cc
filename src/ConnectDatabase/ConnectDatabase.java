@@ -178,7 +178,7 @@ public class ConnectDatabase {
     }
 
     public Customer insertCustomer(String name, boolean gender, String phone, boolean is_active) {
-        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING id";
+        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING customer_id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
@@ -188,7 +188,7 @@ public class ConnectDatabase {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             System.out.println("Customer inserted successfully!");
-            return new Customer(rs.getInt("id"), name, gender, phone, is_active);
+            return new Customer(rs.getInt("customer_id"), name, gender, phone, is_active);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -197,7 +197,7 @@ public class ConnectDatabase {
     public Employee insertEmployee(String name, boolean gender, String phone, boolean is_active, double salary,
             String job) {
         String query = "INSERT INTO employees(name, gender, phone, is_active, salary, job)" +
-                "VALUES(?, ?, ?, ?, ?, ?) RETURNING id";
+                "VALUES(?, ?, ?, ?, ?, ?) RETURNING employee_id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
@@ -208,7 +208,7 @@ public class ConnectDatabase {
             pstmt.setString(6, job);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            return new Employee(rs.getInt("id"), name, gender, phone, is_active, salary, job);
+            return new Employee(rs.getInt("employee_id"), name, gender, phone, is_active, salary, job);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -499,6 +499,21 @@ public class ConnectDatabase {
         String query = "INSERT INTO customer_account(customer_account_id,user_name, pass_word ) VALUES(?, ?, ?)";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            pstmt.setString(2, username);
+            pstmt.setString(3, password);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void insertEmployeeAccount(String username, String password, String name, Boolean gender,String phone,Boolean is_active,double salary, String job) {
+        int id = insertEmployee(name, gender, phone, is_active,salary, job).getID();
+
+        String query = "INSERT INTO employee_account(employee_account_id,user_name, pass_word ) VALUES(?, ?, ?)";
+        try (Connection con = connect();
+             PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, id);
             pstmt.setString(2, username);
             pstmt.setString(3, password);

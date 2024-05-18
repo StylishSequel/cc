@@ -31,7 +31,7 @@ public class ManagerPage extends BaseForm {
         chooseFunction = new JPanel();
         chooseFunction.setLayout(null);
         chooseFunction.setBackground(new Color(154, 200, 205));
-        chooseFunction.setBounds(200,100,400,250);
+        chooseFunction.setBounds(200,100,400,300);
 
         //WORD MANAGER ROLE
         JLabel managerRole = new JLabel("MANAGER ROLE");
@@ -45,8 +45,8 @@ public class ManagerPage extends BaseForm {
         addEm.setBounds(20,100,150,50);
         addEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Manager manager = new Manager();
-                AddEmployeePage addEmployeePage = new AddEmployeePage(manager);
+                AddEmployeePage addEmployeePage = new AddEmployeePage(person);
+                dispose();
             }
         });
 
@@ -57,9 +57,21 @@ public class ManagerPage extends BaseForm {
         removeEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DeleteEmployeePage deleteEmployeePage = new DeleteEmployeePage(person);
+                dispose();
             }
         });
 
+        //SET ADD ROOM BUTTON
+        JButton addroom = setButton("ADD ROOM");
+        addroom.setFont(new Font("Serif", Font.PLAIN, 15));
+        addroom.setBounds(110,170,150,50);
+        addroom.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AddRoomPage addRoomPage = new AddRoomPage(person);
+                dispose();
+            }
+        });
+        chooseFunction.add(addroom);
 
         //SET BUTTON BACK
         JButton back = new JButton("Back");
@@ -67,7 +79,7 @@ public class ManagerPage extends BaseForm {
         back.setBackground(new Color(248, 246, 227));
         back.setForeground(new Color(69, 60, 103));
         back.setFont(new Font("Serif", Font.PLAIN, 15));
-        back.setBounds(140,180,100,30);
+        back.setBounds(140,230,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 HomePage hp = new HomePage(person);

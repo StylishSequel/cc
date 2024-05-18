@@ -155,14 +155,12 @@ public class BaseForm extends JFrame  {
             }
             MenuPanel.add(employeeButton);
         }
-        MenuPanel.add(managerButton);
         MenuPanel.add(bookingButton);
         MenuPanel.add(homeButton);
     }
 
-//    public static void main(String[] args) {
-//        Manager manager  = new Manager();
-//        Customer customer = new Customer("John Doe",true,"123456789",true);
-//        BaseForm frame = new BaseForm(customer);
-//    }
+    public static void main(String[] args) {
+        Manager manager  = new Manager();
+        BaseForm frame = new BaseForm(manager);
+    }
 }

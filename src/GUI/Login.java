@@ -205,7 +205,7 @@ public class Login extends JFrame {
                 }
                 else if(idEm != -1){
                         Employee employee = query.queryEmployee.select(idEm);
-                        if (employee.getJob() == "Manager") {
+                        if (employee.getJob().equals("Manager")) {
                             person = new Manager(employee.getID(), employee.getName(), employee.isGender(), employee.getPhone(), employee.is_active(), employee.getSalary(), employee.getJob());
                         }
                         else{

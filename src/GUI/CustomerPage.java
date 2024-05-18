@@ -101,15 +101,19 @@ public class CustomerPage extends BaseForm{
                     customerPanel.add(scrollPaneRoom);
 
 
-                    String[] columnServices = { "Room ID", "Name","Price","Date"};
+                    String[] columnServices = { "Room ID","Service ID", "Name","Price","Date"};
                     QueryRoomService queryRoomService = new QueryRoomService(connector);
-                    List<Service> services = queryRoomService.selectCurRoomService(person.getID());
                     DefaultTableModel modelService = new DefaultTableModel(columnServices, 0);
 
-                    for(Service service : services) {
-                        Object[] rowService = {service.getId(), service.getName(), service.getPrice(),service.getDate()};
-                        modelService.addRow(rowService);
+                    for (Room room : roomList) {
+                        List<Service> services = queryRoomService.selectCurRoomService(room.getId());
+
+                        for(Service service : services) {
+                            Object[] rowService = {room.getId(),service.getId(), service.getName(), service.getPrice(),service.getDate()};
+                            modelService.addRow(rowService);
+                        }
                     }
+
                     //SET TABLE SERVICES
                     JTable tableService = new JTable(modelService);
 //                tableService.setBounds(10,600,100,200);

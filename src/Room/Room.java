@@ -48,6 +48,11 @@ public abstract class Room {
 
     }
 
+    public Room( double price, int numOfBed, boolean isAvailable) {
+        this.price = price;
+        this.numOfBed = numOfBed;
+        this.isAvailable = isAvailable;
+    }
     public Room(int room_id, double price, int numOfBed, boolean isAvailable) {
         this.room_id = room_id;
         this.price = price;
