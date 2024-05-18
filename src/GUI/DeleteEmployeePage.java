@@ -6,6 +6,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.sql.SQLException;
+
+import ConnectDatabase.*;
 import Person.*;
 public class DeleteEmployeePage extends BaseForm{
     private JPanel contentPanel;
@@ -67,8 +70,25 @@ public class DeleteEmployeePage extends BaseForm{
 
         enterButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                HomePage homePage = new HomePage(person);
-                dispose();
+                Integer idInput = Integer.parseInt(idText.getText());
+                Manager m = new Manager();
+                try {
+                    ConnectDatabase connectDatabase = new ConnectDatabase();
+                    Connector connector = new Connector();
+                    QueryAll queryAll = new QueryAll(connector);
+                    Employee employee = queryAll.queryEmployee.select(idInput);
+
+                    if(employee != null) {
+                        m.removeEmployee(idInput);
+                        JOptionPane.showMessageDialog(null, "Delete employee successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        HomePage homePage = new HomePage(person);
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(null, " Id not found: " , "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 

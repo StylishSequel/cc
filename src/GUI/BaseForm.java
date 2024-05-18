@@ -155,7 +155,7 @@ public class BaseForm extends JFrame  {
             }
             MenuPanel.add(employeeButton);
         }
-
+        MenuPanel.add(managerButton);
         MenuPanel.add(bookingButton);
         MenuPanel.add(homeButton);
     }

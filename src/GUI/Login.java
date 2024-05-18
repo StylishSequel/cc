@@ -209,14 +209,13 @@ public class Login extends JFrame {
                         else{
                             person = employee;
                         }
+                    HomePage home = new HomePage(person);
+                    dispose();
                 }
                 else{
                     JOptionPane.showMessageDialog(pane, "Invalid username or password", "Message Title",
                             JOptionPane.INFORMATION_MESSAGE);
                 }
-            HomePage home = new HomePage(person);
-            dispose();
-
             }
         });
 

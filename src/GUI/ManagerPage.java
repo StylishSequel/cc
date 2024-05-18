@@ -83,7 +83,7 @@ public class ManagerPage extends BaseForm {
     }
 
 //    public static void main(String[] args) {
-//        new ManagerPage();
+//        new ManagerPage(per);
 //    }
 
 }

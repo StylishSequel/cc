@@ -28,7 +28,8 @@ public class Employee extends Person {
         super(name,gender,phone,is_active);
         this.salary = salary;
         this.job = job;
-    } 
+    }
+
     public Boolean is_active() {
         return this.isActive();
     }
