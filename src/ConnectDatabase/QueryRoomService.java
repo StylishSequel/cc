@@ -41,7 +41,8 @@ public class QueryRoomService {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                services.add(new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price"), rs.getString("date")));
+                services.add(new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price"),
+                        rs.getString("date")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
