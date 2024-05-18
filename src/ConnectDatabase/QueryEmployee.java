@@ -80,6 +80,7 @@ public class QueryEmployee implements IQuery<Employee> {
                 return new Employee(rs.getInt("employee_id"), rs.getString("name"), rs.getBoolean("gender"),
                         rs.getString("phone"), rs.getBoolean("is_active"), rs.getDouble("salary"), rs.getString("job"));
             }
+            return null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
