@@ -39,7 +39,9 @@ public class HomePage extends BaseForm {
         createButton();
         setword();
         setImage();
-        createRoomTable();
+        if (person instanceof Manager) {
+            createRoomTable();
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
         setBackground();
