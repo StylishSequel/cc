@@ -84,9 +84,13 @@ public class ServicePage extends BaseForm {
                     room_id = Integer.parseInt(roomIdField.getText());
                     check_in_date = checkInDateField.getText();
                     System.out.println(person.getID());
-                    rooms = queryAll.queryCustomerRoom.selectCustomerRooms(person.getID());
+
+                    // rooms = queryAll.queryCustomerRoom.selectCustomerRooms(person.getID());
+                    rooms = ((Customer) person).getBookedRoom(room_id);
                 } else {
-                    rooms = queryAll.queryCustomerRoom.selectCustomerRooms(room_id);
+                    // rooms = queryAll.queryCustomerRoom.selectCustomerRooms(room_id);
+                    rooms = queryAll.queryCustomer.select(room_id)
+                            .getBookedRoom(Integer.parseInt(roomIdField.getText()));
                     room_id = Integer.parseInt(roomIdField.getText());
                     check_in_date = checkInDateField.getText();
                     System.out.println(room_id);
@@ -97,26 +101,27 @@ public class ServicePage extends BaseForm {
                     return;
                 }
 
-                System.out.println(rooms);
+                Room room = rooms.get(0);
                 LocalDate bookedDate = LocalDate.parse(check_in_date);
-                LocalDate eCheckOutDate = LocalDate.parse(rooms.get(0).getECheckOutDate());
-                LocalDate checkInDate = LocalDate.parse(rooms.get(0).getCheck_in_date());
+                LocalDate eCheckOutDate = LocalDate.parse(room.getECheckOutDate());
+                LocalDate checkInDate = LocalDate.parse(room.getCheck_in_date());
                 if (bookedDate.isAfter(eCheckOutDate) || bookedDate.isBefore(checkInDate)) {
-                    JOptionPane.showMessageDialog(null, "Cannot book service after expected check out date and bofore check in date");
+                    JOptionPane.showMessageDialog(null,
+                            "Cannot book service after expected check out date and bofore check in date");
                     return;
                 }
 
                 if (cleaningInput) {
-                    queryRoomService.insertRoomService(room_id, 1, check_in_date);
+                    room.bookService(1, check_in_date);
                 }
                 if (fruitInput) {
-                    queryRoomService.insertRoomService(room_id, 2, check_in_date);
+                    room.bookService(2, check_in_date);
                 }
                 if (breakfastInput) {
-                    queryRoomService.insertRoomService(room_id, 3, check_in_date);
+                    room.bookService(3, check_in_date);
                 }
                 if (laundryInput) {
-                    queryRoomService.insertRoomService(room_id, 4, check_in_date);
+                    room.bookService(4, check_in_date);
                 }
                 HomePage homePage = new HomePage(person);
                 dispose();
@@ -132,7 +137,7 @@ public class ServicePage extends BaseForm {
         back.setBounds(310, 390, 100, 30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                CustomerPage customerPage = new CustomerPage(person);
+                BookingPage bookingPage = new BookingPage(person);
                 dispose();
             }
         });
@@ -276,7 +281,7 @@ public class ServicePage extends BaseForm {
     }
 
     public static void main(String[] args) {
-        Person person1 = new Person();
+        Customer person1 = new Customer();
         person1.setID(6);
         new ServicePage(person1, 100, "2024-06-03");
     }
