@@ -85,10 +85,9 @@ public class ServicePage extends BaseForm {
                     check_in_date = checkInDateField.getText();
                     System.out.println(person.getID());
 
-                    // rooms = queryAll.queryCustomerRoom.selectCustomerRooms(person.getID());
                     rooms = ((Customer) person).getBookedRoom(room_id);
                 } else {
-                    // rooms = queryAll.queryCustomerRoom.selectCustomerRooms(room_id);
+
                     rooms = queryAll.queryCustomer.select(room_id)
                             .getBookedRoom(Integer.parseInt(roomIdField.getText()));
                     room_id = Integer.parseInt(roomIdField.getText());

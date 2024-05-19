@@ -42,6 +42,7 @@ public class ManagerPage extends BaseForm {
         //SET ADD EMPLOYEE BUTTON
         JButton addEm = setButton("ADD EMPLOYEE");
         addEm.setFont(new Font("Serif", Font.PLAIN, 15));
+        addEm.setBackground(new Color(248, 246, 227));
         addEm.setBounds(20,100,150,50);
         addEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -53,6 +54,7 @@ public class ManagerPage extends BaseForm {
         //SET REMOVE EMPLOYEE BUTTON
         JButton removeEm = setButton("REMOVE EMPLOYEE");
         removeEm.setFont(new Font("Serif", Font.PLAIN, 15));
+        removeEm.setBackground(new Color(248, 246, 227));
         removeEm.setBounds(200,100,180,50);
         removeEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -64,7 +66,8 @@ public class ManagerPage extends BaseForm {
         //SET ADD ROOM BUTTON
         JButton addroom = setButton("ADD ROOM");
         addroom.setFont(new Font("Serif", Font.PLAIN, 15));
-        addroom.setBounds(110,170,150,50);
+        addroom.setBackground(new Color(248, 246, 227));
+        addroom.setBounds(20,170,150,50);
         addroom.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 AddRoomPage addRoomPage = new AddRoomPage(person);
@@ -72,6 +75,19 @@ public class ManagerPage extends BaseForm {
             }
         });
         chooseFunction.add(addroom);
+
+        //SET CUSTOMER BUTTON
+        JButton cusderoom = setButton("CUSTOMER DETAIL");
+        cusderoom.setFont(new Font("Serif", Font.PLAIN, 15));
+        cusderoom.setBackground(new Color(248, 246, 227));
+        cusderoom.setBounds(200,170,180,50);
+        cusderoom.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AddRoomPage addRoomPage = new AddRoomPage(person);
+                dispose();
+            }
+        });
+        chooseFunction.add(cusderoom);
 
         //SET BUTTON BACK
         JButton back = new JButton("Back");

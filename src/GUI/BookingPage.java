@@ -90,6 +90,7 @@ public class BookingPage extends BaseForm {
 
             }
         });
+
         // WORD NUM OF BED
         JLabel numofbed = new JLabel("Number of Bed:");
         numofbed.setFont(f);
@@ -117,6 +118,7 @@ public class BookingPage extends BaseForm {
 
             }
         });
+
         // WORD TYPE OF ROOM
         JLabel typeroom = new JLabel("Room Type:");
         typeroom.setFont(f);

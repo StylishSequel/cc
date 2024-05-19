@@ -1,7 +1,5 @@
 package GUI;
-import ConnectDatabase.Connector;
-import ConnectDatabase.QueryAll;
-import ConnectDatabase.QueryRoom;
+import ConnectDatabase.*;
 import Person.*;
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +8,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import Room.*;
+
+
 public class EmployeePage  extends BaseForm{
     private JPanel contentPanel;
     private Person person;
@@ -141,7 +141,5 @@ public class EmployeePage  extends BaseForm{
         MainPanel.add(contentPanel);
     }
 
-//    public static void main(String[] args) {
-//        new EmployeePage();
-//    }
+
 }
