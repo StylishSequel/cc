@@ -12,7 +12,7 @@ public class Customer extends Person {
     QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
     QueryRoomService queryRoomService = new QueryRoomService(connector);
     QueryRoom queryRoom = new QueryRoom(connector);
-
+    QueryCustomer queryCustomer = new QueryCustomer(connector);
 
     public Customer() {
 
@@ -115,7 +115,7 @@ public class Customer extends Person {
     // connector.insertCustomerRoom(this.getID(), id, numOfDay);
     // System.out.println("Room booked successfully");
     public void bookRoom(int room_id, int numOfDay, String checkindate) {
-        
+
         List<Room> availableRoom = queryRoom.selectAll();
         boolean flag = availableRoom.stream().anyMatch(room -> room.getId() == room_id);
         if (flag) {
@@ -131,6 +131,10 @@ public class Customer extends Person {
         queryRoom.updateAvailableRoom(room_id, true);
         queryCustomerRoom.updateCheckOutDate(this.getID(), room_id);
         System.out.println("Check out successfully");
+        List<Room> rooms = queryCustomerRoom.selectCustomerRooms(this.getID());
+        if (rooms.size() == 0) {
+            queryCustomer.updateActiveCustomer(this.getID(), false);
+        }
     }
 
     public List<Room> getBookedRoom() {
@@ -145,8 +149,12 @@ public class Customer extends Person {
 
     public double CalculatePrice(int room_id) {
         double service = queryRoomService.calculateRoomService(room_id);
-        Room room = queryRoom.select(room_id);
+        Room room = queryCustomerRoom.selectCustomerRooms(this.getID(), room_id).get(0);
         return service + room.getPrice() * room.getNumOfDay();
+    }
+
+    public void updateStatus(boolean status) {
+        queryCustomer.updateActiveCustomer(getID(), status);
     }
     //
     // public static void main(String[] args) {
