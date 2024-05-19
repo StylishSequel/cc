@@ -167,13 +167,13 @@ import java.util.List;
 //// import javax.swing.*;
 //// import GUI.*;
 //
-//import Person.*;
-//     public class Main {
-//         public static void main(String[] args) {
-//             Customer customer = new Customer();
-//             Connector connector = new Connector();
-//             double price = customer.CalculatePrice(5);
-//             customer.checkOut(5);
-//             System.out.println(price);
-//         }
-//     }
+import Person.*;
+     public class Main {
+         public static void main(String[] args) {
+             Customer customer = new Customer();
+             Connector connector = new Connector();
+             double price = customer.CalculatePrice(3);
+             customer.checkOut(5);
+             System.out.println(price);
+         }
+     }

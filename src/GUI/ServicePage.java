@@ -131,7 +131,7 @@ public class ServicePage extends BaseForm {
         back.setBounds(310, 390, 100, 30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                BookingPage bookingPage = new BookingPage(person);
+                CustomerPage customerPage = new CustomerPage(person);
                 dispose();
             }
         });
