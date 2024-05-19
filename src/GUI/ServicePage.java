@@ -2,11 +2,12 @@ package GUI;
 
 import ConnectDatabase.*;
 import Person.Person;
-
+import Room.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 public class ServicePage extends BaseForm {
     private int room_id;
@@ -17,11 +18,13 @@ public class ServicePage extends BaseForm {
     private JPanel laundryPanel;
     private Person person;
     private JRadioButton cleanButton, fruitButton, breakfastButton, laundryButton;
+    private String check_in_date;
 
-    public ServicePage(Person person,int room_id){
+    public ServicePage(Person person,int room_id,String check_in_date){
         super(person);
         this.room_id = room_id;
         this.person = person;
+        this.check_in_date = check_in_date;
         setCleaningPanel();
         setFruitPanel();
         setBreakfastPanel();
@@ -63,17 +66,21 @@ public class ServicePage extends BaseForm {
 
                 Connector connector = new Connector();
                 QueryRoomService queryRoomService = new QueryRoomService(connector);
+                QueryAll queryAll = new QueryAll(connector);
+
+                List<Room> roomList = queryAll.queryCustomerRoom.selectCustomerRooms(room_id);
+
                 if(cleaningInput){
-                    queryRoomService.insertRoomService(room_id,1);
+                    queryRoomService.insertRoomService(room_id,1,check_in_date);
                 }
                 if(fruitInput){
-                    queryRoomService.insertRoomService(room_id,2);
+                    queryRoomService.insertRoomService(room_id,2,check_in_date);
                 }
                 if(breakfastInput){
-                    queryRoomService.insertRoomService(room_id,3);
+                    queryRoomService.insertRoomService(room_id,3,check_in_date);
                 }
                 if(laundryInput){
-                    queryRoomService.insertRoomService(room_id,4);
+                    queryRoomService.insertRoomService(room_id,4,check_in_date);
                 }
                 HomePage homePage = new HomePage(person);
                 dispose();
@@ -216,8 +223,8 @@ public class ServicePage extends BaseForm {
     }
 
 
-    public static void main(String[] args) {
-        Person person1 = new Person();
-        new ServicePage(person1,1);
-    }
+//    public static void main(String[] args) {
+//        Person person1 = new Person();
+//        new ServicePage(person1,1);
+//    }
 }

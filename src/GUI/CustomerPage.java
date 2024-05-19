@@ -37,25 +37,7 @@ public class CustomerPage extends BaseForm{
         Font fontWord = new Font("Serif", Font.PLAIN, 15);
 
         if(person instanceof Customer) {
-            //SET BOOKING SERVICES BUTTON
-            JButton bookingButton = new JButton("Booking Service");
-            bookingButton.setLayout(null);
-            bookingButton.setBackground(new Color(248, 246, 227));
-            bookingButton.setForeground(new Color(69, 60, 103));
-            bookingButton.setFont(fontWord);
-            bookingButton.setBounds(300,15,200,30);
-            bookingButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    if(person instanceof Employee) {
-                        ServicePage servicePage = new ServicePage(person,person.getID());
-                        dispose();
-                    } else {
-                        ServicePage servicePage = new ServicePage(person,person.getID());
-                        dispose();
-                    }
-                }
-            });
-            customerPanel.add(bookingButton);
+
             //SET SHOWN INFOR BUTTON
             JButton showninforButton = new JButton("Show Information");
             showninforButton.setLayout(null);
@@ -92,7 +74,6 @@ public class CustomerPage extends BaseForm{
 
                     //SET TABLE ROOM
                     JTable tableRoom = new JTable(model);
-//                tableRoom.setBounds(10,100,700,300);
                     customerPanel.add(tableRoom);
 
                     //SET SCROLL PANE ROOM
@@ -209,28 +190,6 @@ public class CustomerPage extends BaseForm{
                     JScrollPane scrollPaneServices = new JScrollPane(tableService);
                     scrollPaneServices.setBounds(10, 380, 720, 80);
                     customerPanel.add(scrollPaneServices);
-
-
-                    //SET BOOKING SERVICES BUTTON
-                    JButton bookingButton = new JButton("Booking Service");
-                    bookingButton.setLayout(null);
-                    bookingButton.setBackground(new Color(248, 246, 227));
-                    bookingButton.setForeground(new Color(69, 60, 103));
-                    bookingButton.setFont(fontWord);
-                    bookingButton.setBounds(300,15,200,30);
-                    bookingButton.addActionListener(new ActionListener() {
-                        public void actionPerformed(ActionEvent e) {
-                            if(person instanceof Employee) {
-                                int enterid = Integer.parseInt(idText.getText());
-                                ServicePage servicePage = new ServicePage(person,enterid);
-                                dispose();
-                            } else {
-                                ServicePage servicePage = new ServicePage(person,person.getID());
-                                dispose();
-                            }
-                        }
-                    });
-                    customerPanel.add(bookingButton);
                 }
             });
         }

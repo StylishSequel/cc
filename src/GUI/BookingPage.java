@@ -55,20 +55,7 @@ public class BookingPage extends BaseForm{
         checkIn.setForeground(Color.BLACK);
         checkIn.setBounds(5,5,150,50);
 
-        // //TEXT FIELD CHECK IN
-        // JTextArea inText = new JTextArea("0000-00-00");
-        // inText.setBounds(5,50,100,20);
-        // inText.addFocusListener(new FocusListener()  {
-        //     @Override
-        //     public void focusGained(FocusEvent e) {
-        //         inText.setText("");
-        //     }
-
-        //     @Override
-        //     public void focusLost(FocusEvent e) {
-        //         inText.setText("0000-00-00");
-        //     }
-        // });
+        //
         UtilDateModel model1 = new UtilDateModel();
         Properties p = new Properties();
         p.put("text.today", "Today");
@@ -80,7 +67,8 @@ public class BookingPage extends BaseForm{
 
         // Đặt vị trí và kích thước cho JDatePicker
         inText.setBounds(5, 50, 110, 20);
-        
+        inforPanel.add(inText);
+
         //WORD NUMBER OF DAY
         JLabel numDay = new JLabel("Number Of Day:");
         numDay.setFont(f);
@@ -114,19 +102,15 @@ public class BookingPage extends BaseForm{
         numofbed.setBounds(290,5,150,50);
 
 
-//        //TEXT FIELD NUM OF BED
-//        JTextArea numfield = new JTextArea("00");
-//        outText.setBounds(200,50,50,20);
 
-
-        JTextField cbbed = new JTextField("1 or 2");
+        JTextField cbbed = new JTextField("00");
         cbbed.setFont(f);
         cbbed.setForeground(Color.BLACK);
         cbbed.setBounds(250,50,100,20);
         cbbed.addFocusListener(new FocusListener()  {
             @Override
             public void focusGained(FocusEvent e) {
-                if(cbbed.getText().equals("1 or 2")){
+                if(cbbed.getText().equals("00")){
                     cbbed.setText("");
                 }
                 
@@ -135,7 +119,7 @@ public class BookingPage extends BaseForm{
             @Override
             public void focusLost(FocusEvent e) {
                 if(cbbed.getText().equals("")){
-                    cbbed.setText("1 or 2");
+                    cbbed.setText("00");
                 }
                 
             }
@@ -242,7 +226,7 @@ public class BookingPage extends BaseForm{
                 if (person instanceof Customer) {
                     ((Customer) person).bookRoom(roomIdInput, numDayInput, checkInInput);
                 }
-                ServicePage sp = new ServicePage(person, roomIdInput);
+                ServicePage sp = new ServicePage(person, roomIdInput,checkInInput);
                 dispose();
 
             }
@@ -276,7 +260,6 @@ public class BookingPage extends BaseForm{
         inforPanel.add(checkIn);
         inforPanel.add(numDay);
         inforPanel.add(numDayField);
-        inforPanel.add(inText);
         inforPanel.add(typeroom);
         MainPanel.add(inforPanel);
     }

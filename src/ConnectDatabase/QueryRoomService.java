@@ -16,12 +16,14 @@ public class QueryRoomService {
         this.connector = connector;
     }
 
-    public void insertRoomService(int room_id, int service_id) {
-        String query = "INSERT INTO room_services(room_id, service_id, date)" + "VALUES(?, ?, CURRENT_DATE)";
+    public void insertRoomService(int room_id, int service_id, String check_in_date) {
+        String query = "INSERT INTO room_services(room_id, service_id, date)" + "VALUES(?, ?, ?)";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, room_id);
             pstmt.setInt(2, service_id);
+            java.sql.Date sqlCheckInDate = java.sql.Date.valueOf(check_in_date);
+            pstmt.setDate(3, sqlCheckInDate);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

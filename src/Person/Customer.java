@@ -133,7 +133,7 @@ public class Customer extends Person {
         QueryAll connectToDb = new QueryAll(connector);
         
         connectToDb.queryRoom.updateAvailableRoom(room_id,true);
-        
+        connectToDb.queryCustomerRoom.updateCheckOutDate(this.getID(),room_id);
         System.out.println("Check out successfully");
         double service  = connectToDb.queryRoomService.calculateRoomService(room_id);
 
@@ -155,6 +155,7 @@ public class Customer extends Person {
 //        c.printServices();
 //        c.printBill();
 //    }
+
 }
 
     

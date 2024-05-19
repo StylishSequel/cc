@@ -172,7 +172,7 @@ import Person.*;
          public static void main(String[] args) {
              Connector connector = new Connector();
              QueryRoomService queryRoomService = new QueryRoomService(connector);
-             List<Service> services = queryRoomService.selectCurRoomService(2);
+             List<Service> services = queryRoomService.selectCurRoomService(3);
              System.out.println(services);
          }
      }
