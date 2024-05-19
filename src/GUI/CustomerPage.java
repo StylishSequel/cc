@@ -12,13 +12,14 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
 
-
-public class CustomerPage extends BaseForm{
+public class CustomerPage extends BaseForm {
     private JPanel customerPanel;
     private Person person;
-    public CustomerPage(Person person){
+
+    public CustomerPage(Person person) {
         super(person);
         this.person = person;
         setCustomerPanel();
@@ -36,22 +37,22 @@ public class CustomerPage extends BaseForm{
 
         Font fontWord = new Font("Serif", Font.PLAIN, 15);
 
-        if(person instanceof Customer) {
+        if (person instanceof Customer) {
 
-            //SET SHOWN INFOR BUTTON
+            // SET SHOWN INFOR BUTTON
             JButton showninforButton = new JButton("Show Information");
             showninforButton.setLayout(null);
             showninforButton.setBackground(new Color(248, 246, 227));
             showninforButton.setForeground(new Color(69, 60, 103));
             showninforButton.setFont(fontWord);
-            showninforButton.setBounds(25,15,150,30);
+            showninforButton.setBounds(25, 15, 150, 30);
             customerPanel.add(showninforButton);
             showninforButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    //CREATE TABLE ROOM
+                    // CREATE TABLE ROOM
                     String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
-                            "Electric device","Check In Date", "Num of Day", "Expected Check Out Date"};
+                            "Electric device", "Check In Date", "Num of Day", "Expected Check Out Date" };
                     DefaultTableModel model = new DefaultTableModel(columnNames, 0);
                     Connector connector = new Connector();
                     QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
@@ -59,49 +60,54 @@ public class CustomerPage extends BaseForm{
                     for (Room Room : roomList) {
                         if (Room instanceof StandardRoom) {
                             Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
-                                    ((StandardRoom) Room).isHavingShower() ? "Yes" : "No", "No", "No", Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate()};
+                                    ((StandardRoom) Room).isHavingShower() ? "Yes" : "No", "No", "No",
+                                    Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate() };
                             model.addRow(rowData);
                         } else if (Room instanceof DeluxeRoom) {
-                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(), "Yes",
-                                    ((DeluxeRoom) Room).getFurniture(), "No", Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate() };
+                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
+                                    "Yes",
+                                    ((DeluxeRoom) Room).getFurniture(), "No", Room.getCheck_in_date(),
+                                    Room.getNumOfDay(), Room.getECheckOutDate() };
                             model.addRow(rowData);
                         } else {
-                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(), "Yes", "No",
-                                    ((SuiteRoom) Room).getElectricDevices(),Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate() };
+                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
+                                    "Yes", "No",
+                                    ((SuiteRoom) Room).getElectricDevices(), Room.getCheck_in_date(),
+                                    Room.getNumOfDay(), Room.getECheckOutDate() };
                             model.addRow(rowData);
                         }
                     }
 
-                    //SET TABLE ROOM
+                    // SET TABLE ROOM
                     JTable tableRoom = new JTable(model);
                     customerPanel.add(tableRoom);
 
-                    //SET SCROLL PANE ROOM
+                    // SET SCROLL PANE ROOM
                     JScrollPane scrollPaneRoom = new JScrollPane(tableRoom);
                     scrollPaneRoom.setBounds(10, 50, 720, 300);
                     customerPanel.add(scrollPaneRoom);
 
-
-                    String[] columnServices = { "Room ID","Service ID", "Name","Price","Date"};
+                    String[] columnServices = { "Room ID", "Service ID", "Name", "Price", "Date" };
                     QueryRoomService queryRoomService = new QueryRoomService(connector);
                     DefaultTableModel modelService = new DefaultTableModel(columnServices, 0);
 
                     for (Room room : roomList) {
                         List<Service> services = queryRoomService.selectCurRoomService(room.getId());
-                        
-                        for(Service service : services) {
-                            Object[] rowService = {room.getId(),service.getId(), service.getName(), service.getPrice(),service.getDate()};
+
+                        for (Service service : services) {
+                            Object[] rowService = { room.getId(), service.getId(), service.getName(),
+                                    service.getPrice(), service.getDate() };
                             modelService.addRow(rowService);
                             System.out.println("ok");
                         }
                     }
 
-                    //SET TABLE SERVICES
+                    // SET TABLE SERVICES
                     JTable tableService = new JTable(modelService);
-//                tableService.setBounds(10,600,100,200);
+                    // tableService.setBounds(10,600,100,200);
                     customerPanel.add(tableService);
 
-                    //SET SCROLL PANE SERVICES
+                    // SET SCROLL PANE SERVICES
                     JScrollPane scrollPaneServices = new JScrollPane(tableService);
                     scrollPaneServices.setBounds(10, 380, 720, 80);
                     customerPanel.add(scrollPaneServices);
@@ -110,37 +116,37 @@ public class CustomerPage extends BaseForm{
 
         }
 
-        else if(person instanceof Employee) {
-            //SET ENTER ID LABEL
+        else if (person instanceof Employee) {
+            // SET ENTER ID LABEL
             JLabel idLabel = new JLabel("Enter ID:");
             idLabel.setFont(fontWord);
             idLabel.setForeground(Color.BLACK);
-            idLabel.setBounds(25,15,150,30);
+            idLabel.setBounds(25, 15, 150, 30);
             customerPanel.add(idLabel);
 
-            //SET ID TEXT FIELD
+            // SET ID TEXT FIELD
             JTextField idText = new JTextField();
             idText.setFont(fontWord);
             idText.setForeground(Color.BLACK);
-            idText.setBounds(100,15,50,30);
+            idText.setBounds(100, 15, 50, 30);
             customerPanel.add(idText);
 
-            //SET ENTER BUTTON
+            // SET ENTER BUTTON
             JButton enterButton = new JButton("Enter");
             enterButton.setLayout(null);
             enterButton.setBackground(new Color(248, 246, 227));
             enterButton.setForeground(new Color(69, 60, 103));
             enterButton.setFont(fontWord);
-            enterButton.setBounds(180,15,100,30);
+            enterButton.setBounds(180, 15, 100, 30);
             customerPanel.add(enterButton);
             enterButton.addActionListener(new ActionListener() {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     int enterid = Integer.parseInt(idText.getText());
-                    //CREATE TABLE ROOM
+                    // CREATE TABLE ROOM
                     String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
-                            "Electric device","Check In Date", "Num of Day", "Expected Check Out Date"};
+                            "Electric device", "Check In Date", "Num of Day", "Expected Check Out Date" };
                     DefaultTableModel model = new DefaultTableModel(columnNames, 0);
                     Connector connector = new Connector();
                     QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
@@ -148,45 +154,55 @@ public class CustomerPage extends BaseForm{
                     for (Room Room : roomList) {
                         if (Room instanceof StandardRoom) {
                             Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
-                                    ((StandardRoom) Room).isHavingShower() ? "Yes" : "No", "No", "No", Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate()};
+                                    ((StandardRoom) Room).isHavingShower() ? "Yes" : "No", "No", "No",
+                                    Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate() };
                             model.addRow(rowData);
                         } else if (Room instanceof DeluxeRoom) {
-                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(), "Yes",
-                                    ((DeluxeRoom) Room).getFurniture(), "No", Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate() };
+                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
+                                    "Yes",
+                                    ((DeluxeRoom) Room).getFurniture(), "No", Room.getCheck_in_date(),
+                                    Room.getNumOfDay(), Room.getECheckOutDate() };
                             model.addRow(rowData);
                         } else {
-                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(), "Yes", "No",
-                                    ((SuiteRoom) Room).getElectricDevices(),Room.getCheck_in_date(), Room.getNumOfDay(), Room.getECheckOutDate() };
+                            Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
+                                    "Yes", "No",
+                                    ((SuiteRoom) Room).getElectricDevices(), Room.getCheck_in_date(),
+                                    Room.getNumOfDay(), Room.getECheckOutDate() };
                             model.addRow(rowData);
                         }
                     }
 
-                    //SET TABLE ROOM
+                    // SET TABLE ROOM
                     JTable tableRoom = new JTable(model);
-//                tableRoom.setBounds(10,100,700,300);
+                    // tableRoom.setBounds(10,100,700,300);
                     customerPanel.add(tableRoom);
 
-                    //SET SCROLL PANE ROOM
+                    // SET SCROLL PANE ROOM
                     JScrollPane scrollPaneRoom = new JScrollPane(tableRoom);
                     scrollPaneRoom.setBounds(10, 50, 720, 300);
                     customerPanel.add(scrollPaneRoom);
 
-
-                    String[] columnServices = { "Room ID", "Name","Price","Date"};
-                    QueryRoomService queryRoomService = new QueryRoomService(connector);
-                    List<Service> services = queryRoomService.selectCurRoomService(enterid);
+                    String[] columnServices = { "Room ID", "Service ID", "Name", "Price", "Date" };
                     DefaultTableModel modelService = new DefaultTableModel(columnServices, 0);
+                    QueryRoomService queryRoomService = new QueryRoomService(connector);
 
-                    for(Service service : services) {
-                        Object[] rowService = {service.getId(), service.getName(), service.getPrice(),service.getDate()};
-                        modelService.addRow(rowService);
+                    for (Room room : roomList) {
+                        List<Service> servicesT = queryRoomService.selectCurRoomService(room.getId());
+                        for (Service service : servicesT) {
+                            Object[] rowService = { room.getId(), service.getId(), service.getName(),
+                                    service.getPrice(),
+                                    service.getDate() };
+                            modelService.addRow(rowService);
+                        }
+
                     }
-                    //SET TABLE SERVICES
+
+                    // SET TABLE SERVICES
                     JTable tableService = new JTable(modelService);
-//                tableService.setBounds(10,600,100,200);
+                    // tableService.setBounds(10,600,100,200);
                     customerPanel.add(tableService);
 
-                    //SET SCROLL PANE SERVICES
+                    // SET SCROLL PANE SERVICES
                     JScrollPane scrollPaneServices = new JScrollPane(tableService);
                     scrollPaneServices.setBounds(10, 380, 720, 80);
                     customerPanel.add(scrollPaneServices);
@@ -194,12 +210,10 @@ public class CustomerPage extends BaseForm{
             });
         }
 
-
-
         MainPanel.add(customerPanel);
     }
 
-//    public static void main(String[] args) {
-//        new CustomerPage();
-//    }
+    public static void main(String[] args) {
+        new CustomerPage(new Manager());
+    }
 }
