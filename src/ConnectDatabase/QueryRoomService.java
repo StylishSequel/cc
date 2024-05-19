@@ -34,7 +34,7 @@ public class QueryRoomService {
                 "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
                 "JOIN services s ON rs.service_id = s.service_id " +
                 "WHERE check_out_date IS NULL AND r.room_id = ? " +
-                "AND date IN (check_in_date, e_check_out_date)";
+                "AND date BETWEEN check_in_date AND e_check_out_date";
         List<Service> services = new ArrayList<>();
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
