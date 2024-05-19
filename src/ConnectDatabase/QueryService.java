@@ -57,13 +57,13 @@ public class QueryService implements IQuery<Service> {
 
     @Override
     public Service select(int id) {
-        String query = "SELECT * FROM services WHERE id = ?";
+        String query = "SELECT * FROM services WHERE service_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             rs.next();
-            return new Service(rs.getInt("id"), rs.getString("name"), rs.getDouble("price"));
+            return new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -77,7 +77,7 @@ public class QueryService implements IQuery<Service> {
             ResultSet rs = pstmt.executeQuery();
             List<Service> services = new ArrayList<>();
             while (rs.next()) {
-                services.add(new Service(rs.getInt("id"), rs.getString("name"), rs.getDouble("price")));
+                services.add(new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price")));
             }
             return services;
         } catch (SQLException e) {
