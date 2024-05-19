@@ -145,7 +145,7 @@ public class Customer extends Person {
 
     public double CalculatePrice(int room_id) {
         double service = queryRoomService.calculateRoomService(room_id);
-        Room room = queryRoom.select(room_id);
+        Room room = queryCustomerRoom.selectCustomerRooms(this.getID(), room_id).get(0);
         return service + room.getPrice() * room.getNumOfDay();
     }
     //
