@@ -132,9 +132,9 @@ public class Customer extends Person {
         queryCustomerRoom.updateCheckOutDate(this.getID(), room_id);
         System.out.println("Check out successfully");
         List<Room> rooms = queryCustomerRoom.selectCustomerRooms(this.getID());
-        if (rooms.size() == 0) {
-            queryCustomer.updateActiveCustomer(this.getID(), false);
-        }
+//        if (rooms.size() == 0) {
+//            queryCustomer.updateActiveCustomer(this.getID(), false);
+//        }
     }
 
     public List<Room> getBookedRoom() {
@@ -153,9 +153,9 @@ public class Customer extends Person {
         return service + room.getPrice() * room.getNumOfDay();
     }
 
-    public void updateStatus(boolean status) {
-        queryCustomer.updateActiveCustomer(getID(), status);
-    }
+//    public void updateStatus(boolean status) {
+//        queryCustomer.updateActiveCustomer(getID(), status);
+//    }
     //
     // public static void main(String[] args) {
     // Customer c = new Customer(1, "Huy", true, "123", true);

@@ -200,9 +200,9 @@ public class Login extends JFrame {
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
                     person = db.getCustomer(idCus);
-                    if (person instanceof Customer) {
-                        ((Customer) person).updateStatus(true);
-                    }
+//                    if (person instanceof Customer) {
+//                        ((Customer) person).updateStatus(true);
+//                    }
                     HomePage home = new HomePage(person);
                     dispose();
                 }

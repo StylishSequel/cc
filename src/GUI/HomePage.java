@@ -30,7 +30,6 @@ public class HomePage extends BaseForm {
     private JButton ServiceButton;
     private JButton LoginButton;
     private Person person;
-    private JTable roomTable;
 
     public HomePage(Person person) {
         super(person);
@@ -39,9 +38,6 @@ public class HomePage extends BaseForm {
         createButton();
         setword();
         setImage();
-        if (person instanceof Manager) {
-            createRoomTable();
-        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
         setBackground();
@@ -62,12 +58,11 @@ public class HomePage extends BaseForm {
         logout.setBounds(620, 460, 150, 30);
         logout.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if (person instanceof Customer) {
-                    if (((Customer) person).getBookedRoom().size() == 0) {
-                        ((Customer) person).updateStatus(false);
-                    }
-                    ;
-                }
+//                if (person instanceof Customer) {
+//                    if (((Customer) person).getBookedRoom().size() == 0) {
+//                        ((Customer) person).updateStatus(false);
+//                    }
+//                }
                 Login login = new Login();
                 dispose();
             }
@@ -84,23 +79,6 @@ public class HomePage extends BaseForm {
         welcomeWord.setBounds(150, 0, 600, 200);
         welcomeWord.setForeground(new Color(14, 70, 163));
         MainPanel.add(welcomeWord);
-    }
-
-    private void createRoomTable() {
-        QueryAll queryAll = new QueryAll(new Connector());
-        String[] columnNames = { "Customer ID", "Name", "Gender", "Phone" };
-        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
-        List<Customer> customers = queryAll.queryCustomer.selectAll();
-        for (Customer customer : customers) {
-            Object[] rowData = { customer.getID(), customer.getName(), customer.isGender() ? "Male" : "Female",
-                    customer.getPhone() };
-            tableModel.addRow(rowData);
-        }
-
-        roomTable = new JTable(tableModel);
-        JScrollPane scrollPane = new JScrollPane(roomTable);
-        scrollPane.setBounds(50, 150, 700, 300);
-        MainPanel.add(scrollPane);
     }
 
     public static void main(String[] args) {

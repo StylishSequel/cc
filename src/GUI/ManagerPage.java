@@ -83,7 +83,7 @@ public class ManagerPage extends BaseForm {
         cusderoom.setBounds(200,170,180,50);
         cusderoom.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                AddRoomPage addRoomPage = new AddRoomPage(person);
+                CustomerDetailPage customerDetailPage = new CustomerDetailPage(person);
                 dispose();
             }
         });
