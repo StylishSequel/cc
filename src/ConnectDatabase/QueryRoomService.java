@@ -58,8 +58,7 @@ public class QueryRoomService {
                 "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
                 "JOIN room_services rs ON r.room_id = rs.room_id " +
                 "JOIN services s ON rs.service_id = s.service_id " +
-                "WHERE cr.check_out_date IS NULL AND date > check_in_date AND r.room_id = ?";
-
+                "WHERE cr.check_out_date IS NULL AND date BETWEEN check_in_date AND e_check_out_date AND r.room_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, roomId);
