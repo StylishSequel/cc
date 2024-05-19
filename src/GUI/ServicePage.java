@@ -79,7 +79,7 @@ public class ServicePage extends BaseForm {
                 QueryRoomService queryRoomService = new QueryRoomService(connector);
                 QueryAll queryAll = new QueryAll(connector);
 
-                if(person instanceof Customer) {
+                if (person instanceof Customer) {
 
                     room_id = Integer.parseInt(roomIdField.getText());
                     check_in_date = checkInDateField.getText();
@@ -100,8 +100,9 @@ public class ServicePage extends BaseForm {
                 System.out.println(rooms);
                 LocalDate bookedDate = LocalDate.parse(check_in_date);
                 LocalDate eCheckOutDate = LocalDate.parse(rooms.get(0).getECheckOutDate());
-                if (bookedDate.isAfter(eCheckOutDate)) {
-                    JOptionPane.showMessageDialog(null, "Cannot book service after expected check out date");
+                LocalDate checkInDate = LocalDate.parse(rooms.get(0).getCheck_in_date());
+                if (bookedDate.isAfter(eCheckOutDate) || bookedDate.isBefore(checkInDate)) {
+                    JOptionPane.showMessageDialog(null, "Cannot book service after expected check out date and bofore check in date");
                     return;
                 }
 
