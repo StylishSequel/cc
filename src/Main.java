@@ -167,12 +167,13 @@ import java.util.List;
 //// import javax.swing.*;
 //// import GUI.*;
 //
-import Person.*;
-     public class Main {
-         public static void main(String[] args) {
-             Connector connector = new Connector();
-             QueryRoomService queryRoomService = new QueryRoomService(connector);
-             List<Service> services = queryRoomService.selectCurRoomService(3);
-             System.out.println(services);
-         }
-     }
+//import Person.*;
+//     public class Main {
+//         public static void main(String[] args) {
+//             Customer customer = new Customer();
+//             Connector connector = new Connector();
+//             double price = customer.CalculatePrice(5);
+//             customer.checkOut(5);
+//             System.out.println(price);
+//         }
+//     }

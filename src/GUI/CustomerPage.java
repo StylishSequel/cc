@@ -145,8 +145,8 @@ public class CustomerPage extends BaseForm {
                 public void actionPerformed(ActionEvent e) {
                     int enterid = Integer.parseInt(idText.getText());
                     // CREATE TABLE ROOM
-                    String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
-                            "Electric device", "Check In Date", "Num of Day", "Expected Check Out Date" };
+                    String[] columnNames = { "Room ID", "Price", "Type", "Bed", "Shower", "Furniture",
+                            "Electric", "Date In", "Days", "Expected Date Out" };
                     DefaultTableModel model = new DefaultTableModel(columnNames, 0);
                     Connector connector = new Connector();
                     QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);

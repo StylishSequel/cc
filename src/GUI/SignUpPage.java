@@ -21,7 +21,7 @@ public class SignUpPage extends JFrame{
     private JPanel signupPanel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JButton login;
+    private JButton signup;
     public SignUpPage(){
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(250, 100, 800, 600);
@@ -170,26 +170,26 @@ public class SignUpPage extends JFrame{
 
 
         //SET ENTER BUTTON
-        login = new RoundedButton("SIGN UP");
-        login.setForeground(new Color(69, 60, 103));
-        login.setBackground(new Color(248, 246, 227));
-        login.setBounds(105,300,150,30);
-        login.setFont(new Font("Serif", Font.PLAIN, 20));
-        login.addMouseListener(new MouseAdapter() {
+        signup = new RoundedButton("SIGN UP");
+        signup.setForeground(new Color(69, 60, 103));
+        signup.setBackground(new Color(248, 246, 227));
+        signup.setBounds(105,300,150,30);
+        signup.setFont(new Font("Serif", Font.PLAIN, 20));
+        signup.addMouseListener(new MouseAdapter() {
             public void mouseEntered(MouseEvent e) {
-                login.setBackground(new Color(69, 60, 103));
-                login.setForeground(new Color(248, 246, 227));
-                login.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                signup.setBackground(new Color(69, 60, 103));
+                signup.setForeground(new Color(248, 246, 227));
+                signup.setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
 
             public void mouseExited(MouseEvent e) {
-                login.setBackground(new Color(248, 246, 227));
-                login.setForeground(new Color(69, 60, 103));
+                signup.setBackground(new Color(248, 246, 227));
+                signup.setForeground(new Color(69, 60, 103));
             }
         });
 
 
-        login.addActionListener(new ActionListener() {
+        signup.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 Connector connector = new Connector();
                 QueryAll query = new QueryAll(connector);
@@ -201,6 +201,7 @@ public class SignUpPage extends JFrame{
                 }
                 System.out.println(newCusName);
                 System.out.println(newgenderCus);
+
                 String newusername = usernameField.getText();
                 String phone = phoneField.getText();
                 String newpassword = new String(passwordField.getPassword());
@@ -235,7 +236,7 @@ public class SignUpPage extends JFrame{
         signupPanel.add(usernameField);
         
         signupPanel.add(passwordField);
-        signupPanel.add(login);
+        signupPanel.add(signup);
         
         mainPanel.add(signupPanel);
     }

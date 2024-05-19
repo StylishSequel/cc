@@ -178,7 +178,7 @@ public class ConnectDatabase {
     }
 
     public Customer insertCustomer(String name, boolean gender, String phone, boolean is_active) {
-        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING customer_id";
+        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING id";
         try (Connection con = connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, name);
@@ -188,7 +188,7 @@ public class ConnectDatabase {
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             System.out.println("Customer inserted successfully!");
-            return new Customer(rs.getInt("customer_id"), name, gender, phone, is_active);
+            return new Customer(rs.getInt("id"), name, gender, phone, is_active);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
