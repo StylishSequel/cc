@@ -2,7 +2,7 @@ package GUI;
 
 import ConnectDatabase.*;
 import GUI.DatePickerExample.DateLabelFormatter;
-import Person.Person;
+import Person.*;
 import Room.*;
 import javax.swing.*;
 
@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Properties;
 
 public class ServicePage extends BaseForm {
+    private List<Room> rooms;
     private int room_id;
     private JPanel contentPanel;
     private JPanel cleaningPanel;
@@ -78,15 +79,24 @@ public class ServicePage extends BaseForm {
                 QueryRoomService queryRoomService = new QueryRoomService(connector);
                 QueryAll queryAll = new QueryAll(connector);
 
-                List<Room> roomList = queryAll.queryCustomerRoom.selectCustomerRooms(room_id);
-                room_id = Integer.parseInt(roomIdField.getText());
-                check_in_date = checkInDateField.getText();
-                List<Room> rooms = queryAll.queryCustomerRoom.selectCustomerRooms(person.getID(), room_id);
+                if(person instanceof Customer) {
+
+                    room_id = Integer.parseInt(roomIdField.getText());
+                    check_in_date = checkInDateField.getText();
+                    System.out.println(person.getID());
+                    rooms = queryAll.queryCustomerRoom.selectCustomerRooms(person.getID());
+                } else {
+                    rooms = queryAll.queryCustomerRoom.selectCustomerRooms(room_id);
+                    room_id = Integer.parseInt(roomIdField.getText());
+                    check_in_date = checkInDateField.getText();
+                    System.out.println(room_id);
+                }
 
                 if (rooms.isEmpty()) {
                     JOptionPane.showMessageDialog(null, "Room ID is not valid");
                     return;
                 }
+
                 System.out.println(rooms);
                 LocalDate bookedDate = LocalDate.parse(check_in_date);
                 LocalDate eCheckOutDate = LocalDate.parse(rooms.get(0).getECheckOutDate());

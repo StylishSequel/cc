@@ -39,26 +39,46 @@ public class CustomerPage extends BaseForm {
 
         Font fontWord = new Font("Serif", Font.PLAIN, 15);
 
-        if (person instanceof Customer) {
-            // SET BOOKING SERVICES BUTTON
-            JButton bookingButton = new JButton("Booking Service");
-            bookingButton.setLayout(null);
-            bookingButton.setBackground(new Color(248, 246, 227));
-            bookingButton.setForeground(new Color(69, 60, 103));
-            bookingButton.setFont(fontWord);
-            bookingButton.setBounds(300, 15, 200, 30);
-            bookingButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                    System.out.println(currentDate);
+        // SET ENTER ID LABEL
+        JLabel idLabel = new JLabel("Enter ID:");
+        idLabel.setFont(fontWord);
+        idLabel.setForeground(Color.BLACK);
+        idLabel.setBounds(25, 15, 150, 30);
+
+
+        // SET ID TEXT FIELD
+        JTextField idText = new JTextField();
+        idText.setFont(fontWord);
+        idText.setForeground(Color.BLACK);
+        idText.setBounds(100, 15, 50, 30);
+
+
+        // SET BOOKING SERVICES BUTTON
+        JButton bookingButton = new JButton("Booking Service");
+        bookingButton.setLayout(null);
+        bookingButton.setBackground(new Color(248, 246, 227));
+        bookingButton.setForeground(new Color(69, 60, 103));
+        bookingButton.setFont(fontWord);
+        bookingButton.setBounds(300, 15, 200, 30);
+        bookingButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                System.out.println(currentDate);
+                int idInput = Integer.parseInt(idText.getText());
+                if(person instanceof Manager || person instanceof Employee) {
+
+                    ServicePage servicePage = new ServicePage(person, idInput, currentDate);
+                } else {
                     ServicePage servicePage = new ServicePage(person, person.getID(), currentDate);
-                    dispose();
-
                 }
-            });
-            customerPanel.add(bookingButton);
 
-            // SET SHOWN INFOR BUTTON
+
+            }
+        });
+        customerPanel.add(bookingButton);
+
+        if (person instanceof Customer) {
+            //SET SHOWN INFOR BUTTON
             JButton showninforButton = new JButton("Show Information");
             showninforButton.setLayout(null);
             showninforButton.setBackground(new Color(248, 246, 227));
@@ -136,18 +156,7 @@ public class CustomerPage extends BaseForm {
         }
 
         else if (person instanceof Employee) {
-            // SET ENTER ID LABEL
-            JLabel idLabel = new JLabel("Enter ID:");
-            idLabel.setFont(fontWord);
-            idLabel.setForeground(Color.BLACK);
-            idLabel.setBounds(25, 15, 150, 30);
             customerPanel.add(idLabel);
-
-            // SET ID TEXT FIELD
-            JTextField idText = new JTextField();
-            idText.setFont(fontWord);
-            idText.setForeground(Color.BLACK);
-            idText.setBounds(100, 15, 50, 30);
             customerPanel.add(idText);
 
             // SET ENTER BUTTON
