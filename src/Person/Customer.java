@@ -153,9 +153,9 @@ public class Customer extends Person {
         return service + room.getPrice() * room.getNumOfDay();
     }
 
-//    public void updateStatus(boolean status) {
-//        queryCustomer.updateActiveCustomer(getID(), status);
-//    }
+   public void updateStatus(boolean status) {
+       queryCustomer.updateActiveCustomer(getID(), status);
+   }
     //
     // public static void main(String[] args) {
     // Customer c = new Customer(1, "Huy", true, "123", true);
