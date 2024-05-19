@@ -33,7 +33,7 @@ public class HomePage extends BaseForm {
 
 
     public void setImage() {
-        ImageIcon image = new ImageIcon("src/GUI/Images/marina-bay-vung-tau-resort-spa-24.png");
+        ImageIcon image = new ImageIcon("GUI\\Images\\marina-bay-vung-tau-resort-spa-24.png");
         JLabel imageLabel = new JLabel(image);
         imageLabel.setBounds(0, 0, image.getIconWidth(), image.getIconHeight());
 

@@ -113,9 +113,10 @@ public class EmployeePage  extends BaseForm{
                 //Set price
                 QueryRoom queryRoom = new QueryRoom(connector);
                 Customer customer = queryAll.queryCustomer.select(id);
-                double price = customer.checkOut(roomid);
+                double price = customer.CalculatePrice(roomid);
                 String roomPrice = String.valueOf(price);
                 JLabel bill = new JLabel(roomPrice);
+                customer.checkOut(roomid);
                 bill.setForeground(new Color(69, 60, 103));
                 bill.setFont(new Font("Serif", Font.PLAIN, 15));
                 bill.setBounds(100,150,100,40);

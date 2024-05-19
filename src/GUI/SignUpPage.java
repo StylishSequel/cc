@@ -1,14 +1,20 @@
 package GUI;
-
-import ConnectDatabase.*;
-
+// import javax.swing.border.Border;
 import javax.swing.*;
+// import javax.swing.border.EmptyBorder;
+// import javax.swing.event.DocumentEvent;
+// import javax.swing.event.DocumentListener;
+
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+// import java.awt.event.ActionEvent;
+// import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.Map;
+import java.awt.font.TextAttribute;
+
+//ConnectDatabase libary
+import ConnectDatabase.*;
+import Person.*;
 
 public class SignUpPage extends JFrame{
     private JPanel mainPanel;
@@ -36,95 +42,151 @@ public class SignUpPage extends JFrame{
         signupPanel = new JPanel();
         signupPanel.setLayout(null);
         signupPanel.setBackground(new Color(154, 200, 205));
-        signupPanel.setBounds(230,80,300,400);
+        signupPanel.setBounds(230,80,365,400);
 
         Color colorWord = new Color(69, 60, 103);
         Font fontWord = new Font("Serif", Font.PLAIN, 15);
+        JLabel signupLabel = new JLabel("SIGN UP");
+        signupLabel.setForeground(new Color(69, 60, 103));
+        signupLabel.setFont(new Font("Serif", Font.PLAIN, 30));
+        signupLabel.setBounds(125,20,250,50);
 
-        JLabel Label = new JLabel("SIGN UP");
-        Label.setForeground(colorWord);
-        Label.setFont(new Font("Serif", Font.PLAIN, 25));
-        Label.setBounds(100,20,250,50);
+        
 
 
-        //SET NAME WORD
-        JLabel name = new JLabel("NAME:");
-        name.setForeground(colorWord);
-        name.setFont(fontWord);
-        name.setBounds(20,80,250,50);
+        
 
         //SET TEXT FIELD NAME
-        JTextField nameField = new JTextField();
+        JTextField nameField = new JTextField("Name");
         nameField.setForeground(new Color(69, 60, 103));
         nameField.setFont(new Font("Serif", Font.PLAIN, 20));
-        nameField.setBounds(120,90,150,30);
+        nameField.setBounds(30,110,150,30);
+        nameField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                if(nameField.getText().equals("Name")){
+                    nameField.setText("");
+                    nameField.setForeground(new Color(69, 60, 103));
+                }
+            }
+
+            public void focusLost(FocusEvent e) {
+                if(nameField.getText().equals("")){
+                    nameField.setText("Name");
+                    nameField.setForeground(new Color(69, 60, 103));
+                }
+            }
+        });
 
         //SET GENDER WORD
-        JLabel gender = new JLabel("GENDER:");
-        gender.setForeground(colorWord);
-        gender.setFont(fontWord);
-        gender.setBounds(20,120,250,50);
+       
 
         //Set gender button
         JRadioButton male = new JRadioButton("Male");
         male.setForeground(colorWord);
         male.setBackground(new Color(154, 200, 205));
         male.setFont(fontWord);
-        male.setBounds(120,130,90,40);
+        male.setBounds(90,235,100,40);
 
         JRadioButton female = new JRadioButton("Female");
         female.setForeground(colorWord);
         female.setBackground(new Color(154, 200, 205));
         female.setFont(fontWord);
-        female.setBounds(210,130,100,40);
+        female.setBounds(200,235,100,40);
 
         ButtonGroup group = new ButtonGroup();
         group.add(male);
         group.add(female);
 
         //SET PHONE WORD
-        JLabel phone = new JLabel("PHONE");
-        phone.setForeground(new Color(69, 60, 103));
-        phone.setFont(new Font("Serif", Font.PLAIN, 15));
-        phone.setBounds(20,160,250,50);
+        
+        
 
         //SET TEXT FIELD PHONE
-        JTextField phoneField = new JTextField();
+        JTextField phoneField = new JTextField("Phone");
         phoneField.setForeground(new Color(69, 60, 103));
         phoneField.setFont(new Font("Serif", Font.PLAIN, 20));
-        phoneField.setBounds(120,170,150,30);
+        phoneField.setBounds(190,110,150,30);
+        phoneField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                if(phoneField.getText().equals("Phone")){
+                    phoneField.setText("");
+                    phoneField.setForeground(new Color(69, 60, 103));
+                }
+            }
 
-        //SET USERNAME WORD
-        JLabel username = new JLabel("USERNAME:");
-        username.setForeground(colorWord);
-        username.setFont(fontWord);
-        username.setBounds(20,200,250,50);
+            public void focusLost(FocusEvent e) {
+                if(phoneField.getText().equals("")){
+                    phoneField.setText("Phone");
+                    phoneField.setForeground(new Color(69, 60, 103));
+                }
+            }
+        });
+
+        
 
         //SET TEXT FIELD USERNAME
-        usernameField = new JTextField();
+        usernameField = new JTextField("User name");
         usernameField.setForeground(new Color(69, 60, 103));
         usernameField.setFont(new Font("Serif", Font.PLAIN, 20));
-        usernameField.setBounds(120,210,150,30);
+        usernameField.setBounds(30,155,310,30);
+        usernameField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                if(usernameField.getText().equals("User name")){
+                    usernameField.setText("");
+                    usernameField.setForeground(new Color(69, 60, 103));
+                }
+            }
 
-        //SET PASSWORD WORD
-        JLabel password = new JLabel("PASSWORD:");
-        password.setForeground(colorWord);
-        password.setFont(fontWord);
-        password.setBounds(20,240,250,50);
+            public void focusLost(FocusEvent e) {
+                if(usernameField.getText().equals("")){
+                    usernameField.setText("User name");
+                    usernameField.setForeground(new Color(69, 60, 103));
+                }
+            }
+        });
+
+        
 
         //SET TEXT FIED PASSWORD
-        passwordField = new JPasswordField();
+        passwordField = new JPasswordField("password");
         passwordField.setForeground(new Color(69, 60, 103));
         passwordField.setFont(new Font("Serif", Font.PLAIN, 20));
-        passwordField.setBounds(120,250,150,30);
+        passwordField.setBounds(30,200,310,30);
+        passwordField.addFocusListener(new FocusListener() {
+            public void focusGained(FocusEvent e) {
+                if(passwordField.getPassword().equals("password")){
+                    passwordField.setText("");
+                    passwordField.setForeground(new Color(69, 60, 103));
+                }
+            }
+
+            public void focusLost(FocusEvent e) {
+                if(passwordField.getPassword().equals("")){
+                    passwordField.setText("password");
+                    passwordField.setForeground(new Color(69, 60, 103));
+                }
+            }
+        });
 
 
         //SET ENTER BUTTON
         login = new RoundedButton("SIGN UP");
         login.setForeground(new Color(69, 60, 103));
         login.setBackground(new Color(248, 246, 227));
-        login.setBounds(80,300,150,30);
+        login.setBounds(105,300,150,30);
         login.setFont(new Font("Serif", Font.PLAIN, 20));
+        login.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                login.setBackground(new Color(69, 60, 103));
+                login.setForeground(new Color(248, 246, 227));
+                login.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                login.setBackground(new Color(248, 246, 227));
+                login.setForeground(new Color(69, 60, 103));
+            }
+        });
 
 
         login.addActionListener(new ActionListener() {
@@ -162,19 +224,19 @@ public class SignUpPage extends JFrame{
             }
         });
 
-        signupPanel.add(name);
+        signupPanel.add(signupLabel);
         signupPanel.add(nameField);
-        signupPanel.add(gender);
+        
         signupPanel.add(male);
         signupPanel.add(female);
-        signupPanel.add(phone);
+        
         signupPanel.add(phoneField);
-        signupPanel.add(username);
+        
         signupPanel.add(usernameField);
-        signupPanel.add(password);
+        
         signupPanel.add(passwordField);
         signupPanel.add(login);
-        signupPanel.add(Label);
+        
         mainPanel.add(signupPanel);
     }
 

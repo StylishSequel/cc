@@ -1,15 +1,17 @@
 package GUI;
 
 import ConnectDatabase.*;
+import GUI.DatePickerExample.DateLabelFormatter;
 import Person.*;
 import Room.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
+import org.jdatepicker.impl.*;
+import java.util.Properties;
 
 
 public class BookingPage extends BaseForm{
@@ -53,25 +55,64 @@ public class BookingPage extends BaseForm{
         checkIn.setForeground(Color.BLACK);
         checkIn.setBounds(5,5,150,50);
 
-        //TEXT FIELD CHECK IN
-        JTextArea inText = new JTextArea("0000-00-00");
-        inText.setBounds(5,50,100,20);
+        // //TEXT FIELD CHECK IN
+        // JTextArea inText = new JTextArea("0000-00-00");
+        // inText.setBounds(5,50,100,20);
+        // inText.addFocusListener(new FocusListener()  {
+        //     @Override
+        //     public void focusGained(FocusEvent e) {
+        //         inText.setText("");
+        //     }
 
+        //     @Override
+        //     public void focusLost(FocusEvent e) {
+        //         inText.setText("0000-00-00");
+        //     }
+        // });
+        UtilDateModel model1 = new UtilDateModel();
+        Properties p = new Properties();
+        p.put("text.today", "Today");
+        p.put("text.month", "Month");
+        p.put("text.year", "Year");
+
+        JDatePanelImpl datePanel = new JDatePanelImpl(model1, p);
+        JDatePickerImpl inText = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+
+        // Đặt vị trí và kích thước cho JDatePicker
+        inText.setBounds(5, 50, 110, 20);
+        
         //WORD NUMBER OF DAY
         JLabel numDay = new JLabel("Number Of Day:");
         numDay.setFont(f);
         numDay.setForeground(Color.BLACK);
-        numDay.setBounds(130,5,150,50);
+        numDay.setBounds(140,5,150,50);
 
         //TEXT FIELD NUMBER OF DAY
         JTextArea numDayField = new JTextArea("00");
-        numDayField.setBounds(130,50,100,20);
+        numDayField.setBounds(140,50,110,20);
+        numDayField.addFocusListener(new FocusListener()  {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(numDayField.getText().equals("00")){
+                    numDayField.setText("");
+                }
+                
+            }
 
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(numDayField.getText().equals("")){
+                    numDayField.setText("00");
+                }
+                
+            }
+        });
         //WORD NUM OF BED
         JLabel numofbed = new JLabel("Number of Bed:");
         numofbed.setFont(f);
         numofbed.setForeground(Color.BLACK);
-        numofbed.setBounds(250,5,150,50);
+        numofbed.setBounds(290,5,150,50);
+
 
 //        //TEXT FIELD NUM OF BED
 //        JTextArea numfield = new JTextArea("00");
@@ -82,22 +123,38 @@ public class BookingPage extends BaseForm{
         cbbed.setFont(f);
         cbbed.setForeground(Color.BLACK);
         cbbed.setBounds(250,50,100,20);
+        cbbed.addFocusListener(new FocusListener()  {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(cbbed.getText().equals("1 or 2")){
+                    cbbed.setText("");
+                }
+                
+            }
 
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(cbbed.getText().equals("")){
+                    cbbed.setText("1 or 2");
+                }
+                
+            }
+        });
         //WORD TYPE OF ROOM
         JLabel typeroom = new JLabel("Room Type:");
         typeroom.setFont(f);
         typeroom.setForeground(Color.BLACK);
-        typeroom.setBounds(400,5,150,50);
+        typeroom.setBounds(430,5,150,50);
 
         String room[] = {"All", "Standard Room","Suite Room","Deluxe Room"};
         JComboBox cbroom = new JComboBox(room);
         cbroom.setFont(f);
         cbroom.setForeground(Color.BLACK);
-        cbroom.setBounds(400,50,130,20);
+        cbroom.setBounds(430,50,130,20);
 
         cbbed.setFont(f);
         cbbed.setForeground(Color.BLACK);
-        cbbed.setBounds(250,50,100,20);
+        cbbed.setBounds(290,50,100,20);
 
         //SET BUTTON SEARCH
         JButton search = new JButton("Search");
@@ -127,10 +184,10 @@ public class BookingPage extends BaseForm{
             }
         }
         table = new JTable(model);
-        table.setBounds(5,130,700,330);
+        table.setBounds(0,140,750,340);
 
         JScrollPane scrollPane = new JScrollPane(table);
-        scrollPane.setBounds(5, 130, 700, 330);
+        scrollPane.setBounds(0, 130, 750, 340);
 
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -148,30 +205,45 @@ public class BookingPage extends BaseForm{
         JLabel enterid = new JLabel("Enter Id Room:");
         enterid.setFont(f);
         enterid.setForeground(Color.BLACK);
-        enterid.setBounds(130,70,150,50);
+        enterid.setBounds(140,70,150,50);
 
         //TEXT FIELD ENTER ID
         JTextArea enterRoomIdField = new JTextArea("00");
-        enterRoomIdField.setBounds(250,85,100,20);
+        enterRoomIdField.setBounds(290,85,100,20);
+        enterRoomIdField.addFocusListener(new FocusListener()  {
+            @Override
+            public void focusGained(FocusEvent e) {
+                if(enterRoomIdField.getText().equals("00")){
+                    enterRoomIdField.setText("");
+                }
+                
+            }
 
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(enterRoomIdField.getText().equals("")){
+                    enterRoomIdField.setText("00");
+                }
+            }
+        });
         //SET BUTTON BOOKING
         JButton book = new JButton("Booking");
         book.setLayout(null);
         book.setBackground(new Color(248, 246, 227));
         book.setForeground(new Color(69, 60, 103));
         book.setFont(new Font("Serif", Font.PLAIN, 15));
-        book.setBounds(400,80,100,30);
+        book.setBounds(430,80,100,30);
         book.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                String checkInInput = inText.getText();
+                String checkInInput = inText.getJFormattedTextField().getText();
                 int numDayInput = Integer.parseInt(numDayField.getText());
                 int roomIdInput = Integer.parseInt(enterRoomIdField.getText());
 
                 if (person instanceof Customer) {
                     ((Customer) person).bookRoom(roomIdInput, numDayInput, checkInInput);
                 }
-                    ServicePage sp = new ServicePage(person, roomIdInput);
-                    dispose();
+                ServicePage sp = new ServicePage(person, roomIdInput);
+                dispose();
 
             }
         });

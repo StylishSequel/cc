@@ -107,10 +107,11 @@ public class CustomerPage extends BaseForm{
 
                     for (Room room : roomList) {
                         List<Service> services = queryRoomService.selectCurRoomService(room.getId());
-
+                        
                         for(Service service : services) {
                             Object[] rowService = {room.getId(),service.getId(), service.getName(), service.getPrice(),service.getDate()};
                             modelService.addRow(rowService);
+                            System.out.println("ok");
                         }
                     }
 
