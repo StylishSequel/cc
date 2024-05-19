@@ -17,6 +17,7 @@ import Room.Room;
 import Room.StandardRoom;
 
 public class Manager extends Employee {
+    private QueryAll queryAll = new QueryAll(new Connector());
     public Manager() {
         super();
     }
