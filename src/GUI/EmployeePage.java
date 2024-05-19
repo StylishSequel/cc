@@ -107,12 +107,7 @@ public class EmployeePage  extends BaseForm{
                 //SHOW PRICE
                 double price = customer.CalculatePrice(roomIdInput);
                 String roomPrice = String.valueOf(price);
-                JLabel bill = new JLabel(roomPrice);
-                bill.setForeground(new Color(69, 60, 103));
-                bill.setFont(new Font("Serif", Font.PLAIN, 15));
-                bill.setBounds(60,150,100,40);
-                contentPanel.add(bill);
-
+                JOptionPane.showMessageDialog(null, "Your bill: " + roomPrice);
             }
         });
 

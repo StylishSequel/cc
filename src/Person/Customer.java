@@ -143,7 +143,7 @@ public class Customer extends Person {
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);
         double service  = connectToDb.queryRoomService.calculateRoomService(room_id);
-        Room room = connectToDb.queryRoom.select(room_id);
+        Room room = connectToDb.queryCustomerRoom.selectCustomerRooms(this.getID(),room_id).get(0);
         return service + room.getPrice() * room.getNumOfDay();
     }
 //
