@@ -1,6 +1,7 @@
 package GUI;
 
 import ConnectDatabase.Connector;
+import ConnectDatabase.QueryAll;
 import ConnectDatabase.QueryCustomerRoom;
 import ConnectDatabase.QueryRoomService;
 import Person.*;
@@ -39,46 +40,26 @@ public class CustomerPage extends BaseForm {
 
         Font fontWord = new Font("Serif", Font.PLAIN, 15);
 
-        // SET ENTER ID LABEL
-        JLabel idLabel = new JLabel("Enter ID:");
-        idLabel.setFont(fontWord);
-        idLabel.setForeground(Color.BLACK);
-        idLabel.setBounds(25, 15, 150, 30);
-
-
-        // SET ID TEXT FIELD
-        JTextField idText = new JTextField();
-        idText.setFont(fontWord);
-        idText.setForeground(Color.BLACK);
-        idText.setBounds(100, 15, 50, 30);
-
-
-        // SET BOOKING SERVICES BUTTON
-        JButton bookingButton = new JButton("Booking Service");
-        bookingButton.setLayout(null);
-        bookingButton.setBackground(new Color(248, 246, 227));
-        bookingButton.setForeground(new Color(69, 60, 103));
-        bookingButton.setFont(fontWord);
-        bookingButton.setBounds(300, 15, 200, 30);
-        bookingButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-                System.out.println(currentDate);
-                int idInput = Integer.parseInt(idText.getText());
-                if(person instanceof Manager || person instanceof Employee) {
-
-                    ServicePage servicePage = new ServicePage(person, idInput, currentDate);
-                } else {
-                    ServicePage servicePage = new ServicePage(person, person.getID(), currentDate);
-                }
-
-
-            }
-        });
-        customerPanel.add(bookingButton);
-
         if (person instanceof Customer) {
-            //SET SHOWN INFOR BUTTON
+            // SET BOOKING SERVICES BUTTON
+            JButton bookingButton = new JButton("Booking Service");
+            bookingButton.setLayout(null);
+            bookingButton.setBackground(new Color(248, 246, 227));
+            bookingButton.setForeground(new Color(69, 60, 103));
+            bookingButton.setFont(fontWord);
+            bookingButton.setBounds(300, 15, 200, 30);
+            bookingButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    System.out.println(currentDate);
+                    ServicePage servicePage = new ServicePage(person, person.getID(), currentDate);
+                    dispose();
+
+                }
+            });
+            customerPanel.add(bookingButton);
+
+            // SET SHOWN INFOR BUTTON
             JButton showninforButton = new JButton("Show Information");
             showninforButton.setLayout(null);
             showninforButton.setBackground(new Color(248, 246, 227));
@@ -93,9 +74,14 @@ public class CustomerPage extends BaseForm {
                     String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
                             "Electric device", "Check In Date", "Num of Day", "Expected Check Out Date" };
                     DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-                    Connector connector = new Connector();
-                    QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
-                    List<Room> roomList = queryCustomerRoom.selectCustomerRooms(person.getID());
+                    // Connector connector = new Connector();
+                    // QueryAll queryAll = new QueryAll(connector);
+                    // List<Room> roomList = queryCustomerRoom.selectCustomerRooms(person.getID());
+                    List<Room> roomList = new ArrayList<>();
+                    if (person instanceof Customer) {
+                        roomList = ((Customer) person).getBookedRoom();
+                    }
+
                     for (Room Room : roomList) {
                         if (Room instanceof StandardRoom) {
                             Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
@@ -127,11 +113,11 @@ public class CustomerPage extends BaseForm {
                     customerPanel.add(scrollPaneRoom);
 
                     String[] columnServices = { "Room ID", "Service ID", "Name", "Price", "Date" };
-                    QueryRoomService queryRoomService = new QueryRoomService(connector);
                     DefaultTableModel modelService = new DefaultTableModel(columnServices, 0);
+                    // QueryRoomService queryRoomService = new QueryRoomService(connector);
 
                     for (Room room : roomList) {
-                        List<Service> services = queryRoomService.selectCurRoomService(room.getId());
+                        List<Service> services = room.getBookedService();
 
                         for (Service service : services) {
                             Object[] rowService = { room.getId(), service.getId(), service.getName(),
@@ -156,7 +142,18 @@ public class CustomerPage extends BaseForm {
         }
 
         else if (person instanceof Employee) {
+            // SET ENTER ID LABEL
+            JLabel idLabel = new JLabel("Enter ID:");
+            idLabel.setFont(fontWord);
+            idLabel.setForeground(Color.BLACK);
+            idLabel.setBounds(25, 15, 150, 30);
             customerPanel.add(idLabel);
+
+            // SET ID TEXT FIELD
+            JTextField idText = new JTextField();
+            idText.setFont(fontWord);
+            idText.setForeground(Color.BLACK);
+            idText.setBounds(100, 15, 50, 30);
             customerPanel.add(idText);
 
             // SET ENTER BUTTON
@@ -173,12 +170,15 @@ public class CustomerPage extends BaseForm {
                 public void actionPerformed(ActionEvent e) {
                     int enterid = Integer.parseInt(idText.getText());
                     // CREATE TABLE ROOM
-                    String[] columnNames = { "Room ID", "Price", "Type", "Bed", "Shower", "Furniture",
-                            "Electric", "Date In", "Days", "Expected Date Out" };
+                    String[] columnNames = { "Room ID", "Price", "Type", "Number of beds", "Having shower", "Furniture",
+                            "Electric device", "Check In Date", "Num of Day", "Expected Check Out Date" };
                     DefaultTableModel model = new DefaultTableModel(columnNames, 0);
+
                     Connector connector = new Connector();
-                    QueryCustomerRoom queryCustomerRoom = new QueryCustomerRoom(connector);
-                    List<Room> roomList = queryCustomerRoom.selectCustomerRooms(enterid);
+                    QueryAll queryAll = new QueryAll(connector);
+                    // List<Room> roomList = queryCustomerRoom.selectCustomerRooms(enterid);
+
+                    List<Room> roomList = queryAll.queryCustomer.select(enterid).getBookedRoom();
                     for (Room Room : roomList) {
                         if (Room instanceof StandardRoom) {
                             Object[] rowData = { Room.getId(), Room.getPrice(), Room.getType(), Room.getNumOfBed(),
@@ -212,10 +212,10 @@ public class CustomerPage extends BaseForm {
 
                     String[] columnServices = { "Room ID", "Service ID", "Name", "Price", "Date" };
                     DefaultTableModel modelService = new DefaultTableModel(columnServices, 0);
-                    QueryRoomService queryRoomService = new QueryRoomService(connector);
+                    // QueryRoomService queryRoomService = new QueryRoomService(connector);
 
                     for (Room room : roomList) {
-                        List<Service> servicesT = queryRoomService.selectCurRoomService(room.getId());
+                        List<Service> servicesT = room.getBookedService();
                         for (Service service : servicesT) {
                             Object[] rowService = { room.getId(), service.getId(), service.getName(),
                                     service.getPrice(),
@@ -242,6 +242,7 @@ public class CustomerPage extends BaseForm {
     }
 
     public static void main(String[] args) {
-        new CustomerPage(new Customer());
+        Customer customer = new Customer(6, "thanh", true, "092345234", true);
+        new CustomerPage(customer);
     }
 }
