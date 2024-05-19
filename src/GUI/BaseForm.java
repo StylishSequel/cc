@@ -132,7 +132,6 @@ public class BaseForm extends JFrame  {
             }
         });
         homeButton.addActionListener(new ActionListener() {
-            
             public void actionPerformed(ActionEvent e) {
                 HomePage homePage = new HomePage(person);
                 dispose();
@@ -241,6 +240,7 @@ public class BaseForm extends JFrame  {
 
         if(person instanceof Customer) {
             MenuPanel.add(customerButton);
+            MenuPanel.add(bookingButton);
         } else if(person instanceof Employee) {
             MenuPanel.add(customerButton);
             if(person instanceof Manager) {
@@ -248,7 +248,6 @@ public class BaseForm extends JFrame  {
             }
             MenuPanel.add(employeeButton);
         }
-        MenuPanel.add(bookingButton);
         MenuPanel.add(homeButton);
     }
 
