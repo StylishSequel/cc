@@ -51,6 +51,7 @@ public class CustomerPage extends BaseForm {
             bookingButton.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    System.out.println(currentDate);
                     ServicePage servicePage = new ServicePage(person, person.getID(), currentDate);
                     dispose();
 
@@ -122,6 +123,7 @@ public class CustomerPage extends BaseForm {
                             Object[] rowService = { room.getId(), service.getId(), service.getName(),
                                     service.getPrice(), service.getDate() };
                             modelService.addRow(rowService);
+                            System.out.println("ok");
                         }
                     }
 
@@ -225,7 +227,7 @@ public class CustomerPage extends BaseForm {
 
                     // SET TABLE SERVICES
                     JTable tableService = new JTable(modelService);
-                    // tableService.setBounds(10,600,100,200);
+                    tableService.setBounds(10, 400, 100, 400);
                     customerPanel.add(tableService);
 
                     // SET SCROLL PANE SERVICES
