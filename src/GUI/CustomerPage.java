@@ -12,6 +12,8 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +40,23 @@ public class CustomerPage extends BaseForm {
         Font fontWord = new Font("Serif", Font.PLAIN, 15);
 
         if (person instanceof Customer) {
+            // SET BOOKING SERVICES BUTTON
+            JButton bookingButton = new JButton("Booking Service");
+            bookingButton.setLayout(null);
+            bookingButton.setBackground(new Color(248, 246, 227));
+            bookingButton.setForeground(new Color(69, 60, 103));
+            bookingButton.setFont(fontWord);
+            bookingButton.setBounds(300, 15, 200, 30);
+            bookingButton.addActionListener(new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    String currentDate = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+                    System.out.println(currentDate);
+                    ServicePage servicePage = new ServicePage(person, person.getID(), currentDate);
+                    dispose();
+
+                }
+            });
+            customerPanel.add(bookingButton);
 
             // SET SHOWN INFOR BUTTON
             JButton showninforButton = new JButton("Show Information");
@@ -214,6 +233,6 @@ public class CustomerPage extends BaseForm {
     }
 
     public static void main(String[] args) {
-        new CustomerPage(new Manager());
+        new CustomerPage(new Customer());
     }
 }
