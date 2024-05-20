@@ -149,12 +149,12 @@ public class SignUpPage extends JFrame{
                 System.out.println(newusername);
                 System.out.println(newpassword);
                 
-                ConnectDatabase db = new ConnectDatabase();
+                
                 if(flag1 || flag2){
                     JOptionPane.showMessageDialog(null, "Username already exists");
                     return;
                 }
-                db.insertCustomerAccount(newusername, newpassword, newCusName, newgenderCus, phone) ;
+                query.queryCustomer.insertCustomerAccount(newusername, newpassword, newCusName, newgenderCus, phone) ;
 
 
                 Login login = new Login();

@@ -125,5 +125,34 @@ public class QueryCustomer implements IQuery<Customer> {
         }
         return false;
     }
-    
+    public Customer insertCustomer(String name, boolean gender, String phone, boolean is_active) {
+        String query = "INSERT INTO customers(name, gender, phone, is_active)" + "VALUES(? ,?, ?, ?) RETURNING id";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, name);
+            pstmt.setBoolean(2, gender);
+            pstmt.setString(3, phone);
+            pstmt.setBoolean(4, is_active);
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            System.out.println("Customer inserted successfully!");
+            return new Customer(rs.getInt("id"), name, gender, phone, is_active);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void insertCustomerAccount(String username, String password, String name, Boolean gender, String phone) {
+        int id = insertCustomer(name, gender, phone, true).getID();
+        
+        String query = "INSERT INTO customer_account(customer_account_id,user_name, pass_word ) VALUES(?, ?, ?)";
+        try (Connection con = connector.connect();
+                PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, id);
+            pstmt.setString(2, username);
+            pstmt.setString(3, password);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -3,10 +3,13 @@ public class Service {
     private int id;
     private String name;
     private double price;
-    public Service(int id, String name, double price) {
+    private String date;
+    
+    public Service(int id, String name, double price,String date) {
         this.id = id;
         this.name = name;
         this.price = price;
+        this.date = date;
     }
     public Service(){
         this.id = 0;
@@ -32,7 +35,12 @@ public class Service {
     public void setPrice(double price) {
         this.price = price;
     }
-
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
     @Override
     public String toString() {
         return "Service [id=" + id + ", name=" + name + ", price=" + price + "]";
