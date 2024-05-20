@@ -1,3 +1,9 @@
+import ConnectDatabase.Connector;
+import ConnectDatabase.QueryRoomService;
+import Service.Service;
+
+import java.util.List;
+
 //import java.sql.SQLException;
 //import java.util.Scanner;
 //
@@ -161,9 +167,13 @@
 //// import javax.swing.*;
 //// import GUI.*;
 //
-////     public class Main {
-////         public static void main(String[] args) {
-////         Login login = new Login();
-////         //    MyFrame m = new MyFrame();
-////         }
-////     }
+import Person.*;
+     public class Main {
+         public static void main(String[] args) {
+             Customer customer = new Customer();
+             Connector connector = new Connector();
+             double price = customer.CalculatePrice(3);
+             customer.checkOut(5);
+             System.out.println(price);
+         }
+     }

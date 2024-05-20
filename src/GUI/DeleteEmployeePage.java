@@ -80,8 +80,9 @@ public class DeleteEmployeePage extends BaseForm{
 
                     if(employee != null) {
                         m.removeEmployee(idInput);
+
                         JOptionPane.showMessageDialog(null, "Delete employee successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        HomePage homePage = new HomePage(person);
+                        Login login = new Login();
                         dispose();
                     } else {
                         JOptionPane.showMessageDialog(null, " Id not found: " , "Error", JOptionPane.ERROR_MESSAGE);
@@ -112,8 +113,4 @@ public class DeleteEmployeePage extends BaseForm{
         contentPanel.add(checkout);
         MainPanel.add(contentPanel);
     }
-//
-//    public static void main(String[] args) {
-//        DeleteEmployeePage page = new DeleteEmployeePage();
-//    }
 }

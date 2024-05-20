@@ -31,7 +31,7 @@ public class ManagerPage extends BaseForm {
         chooseFunction = new JPanel();
         chooseFunction.setLayout(null);
         chooseFunction.setBackground(new Color(154, 200, 205));
-        chooseFunction.setBounds(200,100,400,250);
+        chooseFunction.setBounds(200,100,400,300);
 
         //WORD MANAGER ROLE
         JLabel managerRole = new JLabel("MANAGER ROLE");
@@ -42,24 +42,52 @@ public class ManagerPage extends BaseForm {
         //SET ADD EMPLOYEE BUTTON
         JButton addEm = setButton("ADD EMPLOYEE");
         addEm.setFont(new Font("Serif", Font.PLAIN, 15));
+        addEm.setBackground(new Color(248, 246, 227));
         addEm.setBounds(20,100,150,50);
         addEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                Manager manager = new Manager();
-                AddEmployeePage addEmployeePage = new AddEmployeePage(manager);
+                AddEmployeePage addEmployeePage = new AddEmployeePage(person);
+                dispose();
             }
         });
 
         //SET REMOVE EMPLOYEE BUTTON
         JButton removeEm = setButton("REMOVE EMPLOYEE");
         removeEm.setFont(new Font("Serif", Font.PLAIN, 15));
+        removeEm.setBackground(new Color(248, 246, 227));
         removeEm.setBounds(200,100,180,50);
         removeEm.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 DeleteEmployeePage deleteEmployeePage = new DeleteEmployeePage(person);
+                dispose();
             }
         });
 
+        //SET ADD ROOM BUTTON
+        JButton addroom = setButton("ADD ROOM");
+        addroom.setFont(new Font("Serif", Font.PLAIN, 15));
+        addroom.setBackground(new Color(248, 246, 227));
+        addroom.setBounds(20,170,150,50);
+        addroom.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                AddRoomPage addRoomPage = new AddRoomPage(person);
+                dispose();
+            }
+        });
+        chooseFunction.add(addroom);
+
+        //SET CUSTOMER BUTTON
+        JButton cusderoom = setButton("CUSTOMER DETAIL");
+        cusderoom.setFont(new Font("Serif", Font.PLAIN, 15));
+        cusderoom.setBackground(new Color(248, 246, 227));
+        cusderoom.setBounds(200,170,180,50);
+        cusderoom.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                CustomerDetailPage customerDetailPage = new CustomerDetailPage(person);
+                dispose();
+            }
+        });
+        chooseFunction.add(cusderoom);
 
         //SET BUTTON BACK
         JButton back = new JButton("Back");
@@ -67,7 +95,7 @@ public class ManagerPage extends BaseForm {
         back.setBackground(new Color(248, 246, 227));
         back.setForeground(new Color(69, 60, 103));
         back.setFont(new Font("Serif", Font.PLAIN, 15));
-        back.setBounds(140,180,100,30);
+        back.setBounds(140,230,100,30);
         back.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 HomePage hp = new HomePage(person);

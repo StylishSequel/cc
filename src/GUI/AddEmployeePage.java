@@ -164,6 +164,8 @@ public class AddEmployeePage extends BaseForm {
                 Manager m = new Manager();
                 try {
                     m.addEmployee(nameInput,genderInput,phoneInput,active,salaryDouble,jobInput);
+                    ConnectDatabase connectDatabase = new ConnectDatabase();
+                    connectDatabase.insertEmployeeAccount(usernameInput,passwordInput,nameInput,genderInput,phoneInput,active,salaryDouble,jobInput);
                     JOptionPane.showMessageDialog(null, "Add employee successfully", "Success", JOptionPane.INFORMATION_MESSAGE);
                     ManagerPage managerPage = new ManagerPage(person);
                     dispose();

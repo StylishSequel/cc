@@ -16,12 +16,14 @@ public class QueryRoomService {
         this.connector = connector;
     }
 
-    public void insertRoomService(int room_id, int service_id) {
-        String query = "INSERT INTO room_services(room_id, service_id, date)" + "VALUES(?, ?, CURRENT_DATE)";
+    public void insertRoomService(int room_id, int service_id, String check_in_date) {
+        String query = "INSERT INTO room_services(room_id, service_id, date)" + "VALUES(?, ?, ?)";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, room_id);
             pstmt.setInt(2, service_id);
+            java.sql.Date sqlCheckInDate = java.sql.Date.valueOf(check_in_date);
+            pstmt.setDate(3, sqlCheckInDate);
             pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -34,14 +36,15 @@ public class QueryRoomService {
                 "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
                 "JOIN services s ON rs.service_id = s.service_id " +
                 "WHERE check_out_date IS NULL AND r.room_id = ? " +
-                "AND date > check_in_date";
+                "AND date BETWEEN check_in_date AND e_check_out_date";
         List<Service> services = new ArrayList<>();
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, id);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
-                services.add(new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price"), rs.getString("date")));
+                services.add(new Service(rs.getInt("service_id"), rs.getString("name"), rs.getDouble("price"),
+                        rs.getString("date")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,8 +58,7 @@ public class QueryRoomService {
                 "JOIN customer_rooms cr ON r.room_id = cr.room_id " +
                 "JOIN room_services rs ON r.room_id = rs.room_id " +
                 "JOIN services s ON rs.service_id = s.service_id " +
-                "WHERE cr.check_out_date IS NULL AND date > check_in_date AND r.room_id = ?";
-
+                "WHERE cr.check_out_date IS NULL AND date BETWEEN check_in_date AND e_check_out_date AND r.room_id = ?";
         try (Connection con = connector.connect();
                 PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setInt(1, roomId);

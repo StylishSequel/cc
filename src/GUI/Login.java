@@ -200,18 +200,21 @@ public class Login extends JFrame {
                     System.out.println("Username: " + username);
                     System.out.println("Password: " + password);
                     person = db.getCustomer(idCus);
-                    HomePage hone = new HomePage(person);
+                   if (person instanceof Customer) {
+                       ((Customer) person).updateStatus(true);
+                   }
+                    HomePage home = new HomePage(person);
                     dispose();
                 }
                 else if(idEm != -1){
                         Employee employee = query.queryEmployee.select(idEm);
-                        if (employee.getJob() == "Manager") {
+                        if (employee.getJob().equals("Manager")) {
                             person = new Manager(employee.getID(), employee.getName(), employee.isGender(), employee.getPhone(), employee.is_active(), employee.getSalary(), employee.getJob());
                         }
                         else{
                             person = employee;
                         }
-                        HomePage home = new HomePage(person);
+                    HomePage home = new HomePage(person);
                     dispose();
                 }
                 else{

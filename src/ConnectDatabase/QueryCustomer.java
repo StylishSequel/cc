@@ -99,18 +99,18 @@ public class QueryCustomer implements IQuery<Customer> {
         }
     }
 
-    public void updateActiveCustomer(int id, boolean isActive) {
-        String query = "UPDATE customers SET is_active = ? WHERE id = ?";
-        try (Connection con = connector.connect();
-                PreparedStatement pstmt = con.prepareStatement(query)) {
-            pstmt.setBoolean(1, isActive);
-            pstmt.setInt(2, id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        throw new UnsupportedOperationException("Unimplemented method 'updateActiveCustomer'");
-    }
+   public void updateActiveCustomer(int id, boolean isActive) {
+       String query = "UPDATE customers SET is_active = ? WHERE id = ?";
+       try (Connection con = connector.connect();
+               PreparedStatement pstmt = con.prepareStatement(query)) {
+           pstmt.setBoolean(1, isActive);
+           pstmt.setInt(2, id);
+           pstmt.executeUpdate();
+       } catch (SQLException e) {
+           throw new RuntimeException(e);
+       }
+   }
+
     public boolean checkCustomerAccountExist(String user_name) {
         String query = "SELECT * FROM customer_account WHERE user_name = ? ";
         try (Connection con = connector.connect();

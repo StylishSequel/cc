@@ -48,6 +48,11 @@ public abstract class Room {
 
     }
 
+    public Room( double price, int numOfBed, boolean isAvailable) {
+        this.price = price;
+        this.numOfBed = numOfBed;
+        this.isAvailable = isAvailable;
+    }
     public Room(int room_id, double price, int numOfBed, boolean isAvailable) {
         this.room_id = room_id;
         this.price = price;
@@ -159,7 +164,7 @@ public abstract class Room {
     // System.out.println("Service booked successfully");
 
     // }
-    public void bookService(int id) {
+    public void bookService(int id,String check_in_date) {
         Connector connector = new Connector();
         QueryAll connectToDb = new QueryAll(connector);
         List<Service> services = connectToDb.queryService.selectAll();
@@ -168,7 +173,7 @@ public abstract class Room {
             System.out.println("Service is not found");
             return;
         }
-        connectToDb.queryRoomService.insertRoomService(this.getId(), id);
+        connectToDb.queryRoomService.insertRoomService(this.getId(), id,check_in_date);
 
         System.out.println("Service booked successfully");
     }

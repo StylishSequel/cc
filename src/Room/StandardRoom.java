@@ -7,6 +7,11 @@ public class StandardRoom extends Room {
     private String type = "StandardRoom";
     private boolean havingShower;
 
+    public StandardRoom (double price, int numOfBed, boolean isAvailable, String type, boolean havingShower) {
+        super(price, numOfBed,isAvailable);
+        this.type = type;
+        this.havingShower = havingShower;
+    }
     public StandardRoom(int room_id, double price, String check_in_date, int numOfDay, int numOfBed,
             boolean isAvailable, String type, boolean havingShower) {
         super(room_id, price, check_in_date, numOfDay, numOfBed, isAvailable, type);

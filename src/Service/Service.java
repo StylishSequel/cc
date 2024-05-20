@@ -4,8 +4,15 @@ public class Service {
     private String name;
     private double price;
     private String date;
-    
+
     public Service(int id, String name, double price,String date) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.date = date;
+    }
+
+    public Service(int id, String name, double price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -15,7 +22,7 @@ public class Service {
         this.id = 0;
         this.name = "";
         this.price = 0.0;
-
+        this.date = "";
     }
     public int getId() {
         return id;
@@ -41,6 +48,7 @@ public class Service {
     public void setDate(String date) {
         this.date = date;
     }
+
     @Override
     public String toString() {
         return "Service [id=" + id + ", name=" + name + ", price=" + price + "]";
