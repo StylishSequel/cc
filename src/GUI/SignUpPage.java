@@ -152,16 +152,29 @@ public class SignUpPage extends JFrame{
         passwordField.setForeground(new Color(69, 60, 103));
         passwordField.setFont(new Font("Serif", Font.PLAIN, 20));
         passwordField.setBounds(30,200,310,30);
+        // passwordField.addFocusListener(new FocusListener() {
+        //     public void focusGained(FocusEvent e) {
+        //         if(passwordField.getPassword().equals("password")){
+        //             passwordField.setText("");
+        //             passwordField.setForeground(new Color(69, 60, 103));
+        //         }
+        //     }
+
+        //     public void focusLost(FocusEvent e) {
+        //         if(passwordField.getPassword().equals("")){
+        //             passwordField.setText("password");
+        //             passwordField.setForeground(new Color(69, 60, 103));
+        //         }
+        //     }
+        // });
         passwordField.addFocusListener(new FocusListener() {
             public void focusGained(FocusEvent e) {
-                if(passwordField.getPassword().equals("password")){
-                    passwordField.setText("");
-                    passwordField.setForeground(new Color(69, 60, 103));
-                }
+                passwordField.setText("");
+                passwordField.setForeground(new Color(69, 60, 103));
             }
-
+        
             public void focusLost(FocusEvent e) {
-                if(passwordField.getPassword().equals("")){
+                if(passwordField.getPassword().length == 0){
                     passwordField.setText("password");
                     passwordField.setForeground(new Color(69, 60, 103));
                 }
